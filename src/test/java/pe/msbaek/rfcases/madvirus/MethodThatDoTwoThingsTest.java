@@ -34,6 +34,25 @@ public class MethodThatDoTwoThingsTest {
         public LocalDate getEnd() {
             throw new UnsupportedOperationException("InputPeriod::getEnd not implemented yet");
         }
+
+        private void doIt(Object otherParam, LocalDate today, ResultBuilder builder, MethodThatDoTwoThingsTest methodThatDoTwoThingsTest) {
+            if(this == null) {
+                InputPeriod expectedPeriod = methodThatDoTwoThingsTest.mapper.selectExpectedPeriod(otherParam);
+                builder.period(expectedPeriod).type(EXPECTED);
+            }
+            else if(getStart() == null || getEnd() == null) {
+                builder.period(null).type(EXPECTED);
+            }
+            else {
+                if((today.isEqual(getStart()) || today.isEqual(getEnd())) ||
+                        (today.isAfter(getStart()) && today.isBefore(getEnd()))) {
+                    builder.period(this).type(SCHEDULED);
+                }
+                else {
+                    builder.period(this).type(EXPECTED);
+                }
+            }
+        }
     }
 
     enum ResultType {
@@ -45,22 +64,7 @@ public class MethodThatDoTwoThingsTest {
         ResultBuilder builder = new ResultBuilder();
         
         InputPeriod realPeriod = mapper.selectPeriod(param);
-        if(realPeriod == null) {
-            InputPeriod expectedPeriod = mapper.selectExpectedPeriod(otherParam);
-            builder.period(expectedPeriod).type(EXPECTED);
-        }
-        else if(realPeriod.getStart() == null || realPeriod.getEnd() == null) {
-            builder.period(null).type(EXPECTED);
-        }
-        else {
-            if((today.isEqual(realPeriod.getStart()) || today.isEqual(realPeriod.getEnd())) ||
-                    (today.isAfter(realPeriod.getStart()) && today.isBefore(realPeriod.getEnd()))) {
-                builder.period(realPeriod).type(SCHEDULED);
-            }
-            else {
-                builder.period(realPeriod).type(EXPECTED);
-            }
-        }
+        realPeriod.doIt(otherParam, today, builder, this);
         return builder;
     }
 }
