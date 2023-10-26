@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.kt4u;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -7,11 +8,16 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class SproutMethodAndStepDownRuleTest {
+    OrderController orderController;
     private List<OrderDetail> orderDetails = List.of(
             new OrderDetail(1L),
             new OrderDetail(2L)
     );
-    private OrderDao orderDao;
+
+    @BeforeEach
+    void setUp() {
+        orderController = new OrderController();
+    }
 
     @Test
     void isEventProduct() {
@@ -36,7 +42,6 @@ public class SproutMethodAndStepDownRuleTest {
         assertThat(orderController.isEventProduct(orderDtlSellGoods)).isFalse();
     }
 
-    OrderController orderController;
 
     private List<OrderDetail> getOrderDtlSellGoods() {
 //        return orderDao.getOrderDtlSellGoods();
