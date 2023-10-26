@@ -47,4 +47,11 @@ public class OrderController {
         modelAndView.addObject("orderDtlSellDeliveryAddr", orderDtlSellDeliveryAddrObject);
         return modelAndView;
     }
+
+    boolean isEventProduct(List<OrderDetail> orderDtlSellGoods) {
+        return orderDtlSellGoods.stream()
+                .map(OrderDetail::goodsNo)
+                .toList().stream()
+                .anyMatch(EventProducts.PRODUCTS.values::contains);
+    }
 }

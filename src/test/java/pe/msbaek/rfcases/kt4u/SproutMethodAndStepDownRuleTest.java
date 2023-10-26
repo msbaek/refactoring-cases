@@ -27,22 +27,16 @@ public class SproutMethodAndStepDownRuleTest {
          * - 이 번호들이 이벤트 상품 목록에 포함되어 있는지 확인하기
          */
         List<OrderDetail> orderDtlSellGoods = getOrderDtlSellGoods();
-        assertThat(isEventProduct(orderDtlSellGoods)).isTrue();
+        assertThat(orderController.isEventProduct(orderDtlSellGoods)).isTrue();
 
         orderDetails = List.of(
                 new OrderDetail(10l), new OrderDetail(11l)
         );
         orderDtlSellGoods = getOrderDtlSellGoods();
-        assertThat(isEventProduct(orderDtlSellGoods)).isFalse();
+        assertThat(orderController.isEventProduct(orderDtlSellGoods)).isFalse();
     }
 
     OrderController orderController;
-    private boolean isEventProduct(List<OrderDetail> orderDtlSellGoods) {
-        return orderDtlSellGoods.stream()
-                .map(OrderDetail::goodsNo)
-                .toList().stream()
-                .anyMatch(EventProducts.PRODUCTS.values::contains);
-    }
 
     private List<OrderDetail> getOrderDtlSellGoods() {
 //        return orderDao.getOrderDtlSellGoods();
