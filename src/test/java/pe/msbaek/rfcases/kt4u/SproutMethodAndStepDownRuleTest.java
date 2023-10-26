@@ -2,7 +2,13 @@ package pe.msbaek.rfcases.kt4u;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 public class SproutMethodAndStepDownRuleTest {
+    private OrderDao orderDao;
+
     @Test
     void isEventProduct() {
         /**
@@ -16,5 +22,12 @@ public class SproutMethodAndStepDownRuleTest {
          *   - to list
          * - 이 번호들이 이벤트 상품 목록에 포함되어 있는지 확인하기
          */
+        List<OrderDetail> orderDtlSellGoods = orderDao.getOrderDtlSellGoods();
+        List<Long> goodsNumbers = orderDtlSellGoods.stream()
+                .map(OrderDetail::goodsNo)
+                .toList();
+        boolean b = goodsNumbers.stream()
+                .anyMatch(n -> EventProducts.PRODUCTS.values.contains(n));
+        assertThat(b).isTrue();
     }
 }
