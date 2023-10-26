@@ -36,6 +36,7 @@ public class SproutMethodAndStepDownRuleTest {
         assertThat(isEventProduct(orderDtlSellGoods)).isFalse();
     }
 
+    OrderController orderController;
     private boolean isEventProduct(List<OrderDetail> orderDtlSellGoods) {
         return orderDtlSellGoods.stream()
                 .map(OrderDetail::goodsNo)
