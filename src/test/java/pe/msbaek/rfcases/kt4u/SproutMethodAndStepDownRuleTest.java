@@ -1,7 +1,9 @@
 package pe.msbaek.rfcases.kt4u;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,5 +70,17 @@ public class SproutMethodAndStepDownRuleTest {
         );
         orderDtlSellGoods = orderController.getOrderDtlSellGoods();
         assertThat(orderController.isEventProduct(orderDtlSellGoods)).isFalse();
+    }
+
+    @Test
+    void orderdthtml() {
+        ModelAndView mav = orderController.orderdtlhtml();
+        Assertions.assertThat(mav.getModel().get("eventProduct")).isEqualTo(true);
+
+        orderDetails = List.of(
+                new OrderDetail(10l), new OrderDetail(11l)
+        );
+        mav = orderController.orderdtlhtml();
+        Assertions.assertThat(mav.getModel().get("eventProduct")).isEqualTo(false);
     }
 }
