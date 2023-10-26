@@ -22,12 +22,20 @@ public class SproutMethodAndStepDownRuleTest {
          *   - to list
          * - 이 번호들이 이벤트 상품 목록에 포함되어 있는지 확인하기
          */
-        List<OrderDetail> orderDtlSellGoods = orderDao.getOrderDtlSellGoods();
+        List<OrderDetail> orderDtlSellGoods = getOrderDtlSellGoods();
         List<Long> goodsNumbers = orderDtlSellGoods.stream()
                 .map(OrderDetail::goodsNo)
                 .toList();
         boolean b = goodsNumbers.stream()
                 .anyMatch(n -> EventProducts.PRODUCTS.values.contains(n));
         assertThat(b).isTrue();
+    }
+
+    private List<OrderDetail> getOrderDtlSellGoods() {
+//        return orderDao.getOrderDtlSellGoods();
+        return List.of(
+                new OrderDetail(1L),
+                new OrderDetail(2L)
+        );
     }
 }
