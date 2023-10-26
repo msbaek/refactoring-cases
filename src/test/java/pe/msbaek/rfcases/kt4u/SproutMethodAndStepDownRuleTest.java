@@ -3,20 +3,48 @@ package pe.msbaek.rfcases.kt4u;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class SproutMethodAndStepDownRuleTest {
-    OrderController orderController;
+    class TestingOrderController extends OrderController {
+        @Override
+        List<OrderDetail> getDtlSellGoods() {
+            return Collections.emptyList();
+        }
+
+        @Override
+        OrderDetail getOrderDtlSell() {
+            return null;
+        }
+
+        @Override
+        List<OrderDetail> getOrderDtlSellDeliveryAddrObject(List<OrderDetail> orderDtlSellDeliveryAddrObject) {
+            return Collections.emptyList();
+        }
+
+        @Override
+        List<OrderDetail> getOrderDtlSellDeliveryAddr() {
+            return Collections.emptyList();
+        }
+
+        @Override
+        List<OrderDetail> getOrderDtlSellGoods() {
+            return orderDetails;
+        }
+    };
     private List<OrderDetail> orderDetails = List.of(
             new OrderDetail(1L),
             new OrderDetail(2L)
     );
 
+    private OrderController orderController;
+
     @BeforeEach
     void setUp() {
-        orderController = new OrderController();
+        orderController = new TestingOrderController();
     }
 
     @Test
@@ -32,19 +60,13 @@ public class SproutMethodAndStepDownRuleTest {
          *   - to list
          * - 이 번호들이 이벤트 상품 목록에 포함되어 있는지 확인하기
          */
-        List<OrderDetail> orderDtlSellGoods = getOrderDtlSellGoods();
+        List<OrderDetail> orderDtlSellGoods = orderController.getOrderDtlSellGoods();
         assertThat(orderController.isEventProduct(orderDtlSellGoods)).isTrue();
 
         orderDetails = List.of(
                 new OrderDetail(10l), new OrderDetail(11l)
         );
-        orderDtlSellGoods = getOrderDtlSellGoods();
+        orderDtlSellGoods = orderController.getOrderDtlSellGoods();
         assertThat(orderController.isEventProduct(orderDtlSellGoods)).isFalse();
-    }
-
-
-    private List<OrderDetail> getOrderDtlSellGoods() {
-//        return orderDao.getOrderDtlSellGoods();
-        return orderDetails;
     }
 }
