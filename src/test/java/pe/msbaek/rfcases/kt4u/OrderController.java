@@ -42,6 +42,10 @@ public class OrderController {
         List<OrderDetail> orderDtlSellDeliveryAddrObject = getOrderDtlSellDeliveryAddr();
         orderDtlSellDeliveryAddrObject = getOrderDtlSellDeliveryAddrObject(orderDtlSellDeliveryAddrObject);
 
+        // sprout method(수정 ? 추가 ?)
+        final boolean isEventProduct = isEventProduct(getOrderDtlSellGoods());
+
+        modelAndView.addObject("eventProduct", isEventProduct);
         modelAndView.addObject("orderDtlSell", getOrderDtlSell());
         modelAndView.addObject("orderDtlSellGoods", getDtlSellGoods());
         modelAndView.addObject("orderDtlSellDeliveryAddr", orderDtlSellDeliveryAddrObject);
