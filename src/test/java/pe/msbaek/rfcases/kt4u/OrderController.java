@@ -39,11 +39,11 @@ public class OrderController {
     public ModelAndView orderdtlhtml() {
         ModelAndView modelAndView = new ModelAndView();
         // 두라 배송사 추적URL 셋팅
-        List<OrderDetail> orderDtlSellDeliveryAddrObject = orderDao.getOrderDtlSellDeliveryAddr();
-        orderDtlSellDeliveryAddrObject = orderService.setTrackingUrl(orderDtlSellDeliveryAddrObject);
+        List<OrderDetail> orderDtlSellDeliveryAddrObject = getOrderDtlSellDeliveryAddr();
+        orderDtlSellDeliveryAddrObject = getOrderDtlSellDeliveryAddrObject(orderDtlSellDeliveryAddrObject);
 
-        modelAndView.addObject("orderDtlSell", orderDao.getOrderDtlSell());
-        modelAndView.addObject("orderDtlSellGoods", orderDao.getOrderDtlSellGoods());
+        modelAndView.addObject("orderDtlSell", getOrderDtlSell());
+        modelAndView.addObject("orderDtlSellGoods", getDtlSellGoods());
         modelAndView.addObject("orderDtlSellDeliveryAddr", orderDtlSellDeliveryAddrObject);
         return modelAndView;
     }
@@ -53,5 +53,25 @@ public class OrderController {
                 .map(OrderDetail::goodsNo)
                 .toList().stream()
                 .anyMatch(EventProducts.PRODUCTS.values::contains);
+    }
+
+    List<OrderDetail> getDtlSellGoods() {
+        return orderDao.getOrderDtlSellGoods();
+    }
+
+    OrderDetail getOrderDtlSell() {
+        return orderDao.getOrderDtlSell();
+    }
+
+    List<OrderDetail> getOrderDtlSellDeliveryAddrObject(List<OrderDetail> orderDtlSellDeliveryAddrObject) {
+        return orderService.setTrackingUrl(orderDtlSellDeliveryAddrObject);
+    }
+
+    List<OrderDetail> getOrderDtlSellDeliveryAddr() {
+        return orderDao.getOrderDtlSellDeliveryAddr();
+    }
+
+    List<OrderDetail> getOrderDtlSellGoods() {
+        return orderDao.getOrderDtlSellGoods();
     }
 }
