@@ -7,6 +7,10 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class SproutMethodAndStepDownRuleTest {
+    private List<OrderDetail> orderDetails = List.of(
+            new OrderDetail(1L),
+            new OrderDetail(2L)
+    );
     private OrderDao orderDao;
 
     @Test
@@ -28,13 +32,20 @@ public class SproutMethodAndStepDownRuleTest {
                 .toList().stream()
                 .anyMatch(EventProducts.PRODUCTS.values::contains);
         assertThat(b).isTrue();
+
+        orderDetails = List.of(
+                new OrderDetail(10l), new OrderDetail(11l)
+        );
+        orderDtlSellGoods = getOrderDtlSellGoods();
+        b = orderDtlSellGoods.stream()
+                .map(OrderDetail::goodsNo)
+                .toList().stream()
+                .anyMatch(EventProducts.PRODUCTS.values::contains);
+        assertThat(b).isFalse();
     }
 
     private List<OrderDetail> getOrderDtlSellGoods() {
 //        return orderDao.getOrderDtlSellGoods();
-        return List.of(
-                new OrderDetail(1L),
-                new OrderDetail(2L)
-        );
+        return orderDetails;
     }
 }
