@@ -27,23 +27,7 @@ public class UserController {
             consumes = {"multipart/form-data"}
     )
     public ResponseEntity<Void> createUsersFromExcel(final MultipartFile file) {
-        final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (!"xlsx".equals(extension) && !"xls".equals(extension)) throw new RuntimeException("엑셀파일만 업로드 해주세요.");
-        Workbook workbook = null;
-        if ("xlsx".equals(extension)) {
-            try {
-                workbook = new XSSFWorkbook(file.getInputStream());
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else if ("xls".equals(extension)) {
-            try {
-                workbook = new HSSFWorkbook(file.getInputStream());
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        final Sheet worksheet = workbook.getSheetAt(0);
+       final Sheet worksheet = getSheet(file);
         final List<CreateUserRequest> createUserRequests = new ArrayList<>();
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
@@ -62,6 +46,31 @@ public class UserController {
         }
         userUseCase.createUsers(createUserRequests);
         return ResponseEntity.ok().build();
+    }
+
+    private Sheet getSheet(MultipartFile file) {
+        Workbook workbook = createWorkbook(file);
+        return workbook.getSheetAt(0);
+    }
+
+    private Workbook createWorkbook(MultipartFile file) {
+        final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (!"xlsx".equals(extension) && !"xls".equals(extension)) throw new RuntimeException("엑셀파일만 업로드 해주세요.");
+        Workbook workbook = null;
+        if ("xlsx".equals(extension)) {
+            try {
+                workbook = new XSSFWorkbook(file.getInputStream());
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else if ("xls".equals(extension)) {
+            try {
+                workbook = new HSSFWorkbook(file.getInputStream());
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return workbook;
     }
 
     private boolean isCredentialsValid(final String cellLoginId, final String cellPasswd, final String cellUsername) {
