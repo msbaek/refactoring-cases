@@ -18,7 +18,8 @@ public class ExcelToDtoMapper {
     }
 
     List<CreateUserRequest> read(MultipartFile file) {
-        final Sheet worksheet = getSheet(file);
+        Workbook workbook = createWorkbook(file);
+        final Sheet worksheet = workbook.getSheetAt(0);
         final List<CreateUserRequest> createUserRequests = new ArrayList<CreateUserRequest>();
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
@@ -26,11 +27,6 @@ public class ExcelToDtoMapper {
             createUserRequests.add(result);
         }
         return createUserRequests;
-    }
-
-    Sheet getSheet(MultipartFile file) {
-        Workbook workbook = createWorkbook(file);
-        return workbook.getSheetAt(0);
     }
 
     Workbook createWorkbook(MultipartFile file) {
