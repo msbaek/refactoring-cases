@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ExcelToDtoMapper {
-    List<CreateUserRequest> read(MultipartFile file) {
+public abstract class ExcelToDtoMapper<T> {
+    List<T> read(MultipartFile file) {
         Workbook workbook = createWorkbook(file);
         final Sheet worksheet = workbook.getSheetAt(0);
-        final List<CreateUserRequest> createUserRequests = new ArrayList<CreateUserRequest>();
+        final List<T> createUserRequests = new ArrayList<>();
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
-            CreateUserRequest result = toDto(worksheet, rowIndex);
+            T result = toDto(worksheet, rowIndex);
             createUserRequests.add(result);
         }
         return createUserRequests;
@@ -44,5 +44,5 @@ public abstract class ExcelToDtoMapper {
         return workbook;
     }
 
-    abstract CreateUserRequest toDto(Sheet worksheet, int rowIndex);
+    abstract T toDto(Sheet worksheet, int rowIndex);
 }

@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.util.StringUtils;
 
-public class CreateUserExcelToDtoMapper extends ExcelToDtoMapper {
+public class CreateUserExcelToDtoMapper extends ExcelToDtoMapper<CreateUserRequest> {
     public CreateUserExcelToDtoMapper() {
     }
 
