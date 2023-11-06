@@ -44,6 +44,10 @@ public class UserController {
         return results;
     }
 
+    private boolean isCredentialsValid(final String cellLoginId, final String cellPasswd, final String cellUsername) {
+        return StringUtils.hasText(cellLoginId) && StringUtils.hasText(cellPasswd) && StringUtils.hasText(cellUsername);
+    }
+
     private List<CreateUserRequest> read(MultipartFile file) {
         final Sheet worksheet = getSheet(file);
         final List<CreateUserRequest> createUserRequests = new ArrayList<>();
@@ -53,19 +57,6 @@ public class UserController {
             createUserRequests.add(result);
         }
         return createUserRequests;
-    }
-
-    private CreateUserRequest toDto(Sheet worksheet, int rowIndex) {
-        final Row row = worksheet.getRow(rowIndex);
-        final String loginId = row.getCell(0).toString();
-        final String passwd = row.getCell(1).toString();
-        final String username = row.getCell(2).toString();
-        final String rowBoLoginId = null != row.getCell(3) ? row.getCell(3).toString() : null;
-        final String boLoginId = StringUtils.hasText(rowBoLoginId) ? rowBoLoginId : null;
-        return new CreateUserRequest(loginId, passwd, username, boLoginId);
-    }
-
-    private record Result(String loginId, String passwd, String username, String boLoginId) {
     }
 
     private Sheet getSheet(MultipartFile file) {
@@ -93,7 +84,16 @@ public class UserController {
         return workbook;
     }
 
-    private boolean isCredentialsValid(final String cellLoginId, final String cellPasswd, final String cellUsername) {
-        return StringUtils.hasText(cellLoginId) && StringUtils.hasText(cellPasswd) && StringUtils.hasText(cellUsername);
+    private CreateUserRequest toDto(Sheet worksheet, int rowIndex) {
+        final Row row = worksheet.getRow(rowIndex);
+        final String loginId = row.getCell(0).toString();
+        final String passwd = row.getCell(1).toString();
+        final String username = row.getCell(2).toString();
+        final String rowBoLoginId = null != row.getCell(3) ? row.getCell(3).toString() : null;
+        final String boLoginId = StringUtils.hasText(rowBoLoginId) ? rowBoLoginId : null;
+        return new CreateUserRequest(loginId, passwd, username, boLoginId);
+    }
+
+    private record Result(String loginId, String passwd, String username, String boLoginId) {
     }
 }
