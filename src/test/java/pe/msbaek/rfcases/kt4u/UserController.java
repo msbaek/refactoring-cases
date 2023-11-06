@@ -1,8 +1,6 @@
 package pe.msbaek.rfcases.kt4u;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserUseCase userUseCase;
-    private final ExcelToDtoMapper excelToDtoMapper = new ExcelToDtoMapper();
+    private final ExcelToDtoMapper excelToDtoMapper = new CreateUserExcelToDtoMapper();
 
     @RequestMapping(
             method = RequestMethod.POST,
