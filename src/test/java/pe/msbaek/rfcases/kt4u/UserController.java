@@ -32,13 +32,16 @@ public class UserController {
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
             CreateUserRequest result = toDto(worksheet, rowIndex);
-
+            createUserRequests.add(result);
+        }
+        final List<CreateUserRequest> results = new ArrayList<>();
+        for (CreateUserRequest createUserRequest : createUserRequests) {
             // Check if the row is empty
-            if (isCredentialsValid(result.loginId(), result.password(), result.username())) {
-                createUserRequests.add(new CreateUserRequest(result.loginId(), result.password(), result.username(), result.boLoginId()));
+            if (isCredentialsValid(createUserRequest.loginId(), createUserRequest.password(), createUserRequest.username())) {
+                results.add(createUserRequest);
             }
         }
-        userUseCase.createUsers(createUserRequests);
+        userUseCase.createUsers(results);
         return ResponseEntity.ok().build();
     }
 
