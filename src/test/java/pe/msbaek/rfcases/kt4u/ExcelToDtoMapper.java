@@ -43,7 +43,7 @@ public class ExcelToDtoMapper {
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
-        } else if ("xls".equals(extension)) {
+        } else {
             try {
                 workbook = new HSSFWorkbook(file.getInputStream());
             } catch (final IOException e) {
