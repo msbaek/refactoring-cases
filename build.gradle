@@ -23,10 +23,15 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.projectlombok:lombok:1.18.28'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // excel reader
+    implementation('org.apache.poi:poi:5.2.0')
+    implementation('org.apache.poi:poi-ooxml:5.2.0')
 }
 
 tasks.named('test') {
