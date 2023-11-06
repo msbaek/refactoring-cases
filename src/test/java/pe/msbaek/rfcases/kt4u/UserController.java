@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,20 +21,11 @@ public class UserController {
     )
     public ResponseEntity<Void> createUsersFromExcel(final MultipartFile file) {
         final List<CreateUserRequest> createUserRequests = excelToDtoMapper.read(file);
-        final List<CreateUserRequest> results = filterInvalidCredentials(createUserRequests);
+        final List<CreateUserRequest> results = createUserRequests.stream()
+                .filter(r -> isCredentialsValid(r.loginId(), r.password(), r.username()))
+                .toList();
         userUseCase.createUsers(results);
         return ResponseEntity.ok().build();
-    }
-
-    private List<CreateUserRequest> filterInvalidCredentials(List<CreateUserRequest> createUserRequests) {
-        final List<CreateUserRequest> results = new ArrayList<>();
-        for (CreateUserRequest createUserRequest : createUserRequests) {
-            // Check if the row is empty
-            if (isCredentialsValid(createUserRequest.loginId(), createUserRequest.password(), createUserRequest.username())) {
-                results.add(createUserRequest);
-            }
-        }
-        return results;
     }
 
     private boolean isCredentialsValid(final String cellLoginId, final String cellPasswd, final String cellUsername) {
