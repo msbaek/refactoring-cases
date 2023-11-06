@@ -15,33 +15,38 @@ public abstract class ExcelToDtoMapper<T> {
     List<T> read(MultipartFile file) {
         Workbook workbook = createWorkbook(file);
         final Sheet worksheet = workbook.getSheetAt(0);
+
         final List<T> createUserRequests = new ArrayList<>();
-        final int lastRowNum = worksheet.getLastRowNum();
-        for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
-            T result = toDto(worksheet, rowIndex);
-            createUserRequests.add(result);
+        for (int rowIndex = 1; rowIndex <= worksheet.getLastRowNum(); rowIndex++) {
+            createUserRequests.add(toDto(worksheet, rowIndex));
         }
         return createUserRequests;
     }
 
     Workbook createWorkbook(MultipartFile file) {
         final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (!"xlsx".equals(extension) && !"xls".equals(extension)) throw new RuntimeException("엑셀파일만 업로드 해주세요.");
-        Workbook workbook = null;
-        if ("xlsx".equals(extension)) {
-            try {
-                workbook = new XSSFWorkbook(file.getInputStream());
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try {
-                workbook = new HSSFWorkbook(file.getInputStream());
-            } catch (final IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (!isXlsx(extension) && !isXls().equals(extension))
+            throw new RuntimeException("엑셀파일만 업로드 해주세요.");
+
+        try {
+            return createWorkBookInternally(file, extension);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return workbook;
+    }
+
+    private Workbook createWorkBookInternally(MultipartFile file, String extension) throws IOException {
+        return isXlsx(extension) ?
+                new XSSFWorkbook(file.getInputStream()) :
+                new HSSFWorkbook(file.getInputStream());
+    }
+
+    private String isXls() {
+        return "xls";
+    }
+
+    private boolean isXlsx(String extension) {
+        return "xlsx".equals(extension);
     }
 
     abstract T toDto(Sheet worksheet, int rowIndex);
