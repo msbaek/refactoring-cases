@@ -1,6 +1,5 @@
 package pe.msbaek.rfcases.kt4u;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,10 +8,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class UserController {
     private final UserUseCase userUseCase;
-    private final ExcelToDtoMapper excelToDtoMapper = new CreateUserExcelToDtoMapper();
+    private final ExcelToDtoMapper excelToDtoMapper;
+
+    public UserController(UserUseCase userUseCase, ExcelToDtoMapper excelToDtoMapper) {
+        this.userUseCase = userUseCase;
+        this.excelToDtoMapper = excelToDtoMapper;
+    }
 
     @RequestMapping(
             method = RequestMethod.POST,
