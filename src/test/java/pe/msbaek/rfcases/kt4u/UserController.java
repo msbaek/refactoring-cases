@@ -31,21 +31,29 @@ public class UserController {
         final List<CreateUserRequest> createUserRequests = new ArrayList<>();
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
-            final Row row = worksheet.getRow(rowIndex);
-
-            final String loginId = row.getCell(0).toString();
-            final String passwd = row.getCell(1).toString();
-            final String username = row.getCell(2).toString();
-            final String rowBoLoginId = null != row.getCell(3) ? row.getCell(3).toString() : null;
-            final String boLoginId = StringUtils.hasText(rowBoLoginId) ? rowBoLoginId : null;
+            Result result = getResult(worksheet, rowIndex);
 
             // Check if the row is empty
-            if (isCredentialsValid(loginId, passwd, username)) {
-                createUserRequests.add(new CreateUserRequest(loginId, passwd, username, boLoginId));
+            if (isCredentialsValid(result.loginId(), result.passwd(), result.username())) {
+                createUserRequests.add(new CreateUserRequest(result.loginId(), result.passwd(), result.username(), result.boLoginId()));
             }
         }
         userUseCase.createUsers(createUserRequests);
         return ResponseEntity.ok().build();
+    }
+
+    private Result getResult(Sheet worksheet, int rowIndex) {
+        final Row row = worksheet.getRow(rowIndex);
+        final String loginId = row.getCell(0).toString();
+        final String passwd = row.getCell(1).toString();
+        final String username = row.getCell(2).toString();
+        final String rowBoLoginId = null != row.getCell(3) ? row.getCell(3).toString() : null;
+        final String boLoginId = StringUtils.hasText(rowBoLoginId) ? rowBoLoginId : null;
+        Result result;
+        return new Result(loginId, passwd, username, boLoginId);
+    }
+
+    private record Result(String loginId, String passwd, String username, String boLoginId) {
     }
 
     private Sheet getSheet(MultipartFile file) {
