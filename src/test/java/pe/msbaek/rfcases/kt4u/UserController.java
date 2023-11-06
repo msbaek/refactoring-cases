@@ -93,7 +93,4 @@ public class UserController {
         final String boLoginId = StringUtils.hasText(rowBoLoginId) ? rowBoLoginId : null;
         return new CreateUserRequest(loginId, passwd, username, boLoginId);
     }
-
-    private record Result(String loginId, String passwd, String username, String boLoginId) {
-    }
 }
