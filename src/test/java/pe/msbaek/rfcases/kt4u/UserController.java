@@ -27,13 +27,13 @@ public class UserController {
             consumes = {"multipart/form-data"}
     )
     public ResponseEntity<Void> createUsersFromExcel(final MultipartFile file) {
-       final Sheet worksheet = getSheet(file);
-        final List<CreateUserRequest> createUserRequests = new ArrayList<>();
-        final int lastRowNum = worksheet.getLastRowNum();
-        for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
-            CreateUserRequest result = toDto(worksheet, rowIndex);
-            createUserRequests.add(result);
-        }
+        final List<CreateUserRequest> createUserRequests = read(file);
+        final List<CreateUserRequest> results = filterInvalidCredentials(createUserRequests);
+        userUseCase.createUsers(results);
+        return ResponseEntity.ok().build();
+    }
+
+    private List<CreateUserRequest> filterInvalidCredentials(List<CreateUserRequest> createUserRequests) {
         final List<CreateUserRequest> results = new ArrayList<>();
         for (CreateUserRequest createUserRequest : createUserRequests) {
             // Check if the row is empty
@@ -41,8 +41,18 @@ public class UserController {
                 results.add(createUserRequest);
             }
         }
-        userUseCase.createUsers(results);
-        return ResponseEntity.ok().build();
+        return results;
+    }
+
+    private List<CreateUserRequest> read(MultipartFile file) {
+        final Sheet worksheet = getSheet(file);
+        final List<CreateUserRequest> createUserRequests = new ArrayList<>();
+        final int lastRowNum = worksheet.getLastRowNum();
+        for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
+            CreateUserRequest result = toDto(worksheet, rowIndex);
+            createUserRequests.add(result);
+        }
+        return createUserRequests;
     }
 
     private CreateUserRequest toDto(Sheet worksheet, int rowIndex) {
