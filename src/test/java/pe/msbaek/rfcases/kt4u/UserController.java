@@ -1,15 +1,19 @@
 package pe.msbaek.rfcases.kt4u;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +27,23 @@ public class UserController {
             consumes = {"multipart/form-data"}
     )
     public ResponseEntity<Void> createUsersFromExcel(final MultipartFile file) {
-        final Workbook workbook = ExcelUtils.createWorkbook(file);
+        final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (!"xlsx".equals(extension) && !"xls".equals(extension)) throw new RuntimeException("엑셀파일만 업로드 해주세요.");
+        Workbook workbook = null;
+        if ("xlsx".equals(extension)) {
+            try {
+                workbook = new XSSFWorkbook(file.getInputStream());
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else if ("xls".equals(extension)) {
+            try {
+                workbook = new HSSFWorkbook(file.getInputStream());
+            } catch (final IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         final Sheet worksheet = workbook.getSheetAt(0);
-        final List<CreateUserRequest> createUserRequests = createUserRequest(worksheet);
-        userUseCase.createUsers(createUserRequests);
-        return ResponseEntity.ok().build();
-    }
-
-    private List<CreateUserRequest> createUserRequest(final Sheet worksheet) {
         final List<CreateUserRequest> createUserRequests = new ArrayList<>();
         final int lastRowNum = worksheet.getLastRowNum();
         for (int rowIndex = 1; rowIndex <= lastRowNum; rowIndex++) {
@@ -47,7 +60,8 @@ public class UserController {
                 createUserRequests.add(new CreateUserRequest(loginId, passwd, username, boLoginId));
             }
         }
-        return createUserRequests;
+        userUseCase.createUsers(createUserRequests);
+        return ResponseEntity.ok().build();
     }
 
     private boolean isCredentialsValid(final String cellLoginId, final String cellPasswd, final String cellUsername) {
