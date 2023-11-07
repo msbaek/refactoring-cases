@@ -58,18 +58,6 @@ public class PackingExcelDownload {
         return data;
     }
 
-    private static String formattingDate(final Instant value) {
-        if (null == value) return null;
-        return DateTimeFormatter
-                .ofPattern("yyyy-MM-dd HH:mm:ss")
-                .withZone(ZoneId.systemDefault())
-                .format(value);
-    }
-
-    private static String formattingUser(final String userName, final String userLoginId) {
-        return userName + "(" + userLoginId + ")";
-    }
-
     static Workbook createWorkbook(final List<String[]> data) {
         final Workbook workbook = new HSSFWorkbook();
         final Sheet sheet = workbook.createSheet(sheetName);
@@ -87,5 +75,17 @@ public class PackingExcelDownload {
             }
         }
         return workbook;
+    }
+
+    private static String formattingDate(final Instant value) {
+        if (null == value) return null;
+        return DateTimeFormatter
+                .ofPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(ZoneId.systemDefault())
+                .format(value);
+    }
+
+    private static String formattingUser(final String userName, final String userLoginId) {
+        return userName + "(" + userLoginId + ")";
     }
 }
