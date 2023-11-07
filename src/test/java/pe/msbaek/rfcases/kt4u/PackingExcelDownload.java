@@ -6,9 +6,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,9 +47,9 @@ public class PackingExcelDownload {
                     packing.carrierName(),
                     packing.boxName(),
                     null == packing.weight() ? "" : String.valueOf(packing.weight()),
-                    formatDate(packing.completedAt()),
-                    formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
-                    formatDate(packing.updatedAt())
+                    ExcelFormatter.formatDate(packing.completedAt()),
+                    ExcelFormatter.formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
+                    ExcelFormatter.formatDate(packing.updatedAt())
             });
         }
         return data;
@@ -75,17 +72,5 @@ public class PackingExcelDownload {
             }
         }
         return workbook;
-    }
-
-    private static String formatDate(final Instant value) {
-        if (null == value) return null;
-        return DateTimeFormatter
-                .ofPattern("yyyy-MM-dd HH:mm:ss")
-                .withZone(ZoneId.systemDefault())
-                .format(value);
-    }
-
-    private static String formatUser(final String userName, final String userLoginId) {
-        return userName + "(" + userLoginId + ")";
     }
 }
