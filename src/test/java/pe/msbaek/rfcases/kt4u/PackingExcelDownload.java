@@ -19,7 +19,16 @@ public class PackingExcelDownload {
 
     private List<String[]> createExcelData(final List<ReadErrorPackingResponse> packingList) {
         final List<String[]> data = new ArrayList<>();
-        data.add(new String[]{
+        data.add(header());
+
+        for (final ReadErrorPackingResponse packing : packingList) {
+            data.add(row(packing));
+        }
+        return data;
+    }
+
+    private String[] header() {
+        return new String[]{
                 "창고",
                 "포장상태",
                 "포장오류내역",
@@ -33,31 +42,30 @@ public class PackingExcelDownload {
                 "포장완료일시",
                 "작업자",
                 "작업일시",
-        });
+        };
+    }
 
-        for (final ReadErrorPackingResponse packing : packingList) {
-            data.add(new String[]{
-                    packing.warehouseName(),
-                    String.valueOf(packing.status().getDescription()),
-                    packing.packingError(),
-                    packing.packingErrorMessage(),
-                    String.valueOf(packing.deliveryId()),
-                    packing.deliverySeq(),
-                    packing.trackingNumber(),
-                    packing.carrierName(),
-                    packing.boxName(),
-                    null == packing.weight() ? "" : String.valueOf(packing.weight()),
-                    ExcelFormatter.formatDate(packing.completedAt()),
-                    ExcelFormatter.formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
-                    ExcelFormatter.formatDate(packing.updatedAt())
-            });
-        }
-        return data;
+    private String[] row(ReadErrorPackingResponse packing) {
+        return new String[]{
+                packing.warehouseName(),
+                String.valueOf(packing.status().getDescription()),
+                packing.packingError(),
+                packing.packingErrorMessage(),
+                String.valueOf(packing.deliveryId()),
+                packing.deliverySeq(),
+                packing.trackingNumber(),
+                packing.carrierName(),
+                packing.boxName(),
+                null == packing.weight() ? "" : String.valueOf(packing.weight()),
+                ExcelFormatter.formatDate(packing.completedAt()),
+                ExcelFormatter.formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
+                ExcelFormatter.formatDate(packing.updatedAt())
+        };
     }
 
     private Workbook createWorkbook(final List<String[]> data) {
         final Workbook workbook = new HSSFWorkbook();
-        final Sheet sheet = workbook.createSheet(sheetName);
+        final Sheet sheet = workbook.createSheet(getSheetName());
 
         int rowCount = 0;
         for (final String[] rowData : data) {
@@ -72,5 +80,9 @@ public class PackingExcelDownload {
             }
         }
         return workbook;
+    }
+
+    private String getSheetName() {
+        return sheetName;
     }
 }
