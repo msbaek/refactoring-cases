@@ -15,12 +15,12 @@ import java.util.List;
 public class PackingExcelDownload {
     private static final String sheetName = "packings";
 
-    public static Workbook from(final List<ReadErrorPackingResponse> parcelPostList) {
+    public Workbook from(final List<ReadErrorPackingResponse> parcelPostList) {
         final List<String[]> data = createExcelData(parcelPostList);
         return createWorkbook(data);
     }
 
-    static List<String[]> createExcelData(final List<ReadErrorPackingResponse> packingList) {
+    private List<String[]> createExcelData(final List<ReadErrorPackingResponse> packingList) {
         final List<String[]> data = new ArrayList<>();
         data.add(new String[]{
                 "창고",
@@ -58,7 +58,7 @@ public class PackingExcelDownload {
         return data;
     }
 
-    static Workbook createWorkbook(final List<String[]> data) {
+    private Workbook createWorkbook(final List<String[]> data) {
         final Workbook workbook = new HSSFWorkbook();
         final Sheet sheet = workbook.createSheet(sheetName);
 
