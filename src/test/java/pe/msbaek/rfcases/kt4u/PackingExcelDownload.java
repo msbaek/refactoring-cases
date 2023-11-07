@@ -27,6 +27,29 @@ public class PackingExcelDownload {
         return data;
     }
 
+    private Workbook createWorkbook(final List<String[]> data) {
+        final Workbook workbook = new HSSFWorkbook();
+        final Sheet sheet = workbook.createSheet(getSheetName());
+
+        int rowCount = 0;
+        for (final String[] rowData : data) {
+            final Row row = sheet.createRow(rowCount);
+            rowCount++;
+
+            int columnCount = 0;
+            for (final String columnData : rowData) {
+                final Cell cell = row.createCell(columnCount);
+                columnCount++;
+                cell.setCellValue(columnData);
+            }
+        }
+        return workbook;
+    }
+
+    private String getSheetName() {
+        return sheetName;
+    }
+
     private String[] header() {
         return new String[]{
                 "창고",
@@ -61,28 +84,5 @@ public class PackingExcelDownload {
                 ExcelFormatter.formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
                 ExcelFormatter.formatDate(packing.updatedAt())
         };
-    }
-
-    private Workbook createWorkbook(final List<String[]> data) {
-        final Workbook workbook = new HSSFWorkbook();
-        final Sheet sheet = workbook.createSheet(getSheetName());
-
-        int rowCount = 0;
-        for (final String[] rowData : data) {
-            final Row row = sheet.createRow(rowCount);
-            rowCount++;
-
-            int columnCount = 0;
-            for (final String columnData : rowData) {
-                final Cell cell = row.createCell(columnCount);
-                columnCount++;
-                cell.setCellValue(columnData);
-            }
-        }
-        return workbook;
-    }
-
-    private String getSheetName() {
-        return sheetName;
     }
 }
