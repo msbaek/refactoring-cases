@@ -50,9 +50,9 @@ public class PackingExcelDownload {
                     packing.carrierName(),
                     packing.boxName(),
                     null == packing.weight() ? "" : String.valueOf(packing.weight()),
-                    formattingDate(packing.completedAt()),
-                    formattingUser(packing.updatedUserName(), packing.updatedUserLoginId()),
-                    formattingDate(packing.updatedAt())
+                    formatDate(packing.completedAt()),
+                    formatUser(packing.updatedUserName(), packing.updatedUserLoginId()),
+                    formatDate(packing.updatedAt())
             });
         }
         return data;
@@ -77,7 +77,7 @@ public class PackingExcelDownload {
         return workbook;
     }
 
-    private static String formattingDate(final Instant value) {
+    private static String formatDate(final Instant value) {
         if (null == value) return null;
         return DateTimeFormatter
                 .ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -85,7 +85,7 @@ public class PackingExcelDownload {
                 .format(value);
     }
 
-    private static String formattingUser(final String userName, final String userLoginId) {
+    private static String formatUser(final String userName, final String userLoginId) {
         return userName + "(" + userLoginId + ")";
     }
 }
