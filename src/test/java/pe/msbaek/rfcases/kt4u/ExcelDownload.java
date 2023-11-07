@@ -9,17 +9,17 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ExcelDownload {
-    public Workbook from(final List<ReadErrorPackingResponse> parcelPostList) {
+public abstract class ExcelDownload<T> {
+    public Workbook from(final List<T> parcelPostList) {
         final List<String[]> data = createExcelData(parcelPostList);
         return createWorkbook(data);
     }
 
-    private List<String[]> createExcelData(final List<ReadErrorPackingResponse> packingList) {
+    private List<String[]> createExcelData(final List<T> packingList) {
         final List<String[]> data = new ArrayList<>();
         data.add(header());
 
-        for (final ReadErrorPackingResponse packing : packingList) {
+        for (final T packing : packingList) {
             data.add(row(packing));
         }
         return data;
@@ -48,5 +48,5 @@ public abstract class ExcelDownload {
 
     protected abstract String[] header();
 
-    protected abstract String[] row(ReadErrorPackingResponse packing);
+    protected abstract String[] row(T packing);
 }

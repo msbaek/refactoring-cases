@@ -1,6 +1,6 @@
 package pe.msbaek.rfcases.kt4u;
 
-public class PackingExcelDownload extends ExcelDownload {
+public class PackingExcelDownload extends ExcelDownload<ReadErrorPackingResponse> {
     private static final String sheetName = "packings";
 
     @Override
