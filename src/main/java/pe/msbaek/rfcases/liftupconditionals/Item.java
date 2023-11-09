@@ -18,7 +18,11 @@ public class Item {
 
     void updateItem() {
         boolean isAgedBrie = name.equals("Aged Brie");
-        extracted(isAgedBrie);
+        if (isAgedBrie) {
+            extracted(true);
+        } else {
+            extracted(false);
+        }
     }
 
     private void extracted(boolean isAgedBrie) {
