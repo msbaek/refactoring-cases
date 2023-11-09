@@ -18,6 +18,10 @@ public class Item {
 
     void updateItem() {
         boolean isAgedBrie = name.equals("Aged Brie");
+        extracted(isAgedBrie);
+    }
+
+    private void extracted(boolean isAgedBrie) {
         if (!isAgedBrie
                 && !name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             if (quality > 0) {
