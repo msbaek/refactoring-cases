@@ -17,3 +17,10 @@
     4. inline extracted
     5. deal with IDE warnings
     6. 1~6을 중복 조건문에 대해서 수행
+  
+## 유사한 기능을 추가하는 절차
+1. 복붙
+2. Programming by difference
+3. Template Method pattern
+3.1 by Inheritance
+3.2 by delegation
