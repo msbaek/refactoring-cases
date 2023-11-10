@@ -8,6 +8,7 @@ import static pe.msbaek.rfcases.unrelatedcomplexity.FeatureFlags.Feature.PORK_SH
 public class FastFood {
     private final Dependency dependency;
     private final FeatureFlags featureFlags;
+    private final Tzatziki tzatziki;
 
     public void makeShawarma() {
         if (!dependency.isOnionAllowed()) {
@@ -20,9 +21,7 @@ public class FastFood {
     }
 
     public void makeTzatziki() {
-        if (!dependency.isCucumberAllowed()) {
-            throw new IllegalArgumentException();
-        }
         // complex logic: 5 ifs
+        tzatziki.makeTzatziki();
     }
 }

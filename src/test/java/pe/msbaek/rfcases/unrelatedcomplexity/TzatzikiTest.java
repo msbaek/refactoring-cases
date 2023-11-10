@@ -13,12 +13,13 @@ import static org.mockito.Mockito.when;
 public class TzatzikiTest {
     @Mock
     Dependency dependency;
+    @Mock FeatureFlags featureFlags;
+    @Mock Tzatziki tzatziki;
     @InjectMocks
     FastFood fastFood;
 
     @BeforeEach
     final void before() {
-        when(dependency.isCucumberAllowed()).thenReturn(true);
     }
 
     @Test
