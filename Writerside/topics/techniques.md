@@ -69,6 +69,8 @@
   - 테스트 분리: test method, setUp
   - 상용 코드 분리
 
+## Imperative Shell / Functional Core Segregation
+
 ## combinational approval test
 - b505eac73ab5abe2fb55b10e884e2fb76cec55d3
 
