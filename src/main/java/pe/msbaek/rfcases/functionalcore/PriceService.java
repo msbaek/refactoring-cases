@@ -20,35 +20,27 @@ public class PriceService {
         List<Coupon> usedCoupons = new ArrayList<>();
         Map<Long, Double> finalPrices = new HashMap<>();
 
+        Map<Long, Double> fetchedPrices = new HashMap<>();
         for (Product product : products) {
             Double price = internalPrices.get(product.getId());
             if (price == null) {
                 price = thirdPartyPricesApi.fetchPrice(product.getId());
             }
-            for (Coupon coupon : customer.getCoupons()) {
-                if (coupon.autoApply()
-                        && coupon.isApplicableFor(product, price)
-                        && !usedCoupons.contains(coupon)) {
-                    price = coupon.apply(product, price);
-                    usedCoupons.add(coupon);
-                }
-            }
-            finalPrices.put(product.getId(), price);
+            fetchedPrices.put(product.getId(), price);
         }
 
         for (Product product : products) {
-            Double price = internalPrices.get(product.getId());
-            if (price == null) {
-                price = thirdPartyPricesApi.fetchPrice(product.getId());
-            }
+            Double price = fetchedPrices.get(product.getId());
+            List<Coupon> tempCoupons = new ArrayList<>();
             for (Coupon coupon : customer.getCoupons()) {
                 if (coupon.autoApply()
                         && coupon.isApplicableFor(product, price)
-                        && !usedCoupons.contains(coupon)) {
+                        && !tempCoupons.contains(coupon)) {
                     price = coupon.apply(product, price);
-                    usedCoupons.add(coupon);
+                    tempCoupons.add(coupon);
                 }
             }
+            usedCoupons.addAll(tempCoupons);
             finalPrices.put(product.getId(), price);
         }
 
