@@ -71,7 +71,11 @@
 
 ## Imperative Shell / Functional Core Segregation
 - 8f89bdf198ca341a282c674e5fab1699de22c008
-- 
+- duplicate loop
+  - 중간 결과를 담을 변수를 추가해서 함수로 추출 시 부작용이 없도록 
+- split phase
+- extract functional core
+- add functional core test
 
 ## combinational approval test
 - b505eac73ab5abe2fb55b10e884e2fb76cec55d3
