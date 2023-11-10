@@ -1,6 +1,7 @@
 package pe.msbaek.rfcases.functionalcore;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.Set;
 enum ProductCategory {
@@ -8,6 +9,7 @@ enum ProductCategory {
 }
 
 @RequiredArgsConstructor
+@ToString
 public class Coupon {
     private final ProductCategory category;
     private final int discountAmount;

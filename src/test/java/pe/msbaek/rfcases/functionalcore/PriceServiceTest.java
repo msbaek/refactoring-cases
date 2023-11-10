@@ -65,6 +65,19 @@ class PriceServiceTest {
                 .containsEntry(2L, 5d);
     }
 
+    @Test
+    void calculatePrice() {
+        Product product = new Product(1L).setCategory(HOME).setSupplier(new Supplier(13L));
+        Map<Long, Double> fetchedPrices = Map.of(1L, 10d);
+        List<Coupon> coupons = List.of(new Coupon(HOME, 2, Set.of(13L)));
+        Customer customer = new Customer().setCoupons(coupons);
+
+        PriceService.PriceAndCoupons priceAndCoupons = PriceService.calculatePrice(product, fetchedPrices, customer);
+
+        assertThat(priceAndCoupons.price()).isEqualTo(8.0d);
+        assertThat(priceAndCoupons.usedCoupons().toString()).isEqualTo("[Coupon(category=HOME, discountAmount=2, applicableSuppliers=[13], autoApply=true)]");
+    }
+
     private Customer customersWithCoupons() {
         return new Customer().setCoupons(coupons);
     }
