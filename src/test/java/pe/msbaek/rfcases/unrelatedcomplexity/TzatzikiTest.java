@@ -8,32 +8,28 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.when;
-import static pe.msbaek.rfcases.unrelatedcomplexity.FeatureFlags.Feature.PORK_SHAWARMA;
 
 @ExtendWith(MockitoExtension.class)
-class FastFoodTest {
+public class TzatzikiTest {
     @Mock
     Dependency dependency;
-    @Mock
-    FeatureFlags featureFlags;
     @InjectMocks
     FastFood fastFood;
 
     @BeforeEach
     final void before() {
-        when(dependency.isOnionAllowed()).thenReturn(true);
-        when(featureFlags.isActive(PORK_SHAWARMA)).thenReturn(true);
+        when(dependency.isCucumberAllowed()).thenReturn(true);
     }
 
     @Test
-    void shawarmaTest() { // + 7 more tests
+    void tzatzikiTest() { // + 5 more tests
         // ... complex
-        fastFood.makeShawarma();
+        fastFood.makeTzatziki();
     }
 
     @Test
-    void shawarmaTest1() { // + 7 more tests
+    void tzatzikiTest1() { // + 5 more tests
         // ... complex
-        fastFood.makeShawarma();
+        fastFood.makeTzatziki();
     }
 }
