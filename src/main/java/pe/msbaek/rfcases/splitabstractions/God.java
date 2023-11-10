@@ -1,24 +1,21 @@
 package pe.msbaek.rfcases.splitabstractions;
 
 import lombok.Data;
-import java.time.LocalDate;
-import static java.time.LocalDate.now;
+import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+
+@RequiredArgsConstructor
 public class God {
+    private final OrderValidator orderValidator;
+
     public String high(Order order) {
-        low(order);
+        orderValidator.low(order);
         // complexity requiring 5+ tests
         if (order.getPaymentMethod() == Order.PaymentMethod.CARD) {
             return "bonus";
         }
         return "regular";
-    }
-
-    void low(Order order) {
-        // complexity requiring 5+ tests
-        if (order.getCreationDate().isBefore(now().minusMonths(1))) {
-            throw new IllegalArgumentException("Order too old");
-        }
     }
 }
 
