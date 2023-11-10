@@ -19,6 +19,7 @@ public class PriceService {
         List<Product> products = productRepo.findAllById(productIds);
         List<Coupon> usedCoupons = new ArrayList<>();
         Map<Long, Double> finalPrices = new HashMap<>();
+
         for (Product product : products) {
             Double price = internalPrices.get(product.getId());
             if (price == null) {
@@ -34,6 +35,7 @@ public class PriceService {
             }
             finalPrices.put(product.getId(), price);
         }
+
         couponRepo.markUsedCoupons(customerId, usedCoupons);
         return finalPrices;
     }

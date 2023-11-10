@@ -70,6 +70,8 @@
   - 상용 코드 분리
 
 ## Imperative Shell / Functional Core Segregation
+- 8f89bdf198ca341a282c674e5fab1699de22c008
+- 
 
 ## combinational approval test
 - b505eac73ab5abe2fb55b10e884e2fb76cec55d3
