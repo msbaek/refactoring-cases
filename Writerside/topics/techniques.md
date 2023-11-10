@@ -53,6 +53,14 @@
   - 많은 곳에서 사용되는 것올 보면 **feature envy**가 심함을 알 수 있음
   - **extract method** & **move instance method** 를 할 차례임
 
+## Split by Levels of Abstraction
+- d80da045776fa263468cd657726696b5cbbdd139
+- high level과 low level의 코드가 섞여 있을 때
+- low level 코드 호출 없이 high level 테스트는 partial mock이 필요
+- low level을 **Extract Delegate**
+- Test도 분리
+
 ## combinational approval test
+- b505eac73ab5abe2fb55b10e884e2fb76cec55d3
 
 ## Approval Test를 위한 Printer
