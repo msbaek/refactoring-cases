@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.functionalcore;
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,21 +31,30 @@ public class PriceService {
         }
 
         for (Product product : products) {
-            Double price = fetchedPrices.get(product.getId());
-            List<Coupon> tempCoupons = new ArrayList<>();
-            for (Coupon coupon : customer.getCoupons()) {
-                if (coupon.autoApply()
-                        && coupon.isApplicableFor(product, price)
-                        && !tempCoupons.contains(coupon)) {
-                    price = coupon.apply(product, price);
-                    tempCoupons.add(coupon);
-                }
-            }
-            usedCoupons.addAll(tempCoupons);
-            finalPrices.put(product.getId(), price);
+            PriceAndCoupons result = calculatePrice(product, fetchedPrices, customer);
+            usedCoupons.addAll(result.usedCoupons());
+            finalPrices.put(product.getId(), result.price());
         }
 
         couponRepo.markUsedCoupons(customerId, usedCoupons);
         return finalPrices;
+    }
+
+    @VisibleForTesting
+    static PriceAndCoupons calculatePrice(Product product, Map<Long, Double> fetchedPrices, Customer customer) {
+        Double price = fetchedPrices.get(product.getId());
+        List<Coupon> usedCoupons = new ArrayList<>();
+        for (Coupon coupon : customer.getCoupons()) {
+            if (coupon.autoApply()
+                    && coupon.isApplicableFor(product, price)
+                    && !usedCoupons.contains(coupon)) {
+                price = coupon.apply(product, price);
+                usedCoupons.add(coupon);
+            }
+        }
+        return new PriceAndCoupons(price, usedCoupons);
+    }
+
+    record PriceAndCoupons(Double price, List<Coupon> usedCoupons) {
     }
 }
