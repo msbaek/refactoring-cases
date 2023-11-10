@@ -60,6 +60,14 @@
 - low level을 **Extract Delegate**
 - Test도 분리
 
+## Split Unrelasted Complexity
+- 서로 다른 의존성을 갖는 기능들이 한 클래스에 있을 때
+- 테스트 케이스에서 의존성 설정의 중복을 없애려고 setup으로 의존성 설정을 옮기면(for DRY) 테스트 오류 발생
+  - 요구되는 상호작용(when)이 호출되지 않아서 - `Unnesessary stubbings detected`
+- 절차
+  - 테스트 분리
+  - 상용 코드 분리
+
 ## combinational approval test
 - b505eac73ab5abe2fb55b10e884e2fb76cec55d3
 
