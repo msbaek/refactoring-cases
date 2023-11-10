@@ -20,13 +20,6 @@ public class PriceService {
         List<Coupon> usedCoupons = new ArrayList<>();
         Map<Long, Double> finalPrices = new HashMap<>();
 
-        extracted(internalPrices, products, customer, usedCoupons, finalPrices);
-
-        couponRepo.markUsedCoupons(customerId, usedCoupons);
-        return finalPrices;
-    }
-
-    private void extracted(Map<Long, Double> internalPrices, List<Product> products, Customer customer, List<Coupon> usedCoupons, Map<Long, Double> finalPrices) {
         for (Product product : products) {
             Double price = internalPrices.get(product.getId());
             if (price == null) {
@@ -42,5 +35,8 @@ public class PriceService {
             }
             finalPrices.put(product.getId(), price);
         }
+
+        couponRepo.markUsedCoupons(customerId, usedCoupons);
+        return finalPrices;
     }
 }
