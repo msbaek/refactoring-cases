@@ -79,5 +79,7 @@
 
 ## combinational approval test
 - b505eac73ab5abe2fb55b10e884e2fb76cec55d3
+- 인자들을 조합해서 호출하기 위해 객체 배열(not int but Integer)을 갖는 테스트 메스드를 작성
+- CombinatorialApprovals.verifyAllCombinations이 이 메소드를 호출하도록
 
 ## Approval Test를 위한 Printer
