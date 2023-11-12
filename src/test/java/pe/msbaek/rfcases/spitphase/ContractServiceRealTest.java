@@ -21,7 +21,7 @@ import static pe.msbaek.rfcases.spitphase.Contract.Status.*;
 public class ContractServiceRealTest {
     private static final double WARNING_AMOUNT_THRESHOLD = 10_000;
     private static final double AMOUNT_OVER_WARNING_THRESHOLD = 10_001d;
-    ContractService sut = new ContractService();
+    ContractService sut = new ContractService(new ExcelExporter());
 
     @BeforeEach
     final void before() {
