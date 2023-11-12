@@ -18,6 +18,12 @@ public class ContractService {
     @Value("${warning.threshold}") // from application.properties
     public Double warningThreshold;
 
+    private boolean hasWarning(Contract contract) {
+        return contract.getStatus() == Contract.Status.ACTIVE
+                && contract.getLastPayment().isBefore(now().minusDays(60))
+                && contract.getRemainingValue() > warningThreshold;
+    }
+
     public void exportContracts(List<Contract> contracts) {
         try (Workbook workbook = createWorkbook()) {
             Sheet sheet = workbook.createSheet("Contracts");
@@ -47,12 +53,6 @@ public class ContractService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private boolean hasWarning(Contract contract) {
-        return contract.getStatus() == Contract.Status.ACTIVE
-                && contract.getLastPayment().isBefore(now().minusDays(60))
-                && contract.getRemainingValue() > warningThreshold;
     }
 
     // to allow @Spy from unit tests
