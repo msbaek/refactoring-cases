@@ -73,7 +73,15 @@
 - 8f89bdf198ca341a282c674e5fab1699de22c008
 - duplicate loop
   - 중간 결과를 담을 변수를 추가해서 함수로 추출 시 부작용이 없도록 
-- split phase
+- split p↓hase
+  - Extract the second phase code into its own function.
+  - Test.
+  - Introduce an intermediate data structure as an additional argument to the extracted function.
+  - Test.
+  - Examine each parameter of the extracted second phase. If it is used by first phase, move it to the intermediate data structure. Test after each move.
+    - Sometimes, a parameter should not be used by the second phase. In this case, extract the results of each usage of the parameter into a field of the intermediate data structure and use Move Statements to Callers (217) on the line that populates it.
+  - Apply Extract Function (106) on the first-phase code, returning the intermediate data structure.
+    - It’s also reasonable to extract the first phase into a transformer object.
 - extract functional core
 - add functional core test
 
