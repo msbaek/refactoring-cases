@@ -24,7 +24,13 @@ public class ContractService {
                 && contract.getRemainingValue() > warningThreshold;
     }
 
+    record ContractForExport(String number, String name, boolean hasWarning) {}
+
     public void exportContracts(List<Contract> contracts) {
+        List<ContractForExport> contractForExports = contracts.stream()
+                .map(c -> toContractForExport(c))
+                .toList();
+
         try (Workbook workbook = createWorkbook()) {
             Sheet sheet = workbook.createSheet("Contracts");
             sheet.setColumnWidth(0, 6000);
@@ -36,23 +42,25 @@ public class ContractService {
             warningStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
             warningStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-            for (int i = 0; i < contracts.size(); i++) {
-                Contract contract = contracts.get(i);
+            for (int i = 0; i < contractForExports.size(); i++) {
+                ContractForExport contract = contractForExports.get(i);
                 Row row = sheet.createRow(1 + i);
                 Cell cell = row.createCell(0);
-                cell.setCellValue(contract.getNumber()); // ⭐️
-                if (hasWarning(contract)) { // ⭐️
-
+                cell.setCellValue(contract.number()); // ⭐️
+                if (contract.hasWarning) { // ⭐️
                     cell.setCellStyle(warningStyle);
                 }
-
-                row.createCell(1).setCellValue(contract.getName()); // ⭐️
+                row.createCell(1).setCellValue(contract.name()); // ⭐️
             }
 
             workbook.write(new FileOutputStream("output.xlsx"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ContractForExport toContractForExport(Contract c) {
+        return new ContractForExport(c.getNumber(), c.getName(), hasWarning(c));
     }
 
     // to allow @Spy from unit tests
