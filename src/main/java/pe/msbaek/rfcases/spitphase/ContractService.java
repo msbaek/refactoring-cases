@@ -35,9 +35,7 @@ public class ContractService {
                 Row row = sheet.createRow(1 + i);
                 Cell cell = row.createCell(0);
                 cell.setCellValue(contract.getNumber()); // ⭐️
-                if (contract.getStatus() == Contract.Status.ACTIVE
-                        && contract.getLastPayment().isBefore(now().minusDays(60))
-                        && contract.getRemainingValue() > warningThreshold) { // ⭐️
+                if (hasWarning(contract)) { // ⭐️
 
                     cell.setCellStyle(warningStyle);
                 }
@@ -49,6 +47,12 @@ public class ContractService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean hasWarning(Contract contract) {
+        return contract.getStatus() == Contract.Status.ACTIVE
+                && contract.getLastPayment().isBefore(now().minusDays(60))
+                && contract.getRemainingValue() > warningThreshold;
     }
 
     // to allow @Spy from unit tests
