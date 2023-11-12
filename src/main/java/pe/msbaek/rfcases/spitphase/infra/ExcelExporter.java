@@ -3,7 +3,6 @@ package pe.msbaek.rfcases.spitphase.infra;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
-import pe.msbaek.rfcases.spitphase.domain.ContractService;
 import pe.msbaek.rfcases.spitphase.domain.ContractService.ContractForExport;
 
 import java.io.FileOutputStream;

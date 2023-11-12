@@ -33,10 +33,10 @@ class ContractServiceTest {
 
     @Test
     void warning_overduePayments() {
-        Contract contract = new Contract()
-                .setStatus(ACTIVE)
-                .setLastPayment(now().minusDays(59))
-                .setRemainingValue(AMOUNT_OVER_WARNING_THRESHOLD);
+        Contract contract = new Contract();
+        contract.setStatus(ACTIVE);
+        contract.setLastPayment(now().minusDays(59));
+        contract.setRemainingValue(AMOUNT_OVER_WARNING_THRESHOLD);
 
         sut.exportContracts(List.of(contract));
 
