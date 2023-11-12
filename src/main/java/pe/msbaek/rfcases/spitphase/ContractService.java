@@ -32,9 +32,13 @@ public class ContractService {
 
     public void exportContracts(List<Contract> contracts) {
         List<ContractForExport> contractForExports = contracts.stream()
-                .map(c -> toContractForExport(c))
+                .map(this::toContractForExport)
                 .toList();
 
+        exportExcel(contractForExports);
+    }
+
+    private void exportExcel(List<ContractForExport> contractForExports) {
         try (Workbook workbook = createWorkbook()) {
             Sheet sheet = workbook.createSheet("Contracts");
             sheet.setColumnWidth(0, 6000);
