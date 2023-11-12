@@ -6,6 +6,10 @@
   * [loop is one thing - SRP](#loop-is-one-thing---srp)
   * [Slow Scroll](#slow-scroll)
   * [collapse method → 한 레벨씩만 expand](#collapse-method--한-레벨씩만-expand)
+  * [Split Phase](#split-phase)
+  * [Split by Levels of Abstraction](#split-by-levels-of-abstraction)
+  * [Split Unrelated Complexity](#split-unrelated-complexity)
+  * [Imperative Shell / Functional Core Segregation](#imperative-shell--functional-core-segregation)
   * [combinational approval test](#combinational-approval-test)
   * [Approval Test를 위한 Printer](#approval-test를-위한-printer)
 <!-- TOC -->
@@ -53,6 +57,34 @@
   - 많은 곳에서 사용되는 것올 보면 **feature envy**가 심함을 알 수 있음
   - **extract method** & **move instance method** 를 할 차례임
 
+## Split Phase
+- from Refactoring 2nd ed.
+- 의도
+  - 서로 다른 두 가지를 다루는 코드가 있을 때 이를 별도의 모듈로 분리
+  - 이렇게 분리하면 변경이 필요할 때 두 가지 주제를 따로 처리할 수 있고 두 가지를 머릿속에 함께 담을 필요가 없기 때문임
+- 절차
+  - 1. Extract Method
+    ![img_2.png](../images/split_phase_1)
+  - 2. Introduce intermediate data structure that will communicate between the two phases
+    ![img_3.png](../images/split_phase_2.png)
+  - 3. Examine each parameter of the extracted second phase.
+    - If it is used by first phase, move it to the intermediate data structure.
+    - 3.1 basePrice
+      ![img_4.png](../images/split_phase_3.png)
+    - 3.2 shippingMethod
+      - 첫번째 단계애서 사용되지 않았기 때문에 스킵
+    - 3.3 quantity
+      - 첫번째 단계에서 사용은 되지만, 생성은 다른 곳에 되었음
+      - 이런 경우 파라미터 목록에 유지해도 됨
+      - 하지만 개인적인 선호는 최대한 많이 intermediate DS로 옭김
+      - ![img_5.png](../images/split_phase_4.png)
+    - 3.4. discount
+      - ![img_6.png](../images/split_phase_5.png)
+  - 4. extract first-phase to return intermediate DS
+    - PriceData를 먼저 variable로 추출
+    - PriceData를 반환하도록 첫번째 단계를 메소드로 추출(이를 위해 먼저 intermediate DS를 variable로 추출)
+    - ![img_7.png](../images/split_phase_6.png)
+  
 ## Split by Levels of Abstraction
 - d80da045776fa263468cd657726696b5cbbdd139
 - high level과 low level의 코드가 섞여 있을 때
@@ -74,14 +106,6 @@
 - duplicate loop
   - 중간 결과를 담을 변수를 추가해서 함수로 추출 시 부작용이 없도록 
 - split p↓hase
-  - Extract the second phase code into its own function.
-  - Test.
-  - Introduce an intermediate data structure as an additional argument to the extracted function.
-  - Test.
-  - Examine each parameter of the extracted second phase. If it is used by first phase, move it to the intermediate data structure. Test after each move.
-    - Sometimes, a parameter should not be used by the second phase. In this case, extract the results of each usage of the parameter into a field of the intermediate data structure and use Move Statements to Callers (217) on the line that populates it.
-  - Apply Extract Function (106) on the first-phase code, returning the intermediate data structure.
-    - It’s also reasonable to extract the first phase into a transformer object.
 - extract functional core
 - add functional core test
 
