@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.spitphase.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -24,6 +25,11 @@ class ContractServiceTest {
     @Mock private ExcelExporter excelExporter;
     @InjectMocks private ContractService sut;
     @Captor private ArgumentCaptor<List<ContractForExport>> argCaptor;
+
+    @BeforeEach
+    void setUp() {
+        sut.warningThreshold = WARNING_AMOUNT_THRESHOLD;
+    }
 
     @Test
     void warning_overduePayments() {
