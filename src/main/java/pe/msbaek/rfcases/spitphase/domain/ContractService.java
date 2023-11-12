@@ -3,14 +3,13 @@ package pe.msbaek.rfcases.spitphase.domain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pe.msbaek.rfcases.spitphase.infra.ExcelExporter;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ContractService {
-    private final ExcelExporter excelExporter;
+    private final ContractExporter excelExporter;
     @Value("${warning.threshold}") // from application.properties
     public Double warningThreshold;
 

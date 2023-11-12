@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pe.msbaek.rfcases.spitphase.domain.ContractService.ContractForExport;
-import pe.msbaek.rfcases.spitphase.infra.ExcelExporter;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ import static pe.msbaek.rfcases.spitphase.domain.Contract.Status.ACTIVE;
 class ContractServiceTest {
     private static final double WARNING_AMOUNT_THRESHOLD = 10_000;
     private static final double AMOUNT_OVER_WARNING_THRESHOLD = 10_001d;
-    @Mock private ExcelExporter excelExporter;
+    @Mock private ContractExporter exporter;
     @InjectMocks private ContractService sut;
     @Captor private ArgumentCaptor<List<ContractForExport>> argCaptor;
 
@@ -41,7 +40,7 @@ class ContractServiceTest {
         sut.exportContracts(List.of(contract));
 
         // 이제 엑셀과 무관하게 테스트 가능
-        verify(excelExporter).exportExcel(argCaptor.capture());
+        verify(exporter).exportExcel(argCaptor.capture());
         ContractForExport contractForExport = argCaptor.getValue().get(0);
         assertThat(contractForExport.toString()).isEqualTo("ContractForExport[number=null, name=null, hasWarning=false]");
     }

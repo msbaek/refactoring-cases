@@ -3,6 +3,7 @@ package pe.msbaek.rfcases.spitphase.infra;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
+import pe.msbaek.rfcases.spitphase.domain.ContractExporter;
 import pe.msbaek.rfcases.spitphase.domain.ContractService.ContractForExport;
 
 import java.io.FileOutputStream;
@@ -10,10 +11,11 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class ExcelExporter {
+public class ExcelExporter implements ContractExporter {
     public ExcelExporter() {
     }
 
+    @Override
     public void exportExcel(List<ContractForExport> contractForExports) {
         try (Workbook workbook = createWorkbook()) {
             Sheet sheet = workbook.createSheet("Contracts");
