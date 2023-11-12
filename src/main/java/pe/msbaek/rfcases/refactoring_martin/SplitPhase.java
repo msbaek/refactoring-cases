@@ -39,16 +39,16 @@ public class SplitPhase {
     public double priceOrder(Product Product, int quantity, ShippingMethod shippingMethod) {
         double basePrice = Product.getBasePrice() * quantity;
         double discount = Math.max(quantity - Product.getDiscountThreshold(), 0) * Product.getBasePrice() * Product.getDiscountRate();
-        double price = applyShipping(new PriceData(basePrice, quantity), shippingMethod, discount);
+        double price = applyShipping(new PriceData(basePrice, quantity, discount), shippingMethod);
         return price;
     }
 
-    private double applyShipping(PriceData priceData, ShippingMethod shippingMethod, double discount) {
+    private double applyShipping(PriceData priceData, ShippingMethod shippingMethod) {
         double shippingPerCase = (priceData.basePrice() > shippingMethod.getDiscountThreshold()) ? shippingMethod.getDiscountedFee() : shippingMethod.getFeePerCase();
         double shippingCost = priceData.quantity() * shippingPerCase;
-        double price = priceData.basePrice() - discount + shippingCost;
+        double price = priceData.basePrice() - priceData.discount() + shippingCost;
         return price;
     }
 
-    record PriceData(double basePrice, int quantity) {}
+    record PriceData(double basePrice, int quantity, double discount) {}
 }
