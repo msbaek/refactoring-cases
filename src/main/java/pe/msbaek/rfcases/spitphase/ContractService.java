@@ -26,6 +26,10 @@ public class ContractService {
 
     record ContractForExport(String number, String name, boolean hasWarning) {}
 
+    private ContractForExport toContractForExport(Contract c) {
+        return new ContractForExport(c.getNumber(), c.getName(), hasWarning(c));
+    }
+
     public void exportContracts(List<Contract> contracts) {
         List<ContractForExport> contractForExports = contracts.stream()
                 .map(c -> toContractForExport(c))
@@ -57,10 +61,6 @@ public class ContractService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private ContractForExport toContractForExport(Contract c) {
-        return new ContractForExport(c.getNumber(), c.getName(), hasWarning(c));
     }
 
     // to allow @Spy from unit tests
