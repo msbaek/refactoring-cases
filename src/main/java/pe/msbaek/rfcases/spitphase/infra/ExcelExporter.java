@@ -1,8 +1,10 @@
-package pe.msbaek.rfcases.spitphase;
+package pe.msbaek.rfcases.spitphase.infra;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
+import pe.msbaek.rfcases.spitphase.domain.ContractService;
+import pe.msbaek.rfcases.spitphase.domain.ContractService.ContractForExport;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +15,7 @@ public class ExcelExporter {
     public ExcelExporter() {
     }
 
-    void exportExcel(List<ContractService.ContractForExport> contractForExports) {
+    public void exportExcel(List<ContractForExport> contractForExports) {
         try (Workbook workbook = createWorkbook()) {
             Sheet sheet = workbook.createSheet("Contracts");
             sheet.setColumnWidth(0, 6000);
@@ -26,7 +28,7 @@ public class ExcelExporter {
             warningStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             for (int i = 0; i < contractForExports.size(); i++) {
-                ContractService.ContractForExport contract = contractForExports.get(i);
+                ContractForExport contract = contractForExports.get(i);
                 Row row = sheet.createRow(1 + i);
                 Cell cell = row.createCell(0);
                 cell.setCellValue(contract.number()); // ⭐️

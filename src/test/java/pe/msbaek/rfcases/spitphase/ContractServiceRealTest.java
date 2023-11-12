@@ -8,7 +8,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pe.msbaek.rfcases.spitphase.Contract.Status;
+import pe.msbaek.rfcases.spitphase.domain.Contract;
+import pe.msbaek.rfcases.spitphase.domain.Contract.Status;
+import pe.msbaek.rfcases.spitphase.domain.ContractService;
+import pe.msbaek.rfcases.spitphase.infra.ExcelExporter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.util.List;
 
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
-import static pe.msbaek.rfcases.spitphase.Contract.Status.*;
+import static pe.msbaek.rfcases.spitphase.domain.Contract.Status.ACTIVE;
 
 public class ContractServiceRealTest {
     private static final double WARNING_AMOUNT_THRESHOLD = 10_000;
