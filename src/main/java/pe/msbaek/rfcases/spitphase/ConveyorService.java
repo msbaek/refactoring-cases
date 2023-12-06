@@ -34,12 +34,13 @@ public class ConveyorService {
     private final ShippingPort shippingPort;
 
     public List<PathCountResponse> getCountByConveyorPath(final Long warehouseId) {
-        final ConveyorRegistry conveyorRegistry = new ConveyorRegistry(conveyorPort.listConveyor());
+        List<Conveyor> conveyors = conveyorPort.listConveyor();
+        final ConveyorRegistry conveyorRegistry = new ConveyorRegistry(conveyors);
         final List<Shipping> shippings = shippingPort.listOf(warehouseId);
         final Set<Long> shippingItemIds = getShippingItemIds(shippings);
         final List<HmItem> hmItemList = conveyorPort.listHmItem(shippingItemIds);
 
-        final Map<Long, PathCountResponse> pathCountMap = createInitResponse(conveyorPort.listConveyor());
+        final Map<Long, PathCountResponse> pathCountMap = createInitResponse(conveyors);
 
         for (final Shipping shipping : shippings) {
             final Set<Long> itemIds = shipping.itemIds();
