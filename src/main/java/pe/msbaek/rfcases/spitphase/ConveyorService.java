@@ -39,7 +39,7 @@ public class ConveyorService {
         final Set<Long> shippingItemIds = getShippingItemIds(shippings);
         final List<HmItem> hmItemList = conveyorPort.listHmItem(shippingItemIds);
 
-        final Map<Long, PathCountResponse> pathCountMap = createInitResponse();
+        final Map<Long, PathCountResponse> pathCountMap = createInitResponse(conveyorPort.listConveyor());
 
         for (final Shipping shipping : shippings) {
             final Set<Long> itemIds = shipping.itemIds();
@@ -58,9 +58,9 @@ public class ConveyorService {
                 .collect(Collectors.toSet());
     }
 
-    private Map<Long, PathCountResponse> createInitResponse() {
+    private Map<Long, PathCountResponse> createInitResponse(List<Conveyor> conveyors) {
         Map<Long, PathCountResponse> pathCountMap = new HashMap<>();
-        for (Conveyor conveyor : conveyorPort.listConveyor()) {
+        for (Conveyor conveyor : conveyors) {
             pathCountMap.put(conveyor.id(),
                     new PathCountResponse(
                             conveyor.id(),
