@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.spitphase;
 
+import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -51,7 +52,8 @@ public class ConveyorService {
     private record ShipppingCountDto(List<Conveyor> conveyors, ConveyorRegistry conveyorRegistry, List<Shipping> shippings, List<HmItem> hmItemList) {
     }
 
-    private ArrayList<PathCountResponse> getPathCountResponses(List<Conveyor> conveyors, List<Shipping> shippings, List<HmItem> hmItemList, ConveyorRegistry conveyorRegistry) {
+    @VisibleForTesting
+    ArrayList<PathCountResponse> getPathCountResponses(List<Conveyor> conveyors, List<Shipping> shippings, List<HmItem> hmItemList, ConveyorRegistry conveyorRegistry) {
         final Map<Long, PathCountResponse> pathCountMap = createInitResponse(conveyors);
 
         for (final Shipping shipping : shippings) {
