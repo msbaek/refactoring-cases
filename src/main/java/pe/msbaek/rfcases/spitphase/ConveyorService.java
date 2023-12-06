@@ -40,6 +40,10 @@ public class ConveyorService {
         final Set<Long> shippingItemIds = getShippingItemIds(shippings);
         final List<HmItem> hmItemList = conveyorPort.listHmItem(shippingItemIds);
 
+        return getPathCountResponses(conveyors, shippings, hmItemList, conveyorRegistry);
+    }
+
+    private ArrayList<PathCountResponse> getPathCountResponses(List<Conveyor> conveyors, List<Shipping> shippings, List<HmItem> hmItemList, ConveyorRegistry conveyorRegistry) {
         final Map<Long, PathCountResponse> pathCountMap = createInitResponse(conveyors);
 
         for (final Shipping shipping : shippings) {
