@@ -16,7 +16,8 @@ public class OrderController {
         Double DELIVERY_WON_PRICE = 0.0;
         Double DELIVERY_PRICE = 0.0;
         String CD_VAL = null;
-        final boolean isNoShippingRequired = isNoShippingRequired(new Shipping(deliveryInfo, DELIVERY_KIND_CD));
+        Shipping shipping = new Shipping(deliveryInfo, DELIVERY_KIND_CD);
+        final boolean isNoShippingRequired = isNoShippingRequired(shipping);
         if (!isNoShippingRequired && null != deliveryInfo) {
             DELIVERY_KIND_CD = deliveryInfo.get("DELIVERY_KIND_CD").toString();
             DELIVERY_WON_PRICE = Double.parseDouble(deliveryInfo.get("PRICE").toString());
