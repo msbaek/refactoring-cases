@@ -26,4 +26,8 @@ public record Shipping(Map deliveryInfo, String deliveryCode) {
     boolean isNoShippingRequired() {
         return "direct".equals(deliveryCode()) || "donation".equals(deliveryCode());
     }
+
+    public float costKrw() {
+        throw new UnsupportedOperationException("Shipping::costKrw not implemented yet");
+    }
 }
