@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public class OrderController {
-    private boolean isNoShippingRequired(final String deliveryCode) {
+    private boolean isNoShippingRequired(Map deliveryInfo, final String deliveryCode) {
         return "direct".equals(deliveryCode) || "donation".equals(deliveryCode);
     }
 
@@ -16,7 +16,7 @@ public class OrderController {
         Double DELIVERY_WON_PRICE = 0.0;
         Double DELIVERY_PRICE = 0.0;
         String CD_VAL = null;
-        final boolean isNoShippingRequired = isNoShippingRequired(DELIVERY_KIND_CD);
+        final boolean isNoShippingRequired = isNoShippingRequired(deliveryInfo, DELIVERY_KIND_CD);
         if (!isNoShippingRequired && null != deliveryInfo) {
             DELIVERY_KIND_CD = deliveryInfo.get("DELIVERY_KIND_CD").toString();
             DELIVERY_WON_PRICE = Double.parseDouble(deliveryInfo.get("PRICE").toString());
