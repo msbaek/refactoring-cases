@@ -14,18 +14,6 @@ public class StockCheckService {
 
     public boolean availableForSales(final StockCheckRequest stockCheckRequest) {
         final StockCheckStatus stockCheckStatus = stockCheckPort.readAvailableSalesStatus(stockCheckRequest.productNo(), stockCheckRequest.shopNo());
-        return check(new StockChecker(stockCheckStatus, stockCheckRequest.stock(), stockCheckRequest.orderQuantity()));
-    }
-
-    private boolean check(StockChecker stockChecker) {
-        if (!LocalDate.now().isAfter(stockChecker.stockCheckStatus().expectedStockDate())) return true;
-        if (stockChecker.stockCheckStatus().forcedSales()) return true;
-        return isStock(stockChecker);
-    }
-
-    private boolean isStock(StockChecker stockChecker) {
-        final Integer stock = stockChecker.stock();
-        if (null == stock) return true;
-        return 0 <= stock - (Integer) stockChecker.orderQuantity();
+        return new StockChecker(stockCheckStatus, stockCheckRequest.stock(), stockCheckRequest.orderQuantity()).check();
     }
 }
