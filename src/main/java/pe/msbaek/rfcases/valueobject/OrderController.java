@@ -16,12 +16,32 @@ public class OrderController {
         String CD_VAL = null;
         Shipping shipping = new Shipping(checkFreeShipping(), DELIVERY_KIND_CD);
         final boolean isNoShippingRequired = isNoShippingRequired(shipping);
-        if (!isNoShippingRequired && null != shipping.deliveryInfo()) {
-            DELIVERY_KIND_CD = shipping.deliveryInfo().get("DELIVERY_KIND_CD").toString();
-            DELIVERY_WON_PRICE = Double.parseDouble(shipping.deliveryInfo().get("PRICE").toString());
-            DELIVERY_PRICE = Double.parseDouble(shipping.deliveryInfo().get("DISP_PRICE").toString());
-            CD_VAL = shipping.deliveryInfo().get("CD_VAL").toString();
+        if (hasCost(isNoShippingRequired, shipping)) {
+            DELIVERY_KIND_CD = getDeliveryKindCode(shipping);
+            DELIVERY_WON_PRICE = getDeliveryWonPrice(shipping);
+            DELIVERY_PRICE = getDeliveryPrice(shipping);
+            CD_VAL = getCodeValue(shipping);
         }
+    }
+
+    private String getCodeValue(Shipping shipping) {
+        return shipping.deliveryInfo().get("CD_VAL").toString();
+    }
+
+    private double getDeliveryPrice(Shipping shipping) {
+        return Double.parseDouble(shipping.deliveryInfo().get("DISP_PRICE").toString());
+    }
+
+    private double getDeliveryWonPrice(Shipping shipping) {
+        return Double.parseDouble(shipping.deliveryInfo().get("PRICE").toString());
+    }
+
+    private String getDeliveryKindCode(Shipping shipping) {
+        return shipping.deliveryInfo().get("DELIVERY_KIND_CD").toString();
+    }
+
+    private boolean hasCost(boolean isNoShippingRequired, Shipping shipping) {
+        return !isNoShippingRequired && null != shipping.deliveryInfo();
     }
 
     private Map checkFreeShipping() {
