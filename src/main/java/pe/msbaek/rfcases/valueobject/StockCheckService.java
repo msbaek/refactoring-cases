@@ -24,11 +24,8 @@ public class StockCheckService {
     }
 
     private boolean isStock(StockChecker stockChecker) {
-        return isStock(stockChecker.stock(), stockChecker.orderQuantity());
-    }
-
-    private boolean isStock(final Integer stock, final Integer orderQuantity) {
+        final Integer stock = stockChecker.stock();
         if (null == stock) return true;
-        return 0 <= stock - orderQuantity;
+        return 0 <= stock - (Integer) stockChecker.orderQuantity();
     }
 }
