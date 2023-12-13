@@ -20,6 +20,10 @@ public class StockCheckService {
     private boolean check(StockChecker stockChecker) {
         if (!LocalDate.now().isAfter(stockChecker.stockCheckStatus().expectedStockDate())) return true;
         if (stockChecker.stockCheckStatus().forcedSales()) return true;
+        return isStock(stockChecker);
+    }
+
+    private boolean isStock(StockChecker stockChecker) {
         return isStock(stockChecker.stock(), stockChecker.orderQuantity());
     }
 
