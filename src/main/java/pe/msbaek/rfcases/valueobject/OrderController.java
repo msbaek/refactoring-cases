@@ -18,11 +18,11 @@ public class OrderController {
         String CD_VAL = null;
         Shipping shipping = new Shipping(checkFreeShipping(), DELIVERY_KIND_CD);
         final boolean isNoShippingRequired = isNoShippingRequired(shipping);
-        if (!isNoShippingRequired && null != deliveryInfo) {
-            DELIVERY_KIND_CD = deliveryInfo.get("DELIVERY_KIND_CD").toString();
-            DELIVERY_WON_PRICE = Double.parseDouble(deliveryInfo.get("PRICE").toString());
-            DELIVERY_PRICE = Double.parseDouble(deliveryInfo.get("DISP_PRICE").toString());
-            CD_VAL = deliveryInfo.get("CD_VAL").toString();
+        if (!isNoShippingRequired && null != shipping.deliveryInfo()) {
+            DELIVERY_KIND_CD = shipping.deliveryInfo().get("DELIVERY_KIND_CD").toString();
+            DELIVERY_WON_PRICE = Double.parseDouble(shipping.deliveryInfo().get("PRICE").toString());
+            DELIVERY_PRICE = Double.parseDouble(shipping.deliveryInfo().get("DISP_PRICE").toString());
+            CD_VAL = shipping.deliveryInfo().get("CD_VAL").toString();
         }
     }
 
