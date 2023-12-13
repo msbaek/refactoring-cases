@@ -10,8 +10,6 @@ public class OrderController {
     }
 
     public void check(HttpServletRequest request) {
-        final Map deliveryInfo = checkFreeShipping();
-
         String DELIVERY_KIND_CD = request.getParameter("delivery").toString();
         Double DELIVERY_WON_PRICE = 0.0;
         Double DELIVERY_PRICE = 0.0;
