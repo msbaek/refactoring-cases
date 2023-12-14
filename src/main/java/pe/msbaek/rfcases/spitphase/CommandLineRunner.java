@@ -37,9 +37,7 @@ public class CommandLineRunner {
 
     private record CountOrders(String filename, boolean countReadyOnly) {
         private long count() throws IOException {
-            File input = Paths.get(filename()).toFile();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Order[] orders = objectMapper.readValue(input, Order[].class);
+            Order[] orders = readOrders();
             if(countReadyOnly()) {
                 return Arrays.stream(orders)
                         .filter(order -> "ready".equals(order.status()))
@@ -48,6 +46,12 @@ public class CommandLineRunner {
             else {
                 return orders.length;
             }
+        }
+
+        private Order[] readOrders() throws IOException {
+            File input = Paths.get(filename()).toFile();
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(input, Order[].class);
         }
     }
 }
