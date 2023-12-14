@@ -36,10 +36,10 @@ public class Order {
 
     public Money calculateShippingFee() {
         // 도시 이름에 따라 다른 요금을 책정할 수 있습니다.
-        if (getCity().equalsIgnoreCase("서울")) {
+        if (this.city.equalsIgnoreCase("서울")) {
             return new Money(5000); // 서울 지역 배송 요금
         }
-        else if (getCity().equalsIgnoreCase("부산")) {
+        else if (this.city.equalsIgnoreCase("부산")) {
             return new Money(7000); // 부산 지역 배송 요금
         }
         else {
