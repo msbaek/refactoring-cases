@@ -29,7 +29,7 @@ public class CommandLineRunner {
         File input = Paths.get(filename).toFile();
         ObjectMapper objectMapper = new ObjectMapper();
         Order[] orders = objectMapper.readValue(input, Order[].class);
-        if(Arrays.stream(args).anyMatch(arg -> "-r".equals(arg))) {
+        if(countReadyOnly(args)) {
             return Arrays.stream(orders)
                     .filter(order -> "ready".equals(order.status()))
                     .count();
@@ -37,5 +37,9 @@ public class CommandLineRunner {
         else {
             return orders.length;
         }
+    }
+
+    private boolean countReadyOnly(String[] args) {
+        return Arrays.stream(args).anyMatch(arg -> "-r".equals(arg));
     }
 }
