@@ -13,7 +13,7 @@ record Order(String status) {
 public class CommandLineRunner {
     public static void main(String[] args) {
         try {
-            System.out.println(run(args));
+            System.out.println(new CommandLineRunner().run(args));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -21,7 +21,7 @@ public class CommandLineRunner {
         }
     }
 
-    private static long run(String[] args) throws IOException {
+    long run(String[] args) throws IOException {
         if(args.length == 0) {
             throw new IllegalArgumentException("enter file name");
         }
