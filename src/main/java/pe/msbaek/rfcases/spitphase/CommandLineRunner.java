@@ -26,10 +26,12 @@ public class CommandLineRunner {
             throw new IllegalArgumentException("enter file name");
         }
         String filename = args[args.length - 1];
+        boolean countReadyOnly = countReadyOnly(args);
+
         File input = Paths.get(filename).toFile();
         ObjectMapper objectMapper = new ObjectMapper();
         Order[] orders = objectMapper.readValue(input, Order[].class);
-        if(countReadyOnly(args)) {
+        if(countReadyOnly) {
             return Arrays.stream(orders)
                     .filter(order -> "ready".equals(order.status()))
                     .count();
