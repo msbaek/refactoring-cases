@@ -23,7 +23,10 @@ public class CommandLineRunner {
 
     long run(String[] args) throws IOException {
         CountOrders countOrders = parse(args);
+        return count(countOrders);
+    }
 
+    private long count(CountOrders countOrders) throws IOException {
         File input = Paths.get(countOrders.filename()).toFile();
         ObjectMapper objectMapper = new ObjectMapper();
         Order[] orders = objectMapper.readValue(input, Order[].class);
