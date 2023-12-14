@@ -13,7 +13,7 @@ record Order(String status) {
 public class CommandLineRunner {
     public static void main(String[] args) {
         try {
-            run(args);
+            System.out.println(run(args));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -21,7 +21,7 @@ public class CommandLineRunner {
         }
     }
 
-    private static void run(String[] args) throws IOException {
+    private static long run(String[] args) throws IOException {
         if(args.length == 0) {
             throw new IllegalArgumentException("enter file name");
         }
@@ -30,12 +30,12 @@ public class CommandLineRunner {
         ObjectMapper objectMapper = new ObjectMapper();
         Order[] orders = objectMapper.readValue(input, Order[].class);
         if(Arrays.stream(args).anyMatch(arg -> "-r".equals(arg))) {
-            System.out.println(Arrays.stream(orders)
+            return Arrays.stream(orders)
                     .filter(order -> "ready".equals(order.status()))
-                    .count());
+                    .count();
         }
         else {
-            System.out.println(orders.length);
+            return orders.length;
         }
     }
 }
