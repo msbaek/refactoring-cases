@@ -23,21 +23,7 @@ public class CommandLineRunner {
 
     long run(String[] args) throws IOException {
         CountOrders countOrders = parse(args);
-        return count(countOrders);
-    }
-
-    private long count(CountOrders countOrders) throws IOException {
-        File input = Paths.get(countOrders.filename()).toFile();
-        ObjectMapper objectMapper = new ObjectMapper();
-        Order[] orders = objectMapper.readValue(input, Order[].class);
-        if(countOrders.countReadyOnly()) {
-            return Arrays.stream(orders)
-                    .filter(order -> "ready".equals(order.status()))
-                    .count();
-        }
-        else {
-            return orders.length;
-        }
+        return countOrders.count();
     }
 
     private CountOrders parse(String[] args) {
@@ -50,6 +36,19 @@ public class CommandLineRunner {
     }
 
     private record CountOrders(String filename, boolean countReadyOnly) {
+        private long count() throws IOException {
+            File input = Paths.get(filename()).toFile();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Order[] orders = objectMapper.readValue(input, Order[].class);
+            if(countReadyOnly()) {
+                return Arrays.stream(orders)
+                        .filter(order -> "ready".equals(order.status()))
+                        .count();
+            }
+            else {
+                return orders.length;
+            }
+        }
     }
 
     private boolean countReadyOnly(String[] args) {
