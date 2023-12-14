@@ -38,14 +38,12 @@ public class CommandLineRunner {
     private record CountOrders(String filename, boolean countReadyOnly) {
         private long count() throws IOException {
             Order[] orders = readOrders();
-            if(countReadyOnly()) {
-                return Arrays.stream(orders)
-                        .filter(order -> "ready".equals(order.status()))
-                        .count();
-            }
-            else {
+            if (!countReadyOnly()) {
                 return orders.length;
             }
+            return Arrays.stream(orders)
+                    .filter(order -> "ready".equals(order.status()))
+                    .count();
         }
 
         private Order[] readOrders() throws IOException {
