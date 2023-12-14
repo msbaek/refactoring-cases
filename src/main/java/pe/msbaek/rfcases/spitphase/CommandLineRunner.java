@@ -1,10 +1,6 @@
 package pe.msbaek.rfcases.spitphase;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 record Order(String status) {
@@ -36,20 +32,16 @@ public class CommandLineRunner {
     }
 
     private record CountOrders(String filename, boolean countReadyOnly) {
+        private static final OrderRepository orderRepository = new OrderRepository();
+
         private long count() throws IOException {
-            Order[] orders = readOrders(filename());
+            Order[] orders = orderRepository.readOrders(filename());
             if (!countReadyOnly()) {
                 return orders.length;
             }
             return Arrays.stream(orders)
                     .filter(order -> "ready".equals(order.status()))
                     .count();
-        }
-
-        private Order[] readOrders(String filename1) throws IOException {
-            File input = Paths.get(filename1).toFile();
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(input, Order[].class);
         }
     }
 }
