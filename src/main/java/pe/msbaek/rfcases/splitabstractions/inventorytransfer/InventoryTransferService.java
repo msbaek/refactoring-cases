@@ -2,7 +2,6 @@ package pe.msbaek.rfcases.splitabstractions.inventorytransfer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -108,25 +107,12 @@ record Response(Long id, String serialNumber) { }
 public class InventoryTransferService {
     private final CreateInventoryTransferValidator createInventoryTransferValidator;
     private final InventoryTransferPort inventoryTransferPort;
+    private final InventoryTransferFactory inventoryTransferFactory = new InventoryTransferFactory();
 
     public Response create(final Request request) {
         createInventoryTransferValidator.validate(request);
-        final InventoryTransfer inventoryTransfer = createInventoryTransfer(request);
+        final InventoryTransfer inventoryTransfer = inventoryTransferFactory.createInventoryTransfer(request);
         final InventoryTransfer savedInventoryTransfer = inventoryTransferPort.saveWithSerialNumber(inventoryTransfer);
         return new Response(savedInventoryTransfer.getId(), savedInventoryTransfer.getSerialNumber());
-    }
-
-    InventoryTransfer createInventoryTransfer(final Request request) {
-        final List<InventoryTransferItem> items = request.items().stream()
-                .map(item -> new InventoryTransferItem(item.goodsId(), item.requestedQuantity()))
-                .toList();
-
-        return new InventoryTransfer(
-                request.fromWarehouseId(),
-                request.toWarehouseId(),
-                request.requestedDate(),
-                request.note(),
-                items
-        );
     }
 }
