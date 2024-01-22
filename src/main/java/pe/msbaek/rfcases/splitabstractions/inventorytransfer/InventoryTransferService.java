@@ -104,39 +104,29 @@ record Response(Long id, String serialNumber) { }
 
 @RequiredArgsConstructor
 public class InventoryTransferService {
-    private final InventoryTransferPort inventoryTransferPort;
-    private final LoadWarehousePort loadWarehousePort;
+    private final CreateInventoryTransferValidator createInventoryTransferValidator = new CreateInventoryTransferValidator();
 
     public Response create(final Request request) {
-        validate(request);
+        createInventoryTransferValidator.validate(request);
         final InventoryTransfer inventoryTransfer = createInventoryTransfer(request);
-        final InventoryTransfer savedInventoryTransfer = inventoryTransferPort.saveWithSerialNumber(inventoryTransfer);
+        final InventoryTransfer savedInventoryTransfer = createInventoryTransferValidator.inventoryTransferPort.saveWithSerialNumber(inventoryTransfer);
         return new Response(savedInventoryTransfer.getId(), savedInventoryTransfer.getSerialNumber());
     }
 
     private void validate(final Request request) {
-        validateWarehouse(request.fromWarehouseId());
-        validateWarehouse(request.toWarehouseId());
-        validateGoods(request.items());
+        createInventoryTransferValidator.validate(request);
     }
 
     private void validateWarehouse(final Long warehouseId) {
-        loadWarehousePort.findBy(warehouseId)
-                .orElseThrow(() -> WarehouseNotFoundException.ofId(warehouseId));
+        createInventoryTransferValidator.validateWarehouse(warehouseId);
     }
 
     private void validateGoods(final List<CreateInventoryTransferItem> items) {
-        final List<Long> goodsIds = getGoodsIds(items);
-        for (final Long goodsId : goodsIds) {
-            final List<Goods> goods = inventoryTransferPort.listOf(List.of(goodsId));
-            if (goods.isEmpty()) throw new IllegalArgumentException("아이템이 존재하지 않습니다. goodsId: " + goodsId);
-        }
+        createInventoryTransferValidator.validateGoods(items);
     }
 
     private List<Long> getGoodsIds(final List<CreateInventoryTransferItem> items) {
-        return items.stream()
-                .map(CreateInventoryTransferItem::goodsId)
-                .toList();
+        return createInventoryTransferValidator.getGoodsIds(items);
     }
 
     InventoryTransfer createInventoryTransfer(final Request request) {
