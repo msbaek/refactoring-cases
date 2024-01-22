@@ -6,7 +6,9 @@ public class CreateInventoryTransferValidator {
     final InventoryTransferPort inventoryTransferPort;
     final LoadWarehousePort loadWarehousePort;
 
-    public CreateInventoryTransferValidator() {
+    public CreateInventoryTransferValidator(InventoryTransferPort inventoryTransferPort, LoadWarehousePort loadWarehousePort) {
+        this.inventoryTransferPort = inventoryTransferPort;
+        this.loadWarehousePort = loadWarehousePort;
     }
 
     void validate(final Request request) {

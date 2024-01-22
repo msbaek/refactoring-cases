@@ -2,6 +2,7 @@ package pe.msbaek.rfcases.splitabstractions.inventorytransfer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -92,6 +93,7 @@ class WarehouseNotFoundException extends RuntimeException {
         return new WarehouseNotFoundException(warehouseId);
     }
 }
+
 interface InventoryTransferPort {
     List<Goods> listOf(List<Long> goodsIds);
     InventoryTransfer saveWithSerialNumber(InventoryTransfer inventoryTransfer);
@@ -104,29 +106,14 @@ record Response(Long id, String serialNumber) { }
 
 @RequiredArgsConstructor
 public class InventoryTransferService {
-    private final CreateInventoryTransferValidator createInventoryTransferValidator = new CreateInventoryTransferValidator();
+    private final CreateInventoryTransferValidator createInventoryTransferValidator;
+    private final InventoryTransferPort inventoryTransferPort;
 
     public Response create(final Request request) {
         createInventoryTransferValidator.validate(request);
         final InventoryTransfer inventoryTransfer = createInventoryTransfer(request);
-        final InventoryTransfer savedInventoryTransfer = createInventoryTransferValidator.inventoryTransferPort.saveWithSerialNumber(inventoryTransfer);
+        final InventoryTransfer savedInventoryTransfer = inventoryTransferPort.saveWithSerialNumber(inventoryTransfer);
         return new Response(savedInventoryTransfer.getId(), savedInventoryTransfer.getSerialNumber());
-    }
-
-    private void validate(final Request request) {
-        createInventoryTransferValidator.validate(request);
-    }
-
-    private void validateWarehouse(final Long warehouseId) {
-        createInventoryTransferValidator.validateWarehouse(warehouseId);
-    }
-
-    private void validateGoods(final List<CreateInventoryTransferItem> items) {
-        createInventoryTransferValidator.validateGoods(items);
-    }
-
-    private List<Long> getGoodsIds(final List<CreateInventoryTransferItem> items) {
-        return createInventoryTransferValidator.getGoodsIds(items);
     }
 
     InventoryTransfer createInventoryTransfer(final Request request) {
