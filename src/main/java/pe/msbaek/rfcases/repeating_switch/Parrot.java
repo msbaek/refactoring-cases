@@ -1,9 +1,9 @@
 package pe.msbaek.rfcases.repeating_switch;
 
 public abstract class Parrot {
-    private final ParrotTypeEnum type;
+    protected final ParrotTypeEnum type;
     private final int numberOfCoconuts;
-    private final double voltage;
+    protected final double voltage;
     private final boolean isNailed;
 
     protected Parrot(ParrotTypeEnum type, int numberOfCoconuts, double voltage, boolean isNailed) {
