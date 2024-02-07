@@ -3,6 +3,8 @@ package pe.msbaek.rfcases.repeating_switch;
 import static pe.msbaek.rfcases.repeating_switch.ParrotTypeEnum.EUROPEAN;
 
 public class EuropeanParrot extends Parrot {
+    protected final int numberOfCoconuts;
+
     public EuropeanParrot(int numberOfCoconuts, double voltage, boolean isNailed) {
         super(EUROPEAN, numberOfCoconuts, voltage, isNailed);
     }
