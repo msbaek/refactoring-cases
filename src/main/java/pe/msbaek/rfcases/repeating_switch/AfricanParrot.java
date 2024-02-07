@@ -5,8 +5,8 @@ import static pe.msbaek.rfcases.repeating_switch.ParrotTypeEnum.AFRICAN;
 public class AfricanParrot extends Parrot {
     protected final int numberOfCoconuts;
 
-    public AfricanParrot(int numberOfCoconuts, double voltage, boolean isNailed) {
-        super(AFRICAN, voltage, isNailed);
+    public AfricanParrot(int numberOfCoconuts, boolean isNailed) {
+        super(AFRICAN, isNailed);
         this.numberOfCoconuts = numberOfCoconuts;
     }
 

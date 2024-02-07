@@ -2,19 +2,17 @@ package pe.msbaek.rfcases.repeating_switch;
 
 public abstract class Parrot {
     protected final ParrotTypeEnum type;
-    protected final double voltage;
     protected final boolean isNailed;
 
-    protected Parrot(ParrotTypeEnum type, double voltage, boolean isNailed) {
+    protected Parrot(ParrotTypeEnum type, boolean isNailed) {
         this.type = type;
-        this.voltage = voltage;
         this.isNailed = isNailed;
     }
 
     public static Parrot createParrot(ParrotTypeEnum type, int numberOfCoconuts, double voltage, boolean isNailed) {
         return switch (type) {
-            case EUROPEAN -> new EuropeanParrot(voltage, isNailed);
-            case AFRICAN -> new AfricanParrot(numberOfCoconuts, voltage, isNailed);
+            case EUROPEAN -> new EuropeanParrot(isNailed);
+            case AFRICAN -> new AfricanParrot(numberOfCoconuts, isNailed);
             case NORWEGIAN_BLUE -> new NorwegianBlueParrot(voltage, isNailed);
         };
     }
