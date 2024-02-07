@@ -9,7 +9,6 @@ public class NorwegianBlueParrot extends Parrot {
 
     @Override
     public String getCry() {
-        String s = voltage > 0 ? "Bzzzzzz" : "...";
-        return s;
+        return voltage > 0 ? "Bzzzzzz" : "...";
     }
 }
