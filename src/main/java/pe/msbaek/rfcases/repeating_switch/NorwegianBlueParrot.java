@@ -9,11 +9,7 @@ public class NorwegianBlueParrot extends Parrot {
 
     @Override
     public String getCry() {
-        String s = switch (NORWEGIAN_BLUE) {
-            case EUROPEAN -> "Sqoork!";
-            case AFRICAN -> "Sqaark!";
-            case NORWEGIAN_BLUE -> voltage > 0 ? "Bzzzzzz" : "...";
-        };
+        String s = voltage > 0 ? "Bzzzzzz" : "...";
         return s;
     }
 }
