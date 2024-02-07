@@ -2,9 +2,9 @@ package pe.msbaek.rfcases.repeating_switch;
 
 public abstract class Parrot {
     protected final ParrotTypeEnum type;
-    private final int numberOfCoconuts;
+    protected final int numberOfCoconuts;
     protected final double voltage;
-    private final boolean isNailed;
+    protected final boolean isNailed;
 
     protected Parrot(ParrotTypeEnum type, int numberOfCoconuts, double voltage, boolean isNailed) {
         this.type = type;
@@ -23,15 +23,15 @@ public abstract class Parrot {
 
     public abstract double getSpeed();
 
-    private double getBaseSpeed(double voltage) {
+    protected double getBaseSpeed(double voltage) {
         return Math.min(24.0, voltage * getBaseSpeed());
     }
 
-    private double getLoadFactor() {
+    protected double getLoadFactor() {
         return 9.0;
     }
 
-    private double getBaseSpeed() {
+    protected double getBaseSpeed() {
         return 12.0;
     }
 
