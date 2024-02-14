@@ -25,6 +25,8 @@ class FanClubProductTest {
         Approvals.verify(formattedMemo);
     }
 
+    FanClubProduct fanClubProduct = new FanClubProduct();
+
     private String formatMemo(String newMemo, LocalDateTime now, Long userId, String originalMemo) {
         if (StringUtils.isBlank(newMemo)) return originalMemo;
 
