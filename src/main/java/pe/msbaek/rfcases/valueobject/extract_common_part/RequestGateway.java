@@ -8,21 +8,19 @@ interface KoreaPostDelivery {
 public class RequestGateway {
     private void extracted(final KoreaPostDelivery koreaPostDelivery, final Map<String, String> waybillRequestPairs) {
         if(false) {
-            final String vat = createVat(koreaPostDelivery);
-            if (0 < vat.length()) {
-                if ("IM".equals(vat.substring(0, 2)) || "GB".equals(vat.substring(0, 2))) {
+            if (0 < createVat(koreaPostDelivery).length()) {
+                if ("IM".equals(createVat(koreaPostDelivery).substring(0, 2)) || "GB".equals(createVat(koreaPostDelivery).substring(0, 2))) {
                     waybillRequestPairs.put("currunitcd", "USD");
                 }
             }
         } else {
-            final String vat = createVat(koreaPostDelivery);
-            if (0 < vat.length()) {
-                if ("IM".equals(vat.substring(0, 2)) || "GB".equals(vat.substring(0, 2))) {
-                    waybillRequestPairs.put("vatdscrnno", vat);
+            if (0 < createVat(koreaPostDelivery).length()) {
+                if ("IM".equals(createVat(koreaPostDelivery).substring(0, 2)) || "GB".equals(createVat(koreaPostDelivery).substring(0, 2))) {
+                    waybillRequestPairs.put("vatdscrnno", createVat(koreaPostDelivery));
                 }
             }
-            if (0 < vat.length()) {
-                if ("IM".equals(vat.substring(0, 2)) || "GB".equals(vat.substring(0, 2))) {
+            if (0 < createVat(koreaPostDelivery).length()) {
+                if ("IM".equals(createVat(koreaPostDelivery).substring(0, 2)) || "GB".equals(createVat(koreaPostDelivery).substring(0, 2))) {
                     waybillRequestPairs.put("currunitcd", "USD");
                 }
             }
