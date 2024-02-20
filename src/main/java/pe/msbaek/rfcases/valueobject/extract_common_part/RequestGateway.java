@@ -7,16 +7,14 @@ interface KoreaPostDelivery {
 
 public class RequestGateway {
     private void extracted(final KoreaPostDelivery koreaPostDelivery, final Map<String, String> waybillRequestPairs) {
-        if(false) {
-            extracted1(koreaPostDelivery, waybillRequestPairs);
-        } else {
+        if (true) {
             if (0 < createVat(koreaPostDelivery).length()) {
                 if ("IM".equals(createVat(koreaPostDelivery).substring(0, 2)) || "GB".equals(createVat(koreaPostDelivery).substring(0, 2))) {
                     waybillRequestPairs.put("vatdscrnno", createVat(koreaPostDelivery));
                 }
             }
-            extracted1(koreaPostDelivery, waybillRequestPairs);
         }
+        extracted1(koreaPostDelivery, waybillRequestPairs);
     }
 
     private void extracted1(KoreaPostDelivery koreaPostDelivery, Map<String, String> waybillRequestPairs) {
