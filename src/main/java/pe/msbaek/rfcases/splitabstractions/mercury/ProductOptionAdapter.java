@@ -116,8 +116,6 @@ public class ProductOptionAdapter {
     public void createProductOption(final List<ProductOption> options) {
         options.forEach(option -> {
             final ProductOption productOption = ProductOption.of(option);
-            productOptionRepository.save(productOption);
-
             // createProductOptionCombo(option.getOptionCombos());
             List<ProductOptionCombo> productOptionCombos = new ArrayList<>();
             if (!Objects.isNull(option.getOptionCombos())) {
@@ -126,14 +124,15 @@ public class ProductOptionAdapter {
                     productOptionCombos.add(productOptionCombo);
                 });
             }
-            optionComboRepository.saveAll(productOptionCombos);
-
             // createProductOptionValue(option.getOptionValues());
             List<ProductOptionValue> productOptionValues = new ArrayList<>();
             option.getOptionValues().forEach(optionValue -> {
                 final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
                 productOptionValues.add(productOptionValue);
             });
+
+            optionComboRepository.saveAll(productOptionCombos);
+            productOptionRepository.save(productOption);
             optionValueRepository.saveAll(productOptionValues);
         });
     }
