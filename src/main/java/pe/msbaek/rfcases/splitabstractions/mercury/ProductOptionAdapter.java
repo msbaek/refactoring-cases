@@ -112,16 +112,16 @@ public class ProductOptionAdapter {
         options.forEach(this::createOptionAndMapValues);
     }
 
-    private void persistProductOption(final ProductOption option) {
-        final ProductOption productOption = ProductOption.of(option);
-        productOptionRepository.save(productOption);
-    }
-
     private void createOptionAndMapValues(final ProductOption option) {
         persistProductOption(option);
 
         createProductOptionCombo(option.getOptionCombos());
         createProductOptionValue(option.getOptionValues());
+    }
+
+    private void persistProductOption(final ProductOption option) {
+        final ProductOption productOption = ProductOption.of(option);
+        productOptionRepository.save(productOption);
     }
 
     private void createProductOptionCombo(final List<ProductOptionCombo> optionCombos) {
