@@ -4,9 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 interface ProductOptionRepository {
     void save(ProductOption option);
@@ -112,39 +110,18 @@ public class ProductOptionAdapter {
     private final ProductOptionRepository productOptionRepository;
     private final ProductOptionComboRepository optionComboRepository;
     private final ProductOptionValueRepository optionValueRepository;
+    private final CreateProductOption createProductOption = new CreateProductOption();
 
     public void createProductOption(final List<ProductOption> options) {
         options.forEach(option -> {
-            CreateProductOptionResult result = createProductOption(option);
+            CreateProductOption.CreateProductOptionResult result = createProductOption.createProductOption(option);
             saveProductOption(result);
         });
     }
 
-    private void saveProductOption(CreateProductOptionResult result) {
+    private void saveProductOption(CreateProductOption.CreateProductOptionResult result) {
         optionComboRepository.saveAll(result.productOptionCombos());
         productOptionRepository.save(result.productOption());
         optionValueRepository.saveAll(result.productOptionValues());
-    }
-
-    private CreateProductOptionResult createProductOption(ProductOption option) {
-        final ProductOption productOption = ProductOption.of(option);
-        // createProductOptionCombo(option.getOptionCombos());
-        List<ProductOptionCombo> productOptionCombos = new ArrayList<>();
-        if (!Objects.isNull(option.getOptionCombos())) {
-            option.getOptionCombos().forEach(optionCombo -> {
-                final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
-                productOptionCombos.add(productOptionCombo);
-            });
-        }
-        // createProductOptionValue(option.getOptionValues());
-        List<ProductOptionValue> productOptionValues = new ArrayList<>();
-        option.getOptionValues().forEach(optionValue -> {
-            final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
-            productOptionValues.add(productOptionValue);
-        });
-        return new CreateProductOptionResult(productOption, productOptionCombos, productOptionValues);
-    }
-
-    private record CreateProductOptionResult(ProductOption productOption, List<ProductOptionCombo> productOptionCombos, List<ProductOptionValue> productOptionValues) {
     }
 }
