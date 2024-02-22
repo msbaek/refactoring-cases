@@ -114,9 +114,8 @@ public class ProductOptionAdapter {
             productOptionRepository.save(productOption);
 
             // createProductOptionCombo(option.getOptionCombos());
-            final List<ProductOptionCombo> optionCombos = option.getOptionCombos();
-            if (!Objects.isNull(optionCombos)) {
-                optionCombos.forEach(optionCombo -> {
+            if (!Objects.isNull(option.getOptionCombos())) {
+                option.getOptionCombos().forEach(optionCombo -> {
                     final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
                     optionComboRepository.save(productOptionCombo);
                 });
