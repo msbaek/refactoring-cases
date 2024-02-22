@@ -115,25 +115,33 @@ public class ProductOptionAdapter {
 
     public void createProductOption(final List<ProductOption> options) {
         options.forEach(option -> {
-            final ProductOption productOption = ProductOption.of(option);
-            // createProductOptionCombo(option.getOptionCombos());
-            List<ProductOptionCombo> productOptionCombos = new ArrayList<>();
-            if (!Objects.isNull(option.getOptionCombos())) {
-                option.getOptionCombos().forEach(optionCombo -> {
-                    final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
-                    productOptionCombos.add(productOptionCombo);
-                });
-            }
-            // createProductOptionValue(option.getOptionValues());
-            List<ProductOptionValue> productOptionValues = new ArrayList<>();
-            option.getOptionValues().forEach(optionValue -> {
-                final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
-                productOptionValues.add(productOptionValue);
-            });
+            CreateProductOptionResult result = createProductOption(option);
 
-            optionComboRepository.saveAll(productOptionCombos);
-            productOptionRepository.save(productOption);
-            optionValueRepository.saveAll(productOptionValues);
+            optionComboRepository.saveAll(result.productOptionCombos());
+            productOptionRepository.save(result.productOption());
+            optionValueRepository.saveAll(result.productOptionValues());
         });
+    }
+
+    private CreateProductOptionResult createProductOption(ProductOption option) {
+        final ProductOption productOption = ProductOption.of(option);
+        // createProductOptionCombo(option.getOptionCombos());
+        List<ProductOptionCombo> productOptionCombos = new ArrayList<>();
+        if (!Objects.isNull(option.getOptionCombos())) {
+            option.getOptionCombos().forEach(optionCombo -> {
+                final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
+                productOptionCombos.add(productOptionCombo);
+            });
+        }
+        // createProductOptionValue(option.getOptionValues());
+        List<ProductOptionValue> productOptionValues = new ArrayList<>();
+        option.getOptionValues().forEach(optionValue -> {
+            final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
+            productOptionValues.add(productOptionValue);
+        });
+        return new CreateProductOptionResult(productOption, productOptionCombos, productOptionValues);
+    }
+
+    private record CreateProductOptionResult(ProductOption productOption, List<ProductOptionCombo> productOptionCombos, List<ProductOptionValue> productOptionValues) {
     }
 }
