@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,10 +14,14 @@ interface ProductOptionRepository {
 
 interface ProductOptionComboRepository {
     void save(ProductOptionCombo productOptionCombo);
+
+    void saveAll(List<ProductOptionCombo> productOptionCombos);
 }
 
 interface ProductOptionValueRepository {
     void save(ProductOptionValue productOptionValue);
+
+    void saveAll(List<ProductOptionValue> productOptionValues);
 }
 
 @Getter
@@ -114,18 +119,22 @@ public class ProductOptionAdapter {
             productOptionRepository.save(productOption);
 
             // createProductOptionCombo(option.getOptionCombos());
+            List<ProductOptionCombo> productOptionCombos = new ArrayList<>();
             if (!Objects.isNull(option.getOptionCombos())) {
                 option.getOptionCombos().forEach(optionCombo -> {
                     final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
-                    optionComboRepository.save(productOptionCombo);
+                    productOptionCombos.add(productOptionCombo);
                 });
             }
+            optionComboRepository.saveAll(productOptionCombos);
 
             // createProductOptionValue(option.getOptionValues());
+            List<ProductOptionValue> productOptionValues = new ArrayList<>();
             option.getOptionValues().forEach(optionValue -> {
                 final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
-                optionValueRepository.save(productOptionValue);
+                productOptionValues.add(productOptionValue);
             });
+            optionValueRepository.saveAll(productOptionValues);
         });
     }
 }
