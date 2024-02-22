@@ -116,11 +116,14 @@ public class ProductOptionAdapter {
     public void createProductOption(final List<ProductOption> options) {
         options.forEach(option -> {
             CreateProductOptionResult result = createProductOption(option);
-
-            optionComboRepository.saveAll(result.productOptionCombos());
-            productOptionRepository.save(result.productOption());
-            optionValueRepository.saveAll(result.productOptionValues());
+            saveProductOption(result);
         });
+    }
+
+    private void saveProductOption(CreateProductOptionResult result) {
+        optionComboRepository.saveAll(result.productOptionCombos());
+        productOptionRepository.save(result.productOption());
+        optionValueRepository.saveAll(result.productOptionValues());
     }
 
     private CreateProductOptionResult createProductOption(ProductOption option) {
