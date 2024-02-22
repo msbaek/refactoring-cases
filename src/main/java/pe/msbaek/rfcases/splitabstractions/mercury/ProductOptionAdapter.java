@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +20,7 @@ interface ProductOptionValueRepository {
 }
 
 @Getter
-class ProductOption{
+class ProductOption {
     private List<ProductOptionValue> optionValues;
     private List<ProductOptionCombo> optionCombos;
 
@@ -47,6 +46,7 @@ class ProductOptionValue {
     private Float displayOrder;
     private boolean deleted;
     private boolean isDeleteFromCart;
+
     @Builder
     public ProductOptionValue(ProductOptionValueId productOptionValueId, String optionValueName, Long referenceProductNo, Float displayOrder, boolean deleted, boolean isDeleteFromCart) {
         this.productOptionValueId = productOptionValueId;
@@ -109,34 +109,24 @@ public class ProductOptionAdapter {
     private final ProductOptionValueRepository optionValueRepository;
 
     public void createProductOption(final List<ProductOption> options) {
-        options.forEach(this::createOptionAndMapValues);
-    }
+        options.forEach(option -> {
+            final ProductOption productOption = ProductOption.of(option);
+            productOptionRepository.save(productOption);
 
-    private void createOptionAndMapValues(final ProductOption option) {
-        persistProductOption(option);
+            // createProductOptionCombo(option.getOptionCombos());
+            final List<ProductOptionCombo> optionCombos = option.getOptionCombos();
+            if (!Objects.isNull(optionCombos)) {
+                optionCombos.forEach(optionCombo -> {
+                    final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
+                    optionComboRepository.save(productOptionCombo);
+                });
+            }
 
-        createProductOptionCombo(option.getOptionCombos());
-        createProductOptionValue(option.getOptionValues());
-    }
-
-    private void persistProductOption(final ProductOption option) {
-        final ProductOption productOption = ProductOption.of(option);
-        productOptionRepository.save(productOption);
-    }
-
-    private void createProductOptionCombo(final List<ProductOptionCombo> optionCombos) {
-        if (Objects.isNull(optionCombos)) return;
-
-        optionCombos.forEach(optionCombo -> {
-            final ProductOptionCombo productOptionCombo = ProductOptionCombo.of(optionCombo);
-            optionComboRepository.save(productOptionCombo);
-        });
-    }
-
-    private void createProductOptionValue(final List<ProductOptionValue> optionValues) {
-        optionValues.forEach(optionValue -> {
-            final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
-            optionValueRepository.save(productOptionValue);
+            // createProductOptionValue(option.getOptionValues());
+            option.getOptionValues().forEach(optionValue -> {
+                final ProductOptionValue productOptionValue = ProductOptionValue.of(optionValue);
+                optionValueRepository.save(productOptionValue);
+            });
         });
     }
 }
