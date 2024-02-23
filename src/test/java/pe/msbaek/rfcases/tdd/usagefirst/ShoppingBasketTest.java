@@ -23,6 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Then remove the "Ignore" marking on the test that's here and hopefully it will pass!
  */
 public class ShoppingBasketTest {
+    @Test
+    void empty_basket() {
+        ShoppingBasket basket = new ShoppingBasket();
+        assertThat(basket.getQuantity("A")).isEqualTo(0);
+    }
+
     @DisplayName("총 금액이 $100 초과 시 5% 할인 제공")
     @Disabled("WIP")
     @Test
