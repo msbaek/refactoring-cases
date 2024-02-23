@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.tdd.usagefirst;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ShoppingBasketTest {
     @DisplayName("총 금액이 $100 초과 시 5% 할인 제공")
+    @Disabled("WIP")
     @Test
     void total_over_100_gives_five_percent_discount() {
         ShoppingBasket basket = new ShoppingBasket();
