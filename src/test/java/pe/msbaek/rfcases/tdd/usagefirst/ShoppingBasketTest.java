@@ -9,6 +9,19 @@ import java.math.RoundingMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Implement tests in this order:
+ * <p>
+ * Empty basket - basket contains no items
+ * one item "A" - basket contains 1 item "A"
+ * two items "A" - basket contains 2 items "A"
+ * two items, "A" and "B" - basket contains 1 item "A"
+ * Empty basket - total price 0
+ * "A" costs $10, basket contains one "A" - total $10
+ * "D" costs $160, basket contains one "D" - total $152 (5% discount)
+ * "E" costs $250, basket contains one "E" - total $225 (10% discount)
+ * Then remove the "Ignore" marking on the test that's here and hopefully it will pass!
+ */
 public class ShoppingBasketTest {
     @DisplayName("총 금액이 $100 초과 시 5% 할인 제공")
     @Disabled("WIP")
