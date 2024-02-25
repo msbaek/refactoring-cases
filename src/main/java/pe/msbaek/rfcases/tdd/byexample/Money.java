@@ -2,9 +2,11 @@ package pe.msbaek.rfcases.tdd.byexample;
 
 public abstract class Money {
     protected int amount;
+    private final String currency;
 
-    protected Money(int amount) {
+    protected Money(int amount, String currency) {
         this.amount = amount;
+        this.currency = currency;
     }
 
     public static Dollar dollar(int amount) {
@@ -27,5 +29,7 @@ public abstract class Money {
         return this.amount;
     }
 
-    public abstract String currency();
+    public String currency() {
+        return this.currency;
+    }
 }

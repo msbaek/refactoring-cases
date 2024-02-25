@@ -7,16 +7,11 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public class Dollar extends Money {
     protected Dollar(int amount) {
-        super(amount);
+        super(amount, "USD");
     }
 
     @Override
     public Dollar times(int times) {
         return Money.dollar(this.amount * times);
-    }
-
-    @Override
-    public String currency() {
-        return "USD";
     }
 }
