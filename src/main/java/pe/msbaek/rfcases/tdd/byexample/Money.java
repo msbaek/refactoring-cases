@@ -13,8 +13,8 @@ public class Money {
 
     @Override
     public boolean equals(Object obj) {
-        Dollar dollar = (Dollar) obj;
-        return dollar.amount == this.amount;
+        Money money = (Money) obj;
+        return money.amount == this.amount;
     }
 
     public int amount() {
