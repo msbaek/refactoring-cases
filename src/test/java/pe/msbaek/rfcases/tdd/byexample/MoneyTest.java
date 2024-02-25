@@ -24,14 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MoneyTest {
     @Test
     void testMultiplication() {
-        Dollar five = Money.dollar(5);
+        Money five = Money.dollar(5);
         assertThat(five.times(2)).isEqualTo(Money.dollar(10));
         assertThat(five.times(3)).isEqualTo(Money.dollar(15));
     }
 
     @Test
     void testFrancMultiplication() {
-        Franc five = Money.franc(5);
+        Money five = Money.franc(5);
         assertThat(five.times(2)).isEqualTo(Money.franc(10));
         assertThat(five.times(3)).isEqualTo(Money.franc(15));
     }
@@ -52,7 +52,7 @@ public class MoneyTest {
 
     @Test
     void testDifferentClassEquality() {
-        assertThat(new Money(10, "CHF")).isEqualTo(new Franc(10));
-        assertThat(new Money(10, "USD")).isNotEqualTo(new Franc(10));
+        assertThat(Money.franc(10)).isEqualTo(Money.franc(10));
+        assertThat(Money.dollar(10)).isNotEqualTo(Money.franc(10));
     }
 }
