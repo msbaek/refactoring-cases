@@ -12,8 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X equals
  * X dollar, franc 중복
  * X 통화
+ * X times dup.
  *
- * times dup.
+ * test different class equality
  * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
