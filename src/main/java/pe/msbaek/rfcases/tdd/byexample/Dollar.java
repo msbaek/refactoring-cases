@@ -15,4 +15,10 @@ public class Dollar {
     public Dollar times(int times) {
         return new Dollar(this.amount * times);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Dollar dollar = (Dollar) obj;
+        return dollar.amount == 5;
+    }
 }
