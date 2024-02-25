@@ -8,7 +8,7 @@ public class ShoppingBasket {
     }
 
     public int getQuantity(String itemName) {
-        throw new UnsupportedOperationException("ShoppingBasket#getQuantity Not implemented yet");
+        return 0;
     }
 
     public BigDecimal calculateTotal() {
