@@ -9,4 +9,9 @@ public class Dollar extends Money {
     protected Dollar(int amount) {
         super(amount);
     }
+
+    @Override
+    public Dollar times(int times) {
+        return Money.dollar(this.amount * times);
+    }
 }
