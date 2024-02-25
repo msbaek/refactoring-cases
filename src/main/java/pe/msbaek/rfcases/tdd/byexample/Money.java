@@ -24,8 +24,8 @@ public class Money {
     @Override
     public boolean equals(Object obj) {
         Money money = (Money) obj;
-        return money.amount == this.amount;
-    }
+        return money.amount == this.amount && this.currency.equals(money.currency);
+     }
 
     public int amount() {
         return this.amount;
