@@ -26,4 +26,6 @@ public abstract class Money {
     public int amount() {
         return this.amount;
     }
+
+    public abstract String currency();
 }
