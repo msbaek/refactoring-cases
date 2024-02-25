@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X Dollar 부작용(Value Object)
  * X equals
  *
+ * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
  * Equal object
@@ -22,6 +23,13 @@ public class MoneyTest {
         Dollar five = new Dollar(5);
         assertThat(five.times(2)).isEqualTo(new Dollar(10));
         assertThat(five.times(3)).isEqualTo(new Dollar(15));
+    }
+
+    @Test
+    void testFrancMultiplication() {
+        Franc five = new Franc(5);
+        assertThat(five.times(2)).isEqualTo(new Franc(10));
+        assertThat(five.times(3)).isEqualTo(new Franc(15));
     }
 
     @Test
