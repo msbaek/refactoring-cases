@@ -12,7 +12,7 @@ public class ShoppingBasket {
     }
 
     public int getQuantity(String itemName) {
-        return items.getOrDefault(new BasketItem(itemName, BigDecimal.ZERO), 0);
+        return items.getOrDefault(BasketItem.of(itemName, BigDecimal.ZERO), 0);
     }
 
     public BigDecimal calculateTotal() {

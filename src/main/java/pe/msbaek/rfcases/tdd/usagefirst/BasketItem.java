@@ -13,8 +13,12 @@ public class BasketItem {
     private final String itemName;
     private final BigDecimal price;
 
-    public BasketItem(String itemName, BigDecimal price) {
+    private BasketItem(String itemName, BigDecimal price) {
         this.itemName = itemName;
         this.price = price;
+    }
+
+    public static BasketItem of(String itemName, BigDecimal price) {
+        return new BasketItem(itemName, price);
     }
 }

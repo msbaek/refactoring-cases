@@ -39,7 +39,7 @@ public class ShoppingBasketTest {
 
     @Test
     void one_item_A() {
-        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
+        BasketItem itemA = BasketItem.of("A", BigDecimal.valueOf(10));
         basket.add(itemA, 1);
         assertThat(basket.getQuantity("A")).isEqualTo(1);
         assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(10.00)));
@@ -47,7 +47,7 @@ public class ShoppingBasketTest {
 
     @Test
     void two_items_A() {
-        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
+        BasketItem itemA = BasketItem.of("A", BigDecimal.valueOf(10));
         basket.add(itemA, 2);
         assertThat(basket.getQuantity("A")).isEqualTo(2);
         assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(20.00)));
@@ -55,8 +55,8 @@ public class ShoppingBasketTest {
 
     @Test
     void two_items_A_and_B() {
-        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
-        BasketItem itemB = new BasketItem("B", BigDecimal.valueOf(25));
+        BasketItem itemA = BasketItem.of("A", BigDecimal.valueOf(10));
+        BasketItem itemB = BasketItem.of("B", BigDecimal.valueOf(25));
         basket.add(itemA, 1);
         basket.add(itemB, 1);
         assertThat(basket.getQuantity("A")).isEqualTo(1);
@@ -73,9 +73,9 @@ public class ShoppingBasketTest {
     @Test
     void total_over_100_gives_five_percent_discount() {
         ShoppingBasket basket = new ShoppingBasket();
-        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
-        BasketItem itemB = new BasketItem("B", BigDecimal.valueOf(25));
-        BasketItem itemC = new BasketItem("C", BigDecimal.valueOf(9.99));
+        BasketItem itemA = BasketItem.of("A", BigDecimal.valueOf(10));
+        BasketItem itemB = BasketItem.of("B", BigDecimal.valueOf(25));
+        BasketItem itemC = BasketItem.of("C", BigDecimal.valueOf(9.99));
         basket.add(itemA, 5);
         basket.add(itemB, 2);
         basket.add(itemC, 6);
