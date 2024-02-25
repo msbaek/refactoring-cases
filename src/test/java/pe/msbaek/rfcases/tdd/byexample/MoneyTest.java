@@ -9,8 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * X $5 × 2 = $10
  * X Dollar 부작용(Value Object)
+ * X equals
  *
- * equals
  * hashCode
  * BigDecimal 도입
  */
