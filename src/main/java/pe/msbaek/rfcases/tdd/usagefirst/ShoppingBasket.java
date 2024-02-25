@@ -16,6 +16,8 @@ public class ShoppingBasket {
     }
 
     public BigDecimal calculateTotal() {
-        return BigDecimal.valueOf(10.0);
+        return items.entrySet().stream()
+                .map(entry -> entry.getKey().price().multiply(BigDecimal.valueOf(entry.getValue())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
