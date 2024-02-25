@@ -6,13 +6,13 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 public class Dollar {
-    private final int amount;
+    private int amount;
 
     public Dollar(int amount) {
         this.amount = amount;
     }
 
     public void times(int times) {
-        throw new UnsupportedOperationException("Dollar#times Not implemented yet");
+        this.amount *= times;
     }
 }
