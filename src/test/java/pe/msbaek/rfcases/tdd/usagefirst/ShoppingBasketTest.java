@@ -53,6 +53,17 @@ public class ShoppingBasketTest {
         assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(20.00)));
     }
 
+    @Test
+    void two_items_A_and_B() {
+        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
+        BasketItem itemB = new BasketItem("B", BigDecimal.valueOf(25));
+        basket.add(itemA, 1);
+        basket.add(itemB, 1);
+        assertThat(basket.getQuantity("A")).isEqualTo(1);
+        assertThat(basket.getQuantity("B")).isEqualTo(1);
+        assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(35.00)));
+    }
+
     private BigDecimal getBigDecimal(BigDecimal bigDecimal) {
         return bigDecimal.setScale(2, RoundingMode.HALF_UP);
     }
