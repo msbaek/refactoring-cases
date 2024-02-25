@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X Dollar 부작용(Value Object)
  * X equals
  *
+ * dollar, franc 중복
  * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
