@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 public class Dollar extends Money {
-    public Dollar(int amount) {
+    protected Dollar(int amount) {
         super(amount);
     }
 }

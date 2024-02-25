@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X equals
  * X dollar, franc 중복
  *
+ * 통화
  * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
@@ -21,23 +22,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MoneyTest {
     @Test
     void testMultiplication() {
-        Dollar five = new Dollar(5);
-        assertThat(five.times(2)).isEqualTo(new Dollar(10));
-        assertThat(five.times(3)).isEqualTo(new Dollar(15));
+        Dollar five = Money.dollar(5);
+        assertThat(five.times(2)).isEqualTo(Money.dollar(10));
+        assertThat(five.times(3)).isEqualTo(Money.dollar(15));
     }
 
     @Test
     void testFrancMultiplication() {
-        Franc five = new Franc(5);
-        assertThat(five.times(2)).isEqualTo(new Franc(10));
-        assertThat(five.times(3)).isEqualTo(new Franc(15));
+        Franc five = Money.franc(5);
+        assertThat(five.times(2)).isEqualTo(Money.franc(10));
+        assertThat(five.times(3)).isEqualTo(Money.franc(15));
     }
 
     @Test
     void testEquality() {
-        assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
-        assertThat(new Dollar(6)).isNotEqualTo(new Dollar(5));
-        assertThat(new Franc(5)).isEqualTo(new Franc(5));
-        assertThat(new Franc(6)).isNotEqualTo(new Franc(5));
+        assertThat(Money.dollar(5)).isEqualTo(Money.dollar(5));
+        assertThat(Money.dollar(6)).isNotEqualTo(Money.dollar(5));
+        assertThat(Money.franc(5)).isEqualTo(Money.franc(5));
+        assertThat(Money.franc(6)).isNotEqualTo(Money.franc(5));
     }
 }

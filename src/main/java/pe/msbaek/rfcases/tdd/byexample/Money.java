@@ -3,12 +3,20 @@ package pe.msbaek.rfcases.tdd.byexample;
 public class Money {
     protected int amount;
 
-    public Money(int amount) {
+    protected Money(int amount) {
         this.amount = amount;
     }
 
+    public static Dollar dollar(int amount) {
+        return new Dollar(amount);
+    }
+
+    public static Franc franc(int amount) {
+        return new Franc(amount);
+    }
+
     public Dollar times(int times) {
-        return new Dollar(this.amount * times);
+        return Money.dollar(this.amount * times);
     }
 
     @Override
