@@ -10,8 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X $5 × 2 = $10
  * X Dollar 부작용(Value Object)
  * X equals
+ * X dollar, franc 중복
  *
- * dollar, franc 중복
  * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
