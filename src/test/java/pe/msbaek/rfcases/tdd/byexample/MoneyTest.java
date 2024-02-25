@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X equals
  *
  * hashCode
+ * Equal null
+ * Equal object
  * BigDecimal 도입
  */
 public class MoneyTest {
