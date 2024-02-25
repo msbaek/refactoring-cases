@@ -29,6 +29,15 @@ public class ShoppingBasketTest {
         assertThat(basket.getQuantity("A")).isEqualTo(0);
     }
 
+    @Test
+    void one_item_A() {
+        ShoppingBasket basket = new ShoppingBasket();
+        BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
+        basket.add(itemA, 1);
+        assertThat(basket.getQuantity("A")).isEqualTo(1);
+        assertThat(basket.calculateTotal().setScale(2, RoundingMode.HALF_UP)).isEqualTo(10);
+    }
+
     @DisplayName("총 금액이 $100 초과 시 5% 할인 제공")
     @Disabled("WIP")
     @Test
