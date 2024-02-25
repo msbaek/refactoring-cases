@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.tdd.usagefirst;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,19 +24,29 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Then remove the "Ignore" marking on the test that's here and hopefully it will pass!
  */
 public class ShoppingBasketTest {
+
+    private ShoppingBasket basket;
+
+    @BeforeEach
+    void setUp() {
+        basket = new ShoppingBasket();
+    }
+
     @Test
     void empty_basket() {
-        ShoppingBasket basket = new ShoppingBasket();
         assertThat(basket.getQuantity("A")).isEqualTo(0);
     }
 
     @Test
     void one_item_A() {
-        ShoppingBasket basket = new ShoppingBasket();
         BasketItem itemA = new BasketItem("A", BigDecimal.valueOf(10));
         basket.add(itemA, 1);
         assertThat(basket.getQuantity("A")).isEqualTo(1);
-        assertThat(basket.calculateTotal().setScale(2, RoundingMode.HALF_UP)).isEqualTo(BigDecimal.valueOf(10.00).setScale(2, RoundingMode.HALF_UP));
+        assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(10.00)));
+    }
+
+    private BigDecimal getBigDecimal(BigDecimal bigDecimal) {
+        return bigDecimal.setScale(2, RoundingMode.HALF_UP);
     }
 
     @DisplayName("총 금액이 $100 초과 시 5% 할인 제공")
@@ -50,6 +61,6 @@ public class ShoppingBasketTest {
         basket.add(itemB, 2);
         basket.add(itemC, 6);
         assertThat(basket.getQuantity("C")).isEqualTo(6);
-        assertThat(basket.calculateTotal().setScale(2, RoundingMode.HALF_UP)).isEqualTo(151.94);
+        assertThat(getBigDecimal(basket.calculateTotal())).isEqualTo(getBigDecimal(BigDecimal.valueOf(151.94)));
     }
 }
