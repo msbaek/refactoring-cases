@@ -1,8 +1,8 @@
 package pe.msbaek.rfcases.tdd.byexample;
 
-public abstract class Money {
+public class Money {
     protected int amount;
-    private final String currency;
+    protected final String currency;
 
     protected Money(int amount, String currency) {
         this.amount = amount;
@@ -17,7 +17,9 @@ public abstract class Money {
         return new Franc(amount);
     }
 
-    public abstract Money times(int times);
+    public Money times(int times) {
+        return new Money(this.amount * times, this.currency);
+    }
 
     @Override
     public boolean equals(Object obj) {
