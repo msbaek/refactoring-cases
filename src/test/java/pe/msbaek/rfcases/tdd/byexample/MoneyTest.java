@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X equals
  * X dollar, franc 중복
  *
- * 통화
+ * X 통화
  * 5CHF X 2 = 10CHF
  * hashCode
  * Equal null
