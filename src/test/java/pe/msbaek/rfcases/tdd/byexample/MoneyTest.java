@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X test different class equality
  * X $5 + $5 = $10
  * X $5 + $5에서 Money 반환하기
- * Bank.reduce(Money)
+ * X Bank.reduce(Money)
  *
  * 5CHF X 2 = 10CHF
  * hashCode
