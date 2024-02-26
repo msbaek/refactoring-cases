@@ -56,4 +56,10 @@ public class MoneyTest {
         assertThat(Money.franc(10)).isEqualTo(Money.franc(10));
         assertThat(Money.dollar(10)).isNotEqualTo(Money.franc(10));
     }
+
+    @Test
+    void testSimpleAddition() {
+        Money sum = Money.dollar(5).plus(Money.dollar(5));
+        assertThat(sum).isEqualTo(Money.dollar(10));
+    }
 }
