@@ -128,4 +128,15 @@ public class MoneyTest {
         Money result = bank.reduce(sum, "USD");
         assertThat(result).isEqualTo(Money.dollar(15));
     }
+
+    @Test
+    void testSumTimes() {
+        Expression fiveBucks = Money.dollar(5);
+        Expression tenFrancs = Money.franc(10);
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        Expression sum = new Sum(fiveBucks, tenFrancs).times(2);
+        Money result = bank.reduce(sum, "USD");
+        assertThat(result).isEqualTo(Money.dollar(20));
+    }
 }
