@@ -1,6 +1,6 @@
 package pe.msbaek.rfcases.tdd.byexample;
 
-public class Money {
+public class Money implements Expression {
     protected int amount;
     protected final String currency;
 
@@ -35,7 +35,7 @@ public class Money {
         return this.currency;
     }
 
-    public Money plus(Money added) {
+    public Expression plus(Money added) {
         return new Money(this.amount + added.amount, this.currency);
     }
 }
