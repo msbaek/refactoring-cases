@@ -4,7 +4,7 @@ public class Money implements Expression {
     protected int amount;
     protected final String currency;
 
-    private Money(int amount, String currency) {
+    protected Money(int amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }

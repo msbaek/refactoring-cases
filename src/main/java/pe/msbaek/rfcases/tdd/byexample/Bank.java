@@ -1,7 +1,9 @@
 package pe.msbaek.rfcases.tdd.byexample;
 
 public class Bank {
-    public Money reduce(Expression sum, String to) {
-        return Money.dollar(10);
+    public Money reduce(Expression source, String to) {
+        Sum sum = (Sum) source;
+        int amount = sum.augend.amount + sum.addend.amount;
+        return new Money(amount, to);
     }
 }
