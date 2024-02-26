@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X 통화
  * X times dup.
  * X test different class equality
+ * $5 + $5 = $10
  *
  * 5CHF X 2 = 10CHF
  * hashCode
