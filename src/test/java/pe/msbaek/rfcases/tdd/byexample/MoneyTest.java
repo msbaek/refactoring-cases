@@ -1,9 +1,6 @@
 package pe.msbaek.rfcases.tdd.byexample;
 
-import org.apache.commons.lang3.math.Fraction;
 import org.junit.jupiter.api.Test;
-
-import javax.sound.midi.Soundbank;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -102,5 +99,10 @@ public class MoneyTest {
         bank.addRate("CHF", "USD", 2);
         Money result = bank.reduce(Money.franc(2), "USD");
         assertThat(result).isEqualTo(Money.dollar(1));
+    }
+
+    @Test
+    void testArrayEquals() {
+        assertThat(new Object[] {"abc"}).isEqualTo(new Object[] {"abc"});
     }
 }
