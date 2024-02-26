@@ -34,4 +34,8 @@ public class Money {
     public String currency() {
         return this.currency;
     }
+
+    public Money plus(Money added) {
+        return new Money(this.amount + added.amount, this.currency);
+    }
 }
