@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * X 통화
  * X times dup.
  * X test different class equality
- * $5 + $5 = $10
- * $5 + $5에서 Money 반환하기
+ * X $5 + $5 = $10
+ * X $5 + $5에서 Money 반환하기
  *
  * 5CHF X 2 = 10CHF
  * hashCode
@@ -77,5 +77,13 @@ public class MoneyTest {
         Sum sum = (Sum) result;
         assertThat(sum.augend).isEqualTo(five);
         assertThat(sum.addend).isEqualTo(five);
+    }
+
+    @Test
+    void testReduceSum() {
+        Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum, "USD");
+        assertThat(result).isEqualTo(Money.dollar(7));
     }
 }
