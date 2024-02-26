@@ -25,7 +25,7 @@ public class Money implements Expression {
     public boolean equals(Object obj) {
         Money money = (Money) obj;
         return money.amount == this.amount && this.currency.equals(money.currency);
-     }
+    }
 
     public int amount() {
         return this.amount;
@@ -40,6 +40,9 @@ public class Money implements Expression {
     }
 
     public Money reduce(String to) {
-        return this;
+        int rate = currency.equals("CHF") && to.equals("USD")
+                ? 2
+                : 1;
+        return new Money(amount / rate, to);
     }
 }
