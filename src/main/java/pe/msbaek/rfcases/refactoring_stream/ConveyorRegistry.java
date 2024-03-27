@@ -15,6 +15,7 @@ interface ShippingItem {
 
     Long getQty();
 }
+
 public class ConveyorRegistry {
     /**
      * @param itemOptions   검수 단계에서 측정된 실제 무게를 가져오기 위한 아이템 정보
@@ -36,11 +37,8 @@ public class ConveyorRegistry {
     }
 
     private Optional<ItemOption> getItemOption(List<ItemOption> itemOptions, Long itemId) {
-        for (ItemOption itemOption : itemOptions) {
-            if (Objects.equals(itemOption.getId(), itemId)) {
-                return Optional.of(itemOption);
-            }
-        }
-        return Optional.empty();
+        return itemOptions.stream()
+                .filter(itemOption -> Objects.equals(itemOption.getId(), itemId))
+                .findFirst();
     }
 }
