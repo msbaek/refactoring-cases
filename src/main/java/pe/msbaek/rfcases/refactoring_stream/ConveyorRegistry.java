@@ -26,18 +26,23 @@ public class ConveyorRegistry {
         for (ShippingItem shippingItem : shippingItems) {
             final Long itemId = shippingItem.getItemId();
             final Long qty = shippingItem.getQty();
-            Optional<ItemOption> found = Optional.empty();
-            for (ItemOption itemOption : itemOptions) {
-                if (Objects.equals(itemOption.getId(), itemId)) {
-                    found = Optional.of(itemOption);
-                    break;
-                }
-            }
+            Optional<ItemOption> found = getItemOption(itemOptions, itemId);
             long l = found
                     .map(ItemOption::getWeight)
                     .orElse(0L) * qty;
             sum += l;
         }
         return sum;
+    }
+
+    private Optional<ItemOption> getItemOption(List<ItemOption> itemOptions, Long itemId) {
+        Optional<ItemOption> found = Optional.empty();
+        for (ItemOption itemOption : itemOptions) {
+            if (Objects.equals(itemOption.getId(), itemId)) {
+                found = Optional.of(itemOption);
+                break;
+            }
+        }
+        return found;
     }
 }
