@@ -36,13 +36,11 @@ public class ConveyorRegistry {
     }
 
     private Optional<ItemOption> getItemOption(List<ItemOption> itemOptions, Long itemId) {
-        Optional<ItemOption> found = Optional.empty();
         for (ItemOption itemOption : itemOptions) {
             if (Objects.equals(itemOption.getId(), itemId)) {
-                found = Optional.of(itemOption);
-                break;
+                return Optional.of(itemOption);
             }
         }
-        return found;
+        return Optional.empty();
     }
 }
