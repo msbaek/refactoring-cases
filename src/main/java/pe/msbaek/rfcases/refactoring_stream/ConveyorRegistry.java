@@ -2,6 +2,7 @@ package pe.msbaek.rfcases.refactoring_stream;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 interface ItemOption {
     Long getId();
@@ -21,16 +22,22 @@ public class ConveyorRegistry {
      * @return 전체 무게를 반환.
      */
     public Long calculateTotalWeight(final List<ItemOption> itemOptions, final List<ShippingItem> shippingItems) {
-        return shippingItems.stream()
-                .mapToLong(shippingItem -> {
-                    final Long itemId = shippingItem.getItemId();
-                    final Long qty = shippingItem.getQty();
-                    return itemOptions.stream()
-                            .filter(itemOption -> Objects.equals(itemOption.getId(), itemId))
-                            .findFirst()
-                            .map(ItemOption::getWeight)
-                            .orElse(0L) * qty;
-                })
-                .sum();
+        long sum = 0L;
+        for (ShippingItem shippingItem : shippingItems) {
+            final Long itemId = shippingItem.getItemId();
+            final Long qty = shippingItem.getQty();
+            Optional<ItemOption> found = Optional.empty();
+            for (ItemOption itemOption : itemOptions) {
+                if (Objects.equals(itemOption.getId(), itemId)) {
+                    found = Optional.of(itemOption);
+                    break;
+                }
+            }
+            long l = found
+                    .map(ItemOption::getWeight)
+                    .orElse(0L) * qty;
+            sum += l;
+        }
+        return sum;
     }
 }
