@@ -26,12 +26,4 @@ public class ConveyorRegistry {
     public Long calculateTotalWeight(final List<ItemOption> itemOptions, final List<ShippingItem> shippingItems) {
         return shippingCalculator.calculateTotalWeight(itemOptions, shippingItems);
     }
-
-    private long subTotal(List<ItemOption> itemOptions, ShippingItem shippingItem) {
-        return shippingCalculator.subTotal(itemOptions, shippingItem);
-    }
-
-    private Optional<ItemOption> getItemOption(List<ItemOption> itemOptions, Long itemId) {
-        return shippingCalculator.getItemOption(itemOptions, itemId);
-    }
 }
