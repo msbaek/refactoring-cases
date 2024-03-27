@@ -23,11 +23,9 @@ public class ConveyorRegistry {
      * @return 전체 무게를 반환.
      */
     public Long calculateTotalWeight(final List<ItemOption> itemOptions, final List<ShippingItem> shippingItems) {
-        long sum = 0L;
-        for (ShippingItem shippingItem : shippingItems) {
-            sum += subTotal(itemOptions, shippingItem);
-        }
-        return sum;
+        return shippingItems.stream()
+                .map(shippingItem -> subTotal(itemOptions, shippingItem))
+                .reduce(0L, Long::sum);
     }
 
     private long subTotal(List<ItemOption> itemOptions, ShippingItem shippingItem) {
