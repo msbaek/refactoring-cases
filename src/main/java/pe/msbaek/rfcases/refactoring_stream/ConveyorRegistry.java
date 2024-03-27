@@ -1,7 +1,6 @@
 package pe.msbaek.rfcases.refactoring_stream;
 
 import java.util.List;
-import java.util.Optional;
 
 interface ItemOption {
     Long getId();

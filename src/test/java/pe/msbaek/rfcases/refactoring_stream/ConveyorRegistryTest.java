@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.refactoring_stream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -62,9 +63,15 @@ class ShippingItemBuilder {
 }
 
 class ConveyorRegistryTest {
+    private ShippingCalculator shippingCalculator;
+
+    @BeforeEach
+    void setUp() {
+        shippingCalculator = new ShippingCalculator();
+    }
+
     @Test
     public void testCalculateTotalWeight() {
-        ConveyorRegistry conveyorRegistry = new ConveyorRegistry();
         List<ItemOption> itemOptions = Arrays.asList(
                 anItemOption().id(1L).weight(2L).build(),
                 anItemOption().id(2L).weight(3L).build()
@@ -76,7 +83,7 @@ class ConveyorRegistryTest {
         );
         Long expectedTotalWeight = 2L * 2L + 3L * 3L;
 
-        Long actualTotalWeight = conveyorRegistry.calculateTotalWeight(itemOptions, shippingItems);
+        Long actualTotalWeight = shippingCalculator.calculateTotalWeight(itemOptions, shippingItems);
 
         assertEquals(expectedTotalWeight, actualTotalWeight);
     }
