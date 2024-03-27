@@ -25,12 +25,16 @@ public class ConveyorRegistry {
     public Long calculateTotalWeight(final List<ItemOption> itemOptions, final List<ShippingItem> shippingItems) {
         long sum = 0L;
         for (ShippingItem shippingItem : shippingItems) {
-            long l = getItemOption(itemOptions, shippingItem.getItemId())
-                    .map(ItemOption::getWeight)
-                    .orElse(0L) * shippingItem.getQty();
+            long l = subTotal(itemOptions, shippingItem);
             sum += l;
         }
         return sum;
+    }
+
+    private long subTotal(List<ItemOption> itemOptions, ShippingItem shippingItem) {
+        return getItemOption(itemOptions, shippingItem.getItemId())
+                .map(ItemOption::getWeight)
+                .orElse(0L) * shippingItem.getQty();
     }
 
     private Optional<ItemOption> getItemOption(List<ItemOption> itemOptions, Long itemId) {
