@@ -6,6 +6,7 @@ public final class ApplicationService {
     private final LoadWarehousePort loadWarehousePort1;
     private final CarrierPort carrierPort1;
     private final LoadInventoryLpnPort loadInventoryLpnPort1;
+    private final DomainService domainService = new DomainService();
 
     public ApplicationService(LoadWarehousePort loadWarehousePort1, CarrierPort carrierPort1,
                               LoadInventoryLpnPort loadInventoryLpnPort1) {
@@ -23,18 +24,7 @@ public final class ApplicationService {
         final List<InventoryWarehouse> inventoryWarehouses = loadInventoryLpnPort1.findBy(request.fromWarehouseId(), itemsToTransfer.stream().map(ItemToTransfer::itemId).toList());
 
         //todo: 도메인 서비스로 분리
-        final Shipping shipping = createShipping(itemsToTransfer, inventoryWarehouses);
+        final Shipping shipping = domainService.createShipping(itemsToTransfer, inventoryWarehouses);
         return new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
-    }
-
-    private Shipping createShipping(List<ItemToTransfer> itemsToTransfer, List<InventoryWarehouse> inventoryWarehouses) {
-        itemsToTransfer.forEach(item1 -> inventoryWarehouses.stream()
-                .filter(inventory -> inventory.getItemId().equals(item1.itemId()))
-                .findFirst()
-                .orElseThrow()
-                .subtractQuantity(item1.qty()));
-        final Shipping shipping = new Shipping(1L, null);
-        itemsToTransfer.forEach(item -> shipping.addShippingItem(item.itemId(), item.qty()));
-        return shipping;
     }
 }
