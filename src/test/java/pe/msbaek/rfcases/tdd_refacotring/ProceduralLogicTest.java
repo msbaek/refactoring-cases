@@ -99,7 +99,7 @@ public class ProceduralLogicTest {
         final InventoryTransferOrderRequest request = new InventoryTransferOrderRequest(fromWarehouseId, toWarehouseId, Instant.now(), carrierId, "노트", List.of(itemRequest1, itemRequest2));
 
 
-        final InventoryTransferOrder inventoryTransferOrder = getInventoryTransferOrder(request);
+        final InventoryTransferOrder inventoryTransferOrder = getInventoryTransferOrder(request, loadWarehousePort, carrierPort, loadInventoryLpnPort);
 
         // then
         assertThat(inventoryTransferOrder.getFromWarehouseId()).isEqualTo(fromWarehouseId);
@@ -107,13 +107,13 @@ public class ProceduralLogicTest {
         assertThat(inventoryTransferOrder.getShipping().getShippingItems()).hasSize(2);
     }
 
-    private InventoryTransferOrder getInventoryTransferOrder(InventoryTransferOrderRequest request) {
+    private InventoryTransferOrder getInventoryTransferOrder(InventoryTransferOrderRequest request, LoadWarehousePort loadWarehousePort1, CarrierPort carrierPort1, LoadInventoryLpnPort loadInventoryLpnPort1) {
         // when // todo: application 서비스로 extract
         final List<ItemToTransfer> itemsToTransfer = request.getItemsToCreate();
-        final Warehouse toWarehouse = loadWarehousePort.getBy(request.toWarehouseId());
-        final Warehouse fromWarehouse = loadWarehousePort.getBy(request.fromWarehouseId());
-        final Carrier carrier = carrierPort.getBy(request.carrierId());
-        final List<InventoryWarehouse> inventoryWarehouses = loadInventoryLpnPort.findBy(request.fromWarehouseId(), itemsToTransfer.stream().map(ItemToTransfer::itemId).toList());
+        final Warehouse toWarehouse = loadWarehousePort1.getBy(request.toWarehouseId());
+        final Warehouse fromWarehouse = loadWarehousePort1.getBy(request.fromWarehouseId());
+        final Carrier carrier = carrierPort1.getBy(request.carrierId());
+        final List<InventoryWarehouse> inventoryWarehouses = loadInventoryLpnPort1.findBy(request.fromWarehouseId(), itemsToTransfer.stream().map(ItemToTransfer::itemId).toList());
 
         //todo: 도메인 서비스로 분리
         itemsToTransfer.forEach(item1 -> inventoryWarehouses.stream()
