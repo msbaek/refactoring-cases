@@ -99,6 +99,15 @@ public class ProceduralLogicTest {
         final InventoryTransferOrderRequest request = new InventoryTransferOrderRequest(fromWarehouseId, toWarehouseId, Instant.now(), carrierId, "노트", List.of(itemRequest1, itemRequest2));
 
 
+        final InventoryTransferOrder inventoryTransferOrder = getInventoryTransferOrder(request);
+
+        // then
+        assertThat(inventoryTransferOrder.getFromWarehouseId()).isEqualTo(fromWarehouseId);
+        assertThat(inventoryTransferOrder.getToWarehouseId()).isEqualTo(toWarehouseId);
+        assertThat(inventoryTransferOrder.getShipping().getShippingItems()).hasSize(2);
+    }
+
+    private InventoryTransferOrder getInventoryTransferOrder(InventoryTransferOrderRequest request) {
         // when // todo: application 서비스로 extract
         final List<ItemToTransfer> itemsToTransfer = request.getItemsToCreate();
         final Warehouse toWarehouse = loadWarehousePort.getBy(request.toWarehouseId());
@@ -116,10 +125,6 @@ public class ProceduralLogicTest {
         itemsToTransfer.forEach(item -> shipping.addShippingItem(item.itemId(), item.qty()));
         fromWarehouse.getId();
         final InventoryTransferOrder inventoryTransferOrder = new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
-
-        // then
-        assertThat(inventoryTransferOrder.getFromWarehouseId()).isEqualTo(fromWarehouseId);
-        assertThat(inventoryTransferOrder.getToWarehouseId()).isEqualTo(toWarehouseId);
-        assertThat(inventoryTransferOrder.getShipping().getShippingItems()).hasSize(2);
+        return inventoryTransferOrder;
     }
 }
