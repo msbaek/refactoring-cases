@@ -13,6 +13,11 @@ public record ApplicationService(LoadWarehousePort loadWarehousePort1, CarrierPo
         final List<InventoryWarehouse> inventoryWarehouses = loadInventoryLpnPort1().findBy(request.fromWarehouseId(), itemsToTransfer.stream().map(ItemToTransfer::itemId).toList());
 
         //todo: 도메인 서비스로 분리
+        final Shipping shipping = createShipping(itemsToTransfer, inventoryWarehouses);
+        return new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
+    }
+
+    private Shipping createShipping(List<ItemToTransfer> itemsToTransfer, List<InventoryWarehouse> inventoryWarehouses) {
         itemsToTransfer.forEach(item1 -> inventoryWarehouses.stream()
                 .filter(inventory -> inventory.getItemId().equals(item1.itemId()))
                 .findFirst()
@@ -20,8 +25,6 @@ public record ApplicationService(LoadWarehousePort loadWarehousePort1, CarrierPo
                 .subtractQuantity(item1.qty()));
         final Shipping shipping = new Shipping(1L, null);
         itemsToTransfer.forEach(item -> shipping.addShippingItem(item.itemId(), item.qty()));
-        fromWarehouse.getId();
-        final InventoryTransferOrder inventoryTransferOrder = new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
-        return inventoryTransferOrder;
+        return shipping;
     }
 }
