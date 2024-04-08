@@ -107,46 +107,19 @@ public class ProceduralLogicTest {
         final List<InventoryWarehouse> inventoryWarehouses = loadInventoryLpnPort.findBy(request.fromWarehouseId(), itemsToTransfer.stream().map(ItemToTransfer::itemId).toList());
 
         //todo: 도메인 서비스로 분리
-        final InventoryTransferOrder inventoryTransferOrder = createInventoryTransfer(itemsToTransfer, toWarehouse, fromWarehouse, carrier, inventoryWarehouses);
+        itemsToTransfer.forEach(item1 -> inventoryWarehouses.stream()
+                .filter(inventory -> inventory.getItemId().equals(item1.itemId()))
+                .findFirst()
+                .orElseThrow()
+                .subtractQuantity(item1.qty()));
+        final Shipping shipping = new Shipping(1L, null);
+        itemsToTransfer.forEach(item -> shipping.addShippingItem(item.itemId(), item.qty()));
+        fromWarehouse.getId();
+        final InventoryTransferOrder inventoryTransferOrder = new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
 
         // then
         assertThat(inventoryTransferOrder.getFromWarehouseId()).isEqualTo(fromWarehouseId);
         assertThat(inventoryTransferOrder.getToWarehouseId()).isEqualTo(toWarehouseId);
         assertThat(inventoryTransferOrder.getShipping().getShippingItems()).hasSize(2);
-    }
-
-    /**
-     * 1. 재고 차감
-     * 2. 출고 생성 & 출고아이템 생성
-     * 3. 출고지시서 생성
-     * 4. 대체출고지시서 생성
-     */
-    private InventoryTransferOrder createInventoryTransfer(final List<ItemToTransfer> itemsToCreate, final Warehouse toWarehouse, final Warehouse fromWarehouse, final Carrier carrier, final List<InventoryWarehouse> inventoryWarehouses) {
-        subtractQuantity(itemsToCreate, inventoryWarehouses);
-        final Shipping shipping = createShippingToWarehouse(toWarehouse, fromWarehouse, carrier);
-        itemsToCreate.forEach(item -> shipping.addShippingItem(item.itemId(), item.qty()));
-        inventoryTransferOf(fromWarehouse.getId(), List.of(shipping));
-        return new InventoryTransferOrder(fromWarehouse.getId(), toWarehouse.getId(), shipping);
-    }
-
-    private void inventoryTransferOf(Long id, List<Shipping> shipping) {
-        throw new UnsupportedOperationException("ProceduralLogicTest::inventoryTransferOf not implemented yet");
-    }
-
-    private void subtractQuantity(final List<ItemToTransfer> itemsToTransfer, final List<InventoryWarehouse> inventoryWarehouses) {
-        itemsToTransfer.forEach(item -> findItem(inventoryWarehouses, item)
-                .subtractQuantity(item.qty()));
-    }
-
-    private InventoryWarehouse findItem(final List<InventoryWarehouse> inventoryWarehouses, final ItemToTransfer itemToTransfer) {
-        return inventoryWarehouses.stream()
-                .filter(inventory -> inventory.getItemId().equals(itemToTransfer.itemId()))
-                .findFirst()
-                .orElseThrow();
-
-    }
-
-    private Shipping createShippingToWarehouse(final Warehouse toWarehouse, final Warehouse fromWarehouse, final Carrier carrier) {
-        return new Shipping(1L, null);
     }
 }
