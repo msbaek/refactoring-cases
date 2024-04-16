@@ -14,21 +14,21 @@ public class Gms {
                 .collect(Collectors.toMap(Company::getCode, company -> company));
     }
 
-    Collection<Company> createOrUpdateLocations(List<LocationRequest> locationRequests, Collection<Company> companies) {
+    Collection<Company> createOrUpdateLocations(List<LocationRequest> locationRequests) {
         Collection<Company> updateCompanies = locationRequests.stream()
                 .map(this::mapToCreateLocationCommand)
-                .map(createLocationCommand -> createOrUpdateLocation(companyMap, createLocationCommand))
+                .map(createLocationCommand -> createOrUpdateLocation(createLocationCommand))
                 .toList();
         return updateCompanies;
     }
 
-    Company createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
-        final Company company = companyMap.get(createLocationCommand.companyCode());
+    private Company createOrUpdateLocation(Company.CreateLocationCommand createLocationCommand) {
+        final Company company = this.companyMap.get(createLocationCommand.companyCode());
         company.createOrUpdateLocation(createLocationCommand);
         return company;
     }
 
-    Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
+    private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
         return Company.CreateLocationCommand.of(locationRequest);
     }
 }

@@ -12,7 +12,7 @@ public class FirstClassCollectionService {
         final Collection<Company> companies = companyPort.loadAll();
 
         final Gms gms = new Gms(companies);
-        Collection<Company> updateCompanies = gms.createOrUpdateLocations(locationRequests, companies);
+        Collection<Company> updateCompanies = gms.createOrUpdateLocations(locationRequests);
 
         companyPort.saveAll(updateCompanies);
     }
