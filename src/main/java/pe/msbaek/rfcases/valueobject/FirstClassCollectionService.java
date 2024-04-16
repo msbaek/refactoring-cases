@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -22,11 +23,10 @@ public class FirstClassCollectionService {
          * Collection<Company>, Collection<CreateLocationCommand>를 가지고 뭔가를 한다
          * Collection<Company>를 first class collection으로 만들어야 함
          */
-        Collection<Company> updateCompanies = new ArrayList<>();
-        for (LocationRequest locationRequest : locationRequests) {
-            Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
-            updateCompanies.add(createOrUpdateLocation(companyMap, createLocationCommand));
-        }
+        Collection<Company> updateCompanies = locationRequests.stream()
+                .map(this::mapToCreateLocationCommand)
+                .map(createLocationCommand -> createOrUpdateLocation(companyMap, createLocationCommand))
+                .toList();
 
         companyPort.saveAll(updateCompanies);
     }
