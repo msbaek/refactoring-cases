@@ -4,12 +4,17 @@ import lombok.Getter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 public class FirstClassCollectionService {
     private CompanyPort companyPort;
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
+        Map<String, Company> companyMap = companies.stream()
+                .collect(toMap(Company::getCode, company -> company));
 
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
