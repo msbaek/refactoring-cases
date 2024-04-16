@@ -18,7 +18,8 @@ public class FirstClassCollectionService {
 
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
-            final Company company = getCompany(companies, createLocationCommand.companyCode());
+            // final Company company = getCompany(companies, createLocationCommand.companyCode());
+            final Company company = companyMap.get(createLocationCommand.companyCode());
             company.createOrUpdateLocation(createLocationCommand);
         }
 
@@ -27,13 +28,6 @@ public class FirstClassCollectionService {
 
     private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
         return Company.CreateLocationCommand.of(locationRequest);
-    }
-
-    private Company getCompany(final Collection<Company> companies, final String companyCode) {
-        return companies.stream()
-                .filter(company1 -> company1.getCode().equals(companyCode))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Company not found"));
     }
 }
 
