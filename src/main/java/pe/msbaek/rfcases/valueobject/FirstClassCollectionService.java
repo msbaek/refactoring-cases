@@ -23,15 +23,11 @@ public class FirstClassCollectionService {
                 .collect(toMap(Company::getCode, company -> company));
 
         for (LocationRequest locationRequest : locationRequests) {
-            Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
+            Company.CreateLocationCommand createLocationCommand = Company.CreateLocationCommand.of(locationRequest);
             // final Company company = getCompany(companies, createLocationCommand.companyCode());
             final Company company = companyMap.get(createLocationCommand.companyCode());
             company.createOrUpdateLocation(createLocationCommand);
         }
-    }
-
-    private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
-        return Company.CreateLocationCommand.of(locationRequest);
     }
 }
 
