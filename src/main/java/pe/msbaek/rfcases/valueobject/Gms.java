@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -17,13 +18,10 @@ public final class Gms {
     }
 
     Collection<Company> createOrUpdteLocations(List<LocationRequest> locationRequests) {
-        Collection<Company> updatedCompanies = new ArrayList<>();
-        for (LocationRequest locationRequest : locationRequests) {
-            Company.CreateLocationCommand createLocationCommand = Company.CreateLocationCommand.of(locationRequest);
-            final Company company = createOrUpdateLocation(createLocationCommand);
-            updatedCompanies.add(company);
-        }
-        return updatedCompanies;
+        return locationRequests.stream()
+                .map(Company.CreateLocationCommand::of)
+                .map(this::createOrUpdateLocation)
+                .toList();
     }
 
     private Company createOrUpdateLocation(Company.CreateLocationCommand createLocationCommand) {
