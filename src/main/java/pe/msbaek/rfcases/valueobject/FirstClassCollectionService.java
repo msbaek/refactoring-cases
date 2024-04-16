@@ -2,6 +2,7 @@ package pe.msbaek.rfcases.valueobject;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,17 +22,19 @@ public class FirstClassCollectionService {
          * Collection<Company>, Collection<CreateLocationCommand>를 가지고 뭔가를 한다
          * Collection<Company>를 first class collection으로 만들어야 함
          */
+        Collection<Company> updateCompanies = new ArrayList<>();
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
-            createOrUpdateLocation(companyMap, createLocationCommand);
+            updateCompanies.add(createOrUpdateLocation(companyMap, createLocationCommand));
         }
 
-        companyPort.saveAll(companies);
+        companyPort.saveAll(updateCompanies);
     }
 
-    private void createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
+    private Company createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
         final Company company = companyMap.get(createLocationCommand.companyCode());
         company.createOrUpdateLocation(createLocationCommand);
+        return company;
     }
 
     private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
