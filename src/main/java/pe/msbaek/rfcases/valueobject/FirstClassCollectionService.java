@@ -9,39 +9,24 @@ import java.util.Map;
 import static java.util.stream.Collectors.toMap;
 
 public class FirstClassCollectionService {
+    private final Gms gms = new Gms();
     private CompanyPort companyPort;
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
-        Collection<Company> updateCompanies = createOrUpdateLocations(locationRequests, companies);
+        Collection<Company> updateCompanies = gms.createOrUpdateLocations(locationRequests, companies);
 
         companyPort.saveAll(updateCompanies);
     }
 
     private Collection<Company> createOrUpdateLocations(List<LocationRequest> locationRequests, Collection<Company> companies) {
-        Map<String, Company> companyMap = companies.stream()
-                .collect(toMap(Company::getCode, company -> company));
 
         /**
          * forEach르 없애고 싶다.
          * Collection<Company>, Collection<CreateLocationCommand>를 가지고 뭔가를 한다
          * Collection<Company>를 first class collection으로 만들어야 함
          */
-        Collection<Company> updateCompanies = locationRequests.stream()
-                .map(this::mapToCreateLocationCommand)
-                .map(createLocationCommand -> createOrUpdateLocation(companyMap, createLocationCommand))
-                .toList();
-        return updateCompanies;
-    }
-
-    private Company createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
-        final Company company = companyMap.get(createLocationCommand.companyCode());
-        company.createOrUpdateLocation(createLocationCommand);
-        return company;
-    }
-
-    private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
-        return Company.CreateLocationCommand.of(locationRequest);
+        return gms.createOrUpdateLocations(locationRequests, companies);
     }
 }
 
