@@ -11,6 +11,11 @@ public class FirstClassCollectionService {
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
 
+        /**
+         * forEach르 없애고 싶다.
+         * Collection<Company>, Collection<CreateLocationCommand>를 가지고 뭔가를 한다
+         * Collection<Company>를 first class collection으로 만들어야 함
+         */
         locationRequests.stream()
                 .map(locationRequest -> mapToCreateLocationCommand(locationRequest))
                 .forEach(createLocationCommand -> {
