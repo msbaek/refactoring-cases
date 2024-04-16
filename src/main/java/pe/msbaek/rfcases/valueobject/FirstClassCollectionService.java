@@ -11,12 +11,11 @@ public class FirstClassCollectionService {
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
 
-        locationRequests.stream()
-                .map(locationRequest -> mapToCreateLocationCommand(locationRequest))
-                .forEach(createLocationCommand -> {
-                    final Company company = getCompany(companies, createLocationCommand.companyCode());
-                    company.createOrUpdateLocation(createLocationCommand);
-                });
+        for (LocationRequest locationRequest : locationRequests) {
+            Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
+            final Company company = getCompany(companies, createLocationCommand.companyCode());
+            company.createOrUpdateLocation(createLocationCommand);
+        }
 
         companyPort.saveAll(companies);
     }
