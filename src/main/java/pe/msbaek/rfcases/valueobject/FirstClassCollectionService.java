@@ -2,11 +2,9 @@ package pe.msbaek.rfcases.valueobject;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -15,7 +13,13 @@ public class FirstClassCollectionService {
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
-        Map<String, Company> companyMap = companyPort.loadAll().stream()
+        Collection<Company> updateCompanies = createOrUpdateLocations(locationRequests, companies);
+
+        companyPort.saveAll(updateCompanies);
+    }
+
+    private Collection<Company> createOrUpdateLocations(List<LocationRequest> locationRequests, Collection<Company> companies) {
+        Map<String, Company> companyMap = companies.stream()
                 .collect(toMap(Company::getCode, company -> company));
 
         /**
@@ -27,8 +31,7 @@ public class FirstClassCollectionService {
                 .map(this::mapToCreateLocationCommand)
                 .map(createLocationCommand -> createOrUpdateLocation(companyMap, createLocationCommand))
                 .toList();
-
-        companyPort.saveAll(updateCompanies);
+        return updateCompanies;
     }
 
     private Company createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
