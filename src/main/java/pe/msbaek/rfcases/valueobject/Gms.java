@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.valueobject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,14 @@ public final class Gms {
                 .collect(toMap(Company::getCode, company -> company));
     }
 
-    void createOrUpdteLocations(List<LocationRequest> locationRequests) {
+    Collection<Company> createOrUpdteLocations(List<LocationRequest> locationRequests) {
+        Collection<Company> updatedCompanies = new ArrayList<>();
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = Company.CreateLocationCommand.of(locationRequest);
-            // final Company company = getCompany(companies, createLocationCommand.companyCode());
             final Company company = companyMap.get(createLocationCommand.companyCode());
             company.createOrUpdateLocation(createLocationCommand);
+            updatedCompanies.add(company);
         }
+        return updatedCompanies;
     }
 }

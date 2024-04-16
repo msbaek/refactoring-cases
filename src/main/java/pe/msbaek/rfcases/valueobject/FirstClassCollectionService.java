@@ -12,9 +12,10 @@ public class FirstClassCollectionService {
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
-        new Gms(companies).createOrUpdteLocations(locationRequests);
 
-        companyPort.saveAll(companies);
+        Collection<Company> updatedCompanies = new Gms(companies).createOrUpdteLocations(locationRequests);
+
+        companyPort.saveAll(updatedCompanies);
     }
 }
 
