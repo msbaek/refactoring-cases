@@ -13,6 +13,12 @@ public class FirstClassCollectionService {
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
+        createOrUpdteLocations(locationRequests, companies);
+
+        companyPort.saveAll(companies);
+    }
+
+    private void createOrUpdteLocations(List<LocationRequest> locationRequests, Collection<Company> companies) {
         Map<String, Company> companyMap = companies.stream()
                 .collect(toMap(Company::getCode, company -> company));
 
@@ -22,8 +28,6 @@ public class FirstClassCollectionService {
             final Company company = companyMap.get(createLocationCommand.companyCode());
             company.createOrUpdateLocation(createLocationCommand);
         }
-
-        companyPort.saveAll(companies);
     }
 
     private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
