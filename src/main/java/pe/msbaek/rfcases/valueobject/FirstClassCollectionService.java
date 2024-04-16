@@ -4,24 +4,29 @@ import lombok.Getter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.toMap;
 
 public class FirstClassCollectionService {
     private CompanyPort companyPort;
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
+        Map<String, Company> companyMap = companyPort.loadAll().stream()
+                .collect(toMap(Company::getCode, company -> company));
 
         /**
          * forEach르 없애고 싶다.
          * Collection<Company>, Collection<CreateLocationCommand>를 가지고 뭔가를 한다
          * Collection<Company>를 first class collection으로 만들어야 함
          */
-        locationRequests.stream()
-                .map(locationRequest -> mapToCreateLocationCommand(locationRequest))
-                .forEach(createLocationCommand -> {
-                    final Company company = getCompany(companies, createLocationCommand.companyCode());
-                    company.createOrUpdateLocation(createLocationCommand);
-                });
+        for (LocationRequest locationRequest : locationRequests) {
+            Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
+            // final Company company = getCompany(companies, createLocationCommand.companyCode());
+            final Company company = companyMap.get(createLocationCommand.companyCode());
+            company.createOrUpdateLocation(createLocationCommand);
+        }
 
         companyPort.saveAll(companies);
     }
