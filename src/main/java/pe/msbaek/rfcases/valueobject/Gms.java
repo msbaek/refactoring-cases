@@ -20,10 +20,15 @@ public final class Gms {
         Collection<Company> updatedCompanies = new ArrayList<>();
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = Company.CreateLocationCommand.of(locationRequest);
-            final Company company = companyMap.get(createLocationCommand.companyCode());
-            company.createOrUpdateLocation(createLocationCommand);
+            final Company company = createOrUpdateLocation(createLocationCommand);
             updatedCompanies.add(company);
         }
         return updatedCompanies;
+    }
+
+    private Company createOrUpdateLocation(Company.CreateLocationCommand createLocationCommand) {
+        final Company company = companyMap.get(createLocationCommand.companyCode());
+        company.createOrUpdateLocation(createLocationCommand);
+        return company;
     }
 }
