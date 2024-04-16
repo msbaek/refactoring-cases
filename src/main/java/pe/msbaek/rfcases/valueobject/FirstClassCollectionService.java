@@ -13,13 +13,13 @@ public class FirstClassCollectionService {
 
     public void createLocation(final List<LocationRequest> locationRequests) {
         final Collection<Company> companies = companyPort.loadAll();
-        createOrUpdteLocations(locationRequests, companies);
+        createOrUpdteLocations(locationRequests, new Gms(companies));
 
         companyPort.saveAll(companies);
     }
 
-    private void createOrUpdteLocations(List<LocationRequest> locationRequests, Collection<Company> companies) {
-        Map<String, Company> companyMap = companies.stream()
+    private void createOrUpdteLocations(List<LocationRequest> locationRequests, Gms gms) {
+        Map<String, Company> companyMap = gms.companies().stream()
                 .collect(toMap(Company::getCode, company -> company));
 
         for (LocationRequest locationRequest : locationRequests) {
