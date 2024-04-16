@@ -23,12 +23,15 @@ public class FirstClassCollectionService {
          */
         for (LocationRequest locationRequest : locationRequests) {
             Company.CreateLocationCommand createLocationCommand = mapToCreateLocationCommand(locationRequest);
-            // final Company company = getCompany(companies, createLocationCommand.companyCode());
-            final Company company = companyMap.get(createLocationCommand.companyCode());
-            company.createOrUpdateLocation(createLocationCommand);
+            createOrUpdateLocation(companyMap, createLocationCommand);
         }
 
         companyPort.saveAll(companies);
+    }
+
+    private void createOrUpdateLocation(Map<String, Company> companyMap, Company.CreateLocationCommand createLocationCommand) {
+        final Company company = companyMap.get(createLocationCommand.companyCode());
+        company.createOrUpdateLocation(createLocationCommand);
     }
 
     private Company.CreateLocationCommand mapToCreateLocationCommand(final LocationRequest locationRequest) {
