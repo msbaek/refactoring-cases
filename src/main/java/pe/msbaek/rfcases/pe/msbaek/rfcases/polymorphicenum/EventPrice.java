@@ -18,6 +18,17 @@ enum DiscountType {
         this.code = code;
         this.description = description;
     }
+
+    BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
+        return switch (this) {
+            case RATE -> {
+                final BigDecimal discountRate = BigDecimal.ONE.subtract(discountValue1.divide(BigDecimal.valueOf(100)));
+                retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
+            }
+            case PRICE -> retailPrice.subtract(discountValue1).setScale(scale, RoundingMode.CEILING);
+            case PRICE_FIX -> discountValue1.setScale(scale, RoundingMode.CEILING);
+        };
+    }
 }
 
 public class EventPrice {
@@ -40,17 +51,6 @@ public class EventPrice {
 
     public BigDecimal calculateEventDiscountPrice(final BigDecimal retailPrice,
                                                   final Integer scale) {
-        return eventDiscountPrice(retailPrice, scale, discountValue);
-    }
-
-    private BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
-        return switch (discountType) {
-            case RATE -> {
-                final BigDecimal discountRate = BigDecimal.ONE.subtract(discountValue1.divide(BigDecimal.valueOf(100)));
-                retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
-            }
-            case PRICE -> retailPrice.subtract(discountValue1).setScale(scale, RoundingMode.CEILING);
-            case PRICE_FIX -> discountValue1.setScale(scale, RoundingMode.CEILING);
-        };
+        return discountType.eventDiscountPrice(retailPrice, scale, discountValue);
     }
 }
