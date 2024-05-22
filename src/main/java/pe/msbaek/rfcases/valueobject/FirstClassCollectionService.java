@@ -27,7 +27,8 @@ record LocationRequest() {
 class Company {
     private String code;
 
-    public void createOrUpdateLocation(CreateLocationCommand createLocationCommand) {
+    public void createOrUpdateLocation(CreateLocationCommand
+                                               createLocationCommand) {
         throw new UnsupportedOperationException("Company::createOrUpdateLocation not implemented yet");
     }
     record CreateLocationCommand(String companyCode) {
