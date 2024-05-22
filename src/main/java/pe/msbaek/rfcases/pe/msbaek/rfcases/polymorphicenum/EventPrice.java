@@ -40,10 +40,14 @@ public class EventPrice {
 
     public BigDecimal calculateEventDiscountPrice(final BigDecimal retailPrice,
                                                   final Integer scale) {
+        return eventDiscountPrice(retailPrice, scale);
+    }
+
+    private BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale) {
         return switch (discountType) {
             case RATE -> {
                 final BigDecimal discountRate = BigDecimal.ONE.subtract(discountValue.divide(BigDecimal.valueOf(100)));
-                yield retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
+                retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
             }
             case PRICE -> retailPrice.subtract(discountValue).setScale(scale, RoundingMode.CEILING);
             case PRICE_FIX -> discountValue.setScale(scale, RoundingMode.CEILING);
