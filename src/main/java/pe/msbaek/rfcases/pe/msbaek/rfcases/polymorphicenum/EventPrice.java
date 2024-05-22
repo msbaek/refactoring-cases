@@ -7,9 +7,25 @@ import java.math.RoundingMode;
 
 @Getter
 enum DiscountType {
-    RATE("rate", "정율"),
-    PRICE("price", "정액"),
-    PRICE_FIX("price.fix", "고정가");
+    RATE("rate", "정율") {
+        @Override
+        BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
+            final BigDecimal discountRate = BigDecimal.ONE.subtract(discountValue1.divide(BigDecimal.valueOf(100)));
+            return retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
+        }
+    },
+    PRICE("price", "정액") {
+        @Override
+        BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
+            return retailPrice.subtract(discountValue1).setScale(scale, RoundingMode.CEILING);
+        }
+    },
+    PRICE_FIX("price.fix", "고정가") {
+        @Override
+        BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
+            return discountValue1.setScale(scale, RoundingMode.CEILING);
+        }
+    };
 
     private final String code;
     private final String description;
@@ -19,16 +35,7 @@ enum DiscountType {
         this.description = description;
     }
 
-    BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1) {
-        return switch (this) {
-            case RATE -> {
-                final BigDecimal discountRate = BigDecimal.ONE.subtract(discountValue1.divide(BigDecimal.valueOf(100)));
-                retailPrice.multiply(discountRate).setScale(scale, RoundingMode.CEILING);
-            }
-            case PRICE -> retailPrice.subtract(discountValue1).setScale(scale, RoundingMode.CEILING);
-            case PRICE_FIX -> discountValue1.setScale(scale, RoundingMode.CEILING);
-        };
-    }
+    abstract BigDecimal eventDiscountPrice(BigDecimal retailPrice, Integer scale, BigDecimal discountValue1);
 }
 
 public class EventPrice {
