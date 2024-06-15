@@ -3,6 +3,7 @@ package pe.msbaek.rfcases.valueobject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 interface AdditionalProduct {
     ProductId getId();
@@ -42,14 +43,10 @@ public class DoubleStreamFirstClassCollection {
         }
 
         private List<CartAdditionalItem> mapToAdditionalItems(AdditionalProduct additionalProduct) {
-            List<CartAdditionalItem> c = new ArrayList<>();
-            for (CartAdditionalItemDto cartAdditionalItemDto : cartAdditionalItemDtos()) {
-                if (equals(additionalProduct, cartAdditionalItemDto)) {
-                    CartAdditionalItem cartAdditionalItem = createCartAdditionalItem(additionalProduct, cartAdditionalItemDto);
-                    c.add(cartAdditionalItem);
-                }
-            }
-            return c;
+            return this.cartAdditionalItemDtos().stream()
+                    .filter(cartAdditionalItemDto -> equals(additionalProduct, cartAdditionalItemDto))
+                    .map(cartAdditionalItemDto -> createCartAdditionalItem(additionalProduct, cartAdditionalItemDto))
+                    .toList();
         }
 
         private CartAdditionalItem createCartAdditionalItem(AdditionalProduct additionalProduct, CartAdditionalItemDto cartAdditionalItemDto) {
