@@ -1,5 +1,6 @@
 package pe.msbaek.rfcases.valueobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 interface AdditionalProduct {
@@ -23,11 +24,16 @@ record CartAdditionalItem(Long productNo, Long fanClubProductNo, long qty) {
 
 public class DoubleStreamFirstClassCollection {
     private List<CartAdditionalItem> getCartAdditionalItems(final List<AdditionalProduct> additionalProducts, final List<CartAdditionalItemDto> cartAdditionalItemDtos) {
-        return additionalProducts.stream()
-                .flatMap(additionalProduct -> cartAdditionalItemDtos.stream()
-                        .filter(cartAdditionalItemDto -> isaBoolean(additionalProduct, cartAdditionalItemDto))
-                        .map(cartAdditionalItemDto -> getCartAdditionalItem(additionalProduct, cartAdditionalItemDto)))
-                .toList();
+        List<CartAdditionalItem> list = new ArrayList<>();
+        for (AdditionalProduct additionalProduct : additionalProducts) {
+            for (CartAdditionalItemDto cartAdditionalItemDto : cartAdditionalItemDtos) {
+                if (isaBoolean(additionalProduct, cartAdditionalItemDto)) {
+                    CartAdditionalItem cartAdditionalItem = getCartAdditionalItem(additionalProduct, cartAdditionalItemDto);
+                    list.add(cartAdditionalItem);
+                }
+            }
+        }
+        return list;
     }
 
     private CartAdditionalItem getCartAdditionalItem(final AdditionalProduct additionalProduct, final CartAdditionalItemDto cartAdditionalItemDto) {
