@@ -25,7 +25,7 @@ record CartAdditionalItem(Long productNo, Long fanClubProductNo, long qty) {
 
 public class DoubleStreamFirstClassCollection {
     private List<CartAdditionalItem> getCartAdditionalItems(final List<AdditionalProduct> additionalProducts, final List<CartAdditionalItemDto> cartAdditionalItemDtos) {
-        CartItemList cartItemList = new CartItemList(cartAdditionalItemDtos);
+        CartItemList cartItemList = CartItemList.from(cartAdditionalItemDtos);
         return getCartAdditionalItems(additionalProducts, cartItemList);
     }
 
@@ -37,6 +37,10 @@ public class DoubleStreamFirstClassCollection {
     }
 
     private static record CartItemList(List<CartAdditionalItemDto> cartAdditionalItemDtos) {
+        private static CartItemList from(List<CartAdditionalItemDto> cartAdditionalItemDtos) {
+            return new CartItemList(cartAdditionalItemDtos);
+        }
+
         private List<CartAdditionalItem> mapToAdditionalItems(AdditionalProduct additionalProduct) {
             List<CartAdditionalItem> c = new ArrayList<>();
             for (CartAdditionalItemDto cartAdditionalItemDto : cartAdditionalItemDtos()) {
