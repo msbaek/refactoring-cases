@@ -1,7 +1,9 @@
 package pe.msbaek.rfcases.valueobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 interface AdditionalProduct {
     ProductId getId();
@@ -25,12 +27,10 @@ record CartAdditionalItem(Long productNo, Long fanClubProductNo, long qty) {
 public class DoubleStreamFirstClassCollection {
     private List<CartAdditionalItem> getCartAdditionalItems(final List<AdditionalProduct> additionalProducts, final List<CartAdditionalItemDto> cartAdditionalItemDtos) {
         CartItemList cartItemList = new CartItemList(cartAdditionalItemDtos);
-        List<CartAdditionalItem> list = new ArrayList<>();
-        for (AdditionalProduct additionalProduct : additionalProducts) {
-            List<CartAdditionalItem> c = cartItemList.mapToAdditionalItems(additionalProduct);
-            list.addAll(c);
-        }
-        return list;
+        return additionalProducts.stream()
+                .map(cartItemList::mapToAdditionalItems)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     private static record CartItemList(List<CartAdditionalItemDto> cartAdditionalItemDtos) {
