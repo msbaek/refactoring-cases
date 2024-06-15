@@ -44,12 +44,20 @@ public class DoubleStreamFirstClassCollection {
         private List<CartAdditionalItem> mapToAdditionalItems(AdditionalProduct additionalProduct) {
             List<CartAdditionalItem> c = new ArrayList<>();
             for (CartAdditionalItemDto cartAdditionalItemDto : cartAdditionalItemDtos()) {
-                if (additionalProduct.getId().productNo().equals(cartAdditionalItemDto.productNo()) && additionalProduct.getId().fanClubProductNo().equals(cartAdditionalItemDto.fanClubProductNo())) {
-                    CartAdditionalItem cartAdditionalItem = new CartAdditionalItem(additionalProduct.getId().productNo(), additionalProduct.getId().fanClubProductNo(), cartAdditionalItemDto.qty());
+                if (equals(additionalProduct, cartAdditionalItemDto)) {
+                    CartAdditionalItem cartAdditionalItem = createCartAdditionalItem(additionalProduct, cartAdditionalItemDto);
                     c.add(cartAdditionalItem);
                 }
             }
             return c;
+        }
+
+        private CartAdditionalItem createCartAdditionalItem(AdditionalProduct additionalProduct, CartAdditionalItemDto cartAdditionalItemDto) {
+            return new CartAdditionalItem(additionalProduct.getId().productNo(), additionalProduct.getId().fanClubProductNo(), cartAdditionalItemDto.qty());
+        }
+
+        private boolean equals(AdditionalProduct additionalProduct, CartAdditionalItemDto cartAdditionalItemDto) {
+            return additionalProduct.getId().productNo().equals(cartAdditionalItemDto.productNo()) && additionalProduct.getId().fanClubProductNo().equals(cartAdditionalItemDto.fanClubProductNo());
         }
     }
 }
