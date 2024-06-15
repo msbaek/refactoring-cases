@@ -24,9 +24,10 @@ record CartAdditionalItem(Long productNo, Long fanClubProductNo, long qty) {
 
 public class DoubleStreamFirstClassCollection {
     private List<CartAdditionalItem> getCartAdditionalItems(final List<AdditionalProduct> additionalProducts, final List<CartAdditionalItemDto> cartAdditionalItemDtos) {
+        CartItemList cartItemList = new CartItemList(cartAdditionalItemDtos);
         List<CartAdditionalItem> list = new ArrayList<>();
         for (AdditionalProduct additionalProduct : additionalProducts) {
-            List<CartAdditionalItem> c = new CartItemList(cartAdditionalItemDtos).mapToAdditionalItems(additionalProduct);
+            List<CartAdditionalItem> c = cartItemList.mapToAdditionalItems(additionalProduct);
             list.addAll(c);
         }
         return list;
