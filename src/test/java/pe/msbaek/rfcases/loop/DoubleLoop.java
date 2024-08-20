@@ -27,15 +27,20 @@ public class DoubleLoop {
             NewLegacyCartItemRequest mainRequest = createMainRequest(item);
             newLegacyCartItemRequests.add(mainRequest);
 
-            // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
-            final List<NewLegacyCartItemRequest> additionalRequests = new ArrayList<>();
-            for (CartAdditionalItemResponse additionalItem : item.additionalItems()) {
-                final NewLegacyCartItemRequest additionalRequest = createAdditionalRequests(item, additionalItem);
-                additionalRequests.add(additionalRequest);
-            }
+            final List<NewLegacyCartItemRequest> additionalRequests = createAdditionalRequests(item);
             newLegacyCartItemRequests.addAll(additionalRequests);
         }
         return newLegacyCartItemRequests;
+    }
+
+    private List<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
+        // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
+        final List<NewLegacyCartItemRequest> additionalRequests = new ArrayList<>();
+        for (CartAdditionalItemResponse additionalItem : item.additionalItems()) {
+            final NewLegacyCartItemRequest additionalRequest = createAdditionalRequests(item, additionalItem);
+            additionalRequests.add(additionalRequest);
+        }
+        return additionalRequests;
     }
 
     private NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
