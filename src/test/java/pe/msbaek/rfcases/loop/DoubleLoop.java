@@ -1,6 +1,5 @@
 package pe.msbaek.rfcases.loop;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +9,30 @@ record NewLegacyCartItemRequest(Long aLong, Object o, Long aLong1, Object o1, Lo
 }
 
 record CartItemResponse(ProductIdResponse productId, Collection<CartAdditionalItemResponse> additionalItems) {
+    static NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
+        // 1. productId를 사용한 NewLegacyCartItemRequest 생성
+        NewLegacyCartItemRequest mainRequest = new NewLegacyCartItemRequest(
+                item.productId().productNo(),
+                null, // parentProductNo는 항상 null
+                item.productId().fanClubProductNo(),
+                null, // parentFanClubProductNo는 항상 null
+                item.productId().bundleNo(),
+                item.productId().eventNo()
+        );
+        return mainRequest;
+    }
+
+    static NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, AdditionalProductId additionalProductId) {
+        final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
+                additionalProductId.productNo(),
+                item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
+                additionalProductId.fanClubProductNo(),
+                item.productId().fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
+                null, // AdditionalProductId에는 bundleNo가 없음
+                item.productId().eventNo()  // additionalProductId에는 eventNo가 없음
+        );
+        return additionalRequest;
+    }
 }
 
 record CartAdditionalItemResponse(AdditionalProductId additionalProductId) {
@@ -40,38 +63,13 @@ public class DoubleLoop {
 
     private Stream<NewLegacyCartItemRequest> concat(final CartItemResponse item) {
         return Stream.concat(
-                Stream.of(createMainRequest(item)),
+                Stream.of(CartItemResponse.createMainRequest(item)),
                 createAdditionalRequests(item));
     }
 
     private Stream<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
         // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
         return item.additionalItems().stream()
-                .map(additionalItem -> createAdditionalRequests(item, additionalItem.additionalProductId()));
-    }
-
-    private static NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
-        // 1. productId를 사용한 NewLegacyCartItemRequest 생성
-        NewLegacyCartItemRequest mainRequest = new NewLegacyCartItemRequest(
-                item.productId().productNo(),
-                null, // parentProductNo는 항상 null
-                item.productId().fanClubProductNo(),
-                null, // parentFanClubProductNo는 항상 null
-                item.productId().bundleNo(),
-                item.productId().eventNo()
-        );
-        return mainRequest;
-    }
-
-    private static NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, AdditionalProductId additionalProductId) {
-        final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
-                additionalProductId.productNo(),
-                item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
-                additionalProductId.fanClubProductNo(),
-                item.productId().fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
-                null, // AdditionalProductId에는 bundleNo가 없음
-                item.productId().eventNo()  // additionalProductId에는 eventNo가 없음
-        );
-        return additionalRequest;
+                .map(additionalItem -> CartItemResponse.createAdditionalRequests(item, additionalItem.additionalProductId()));
     }
 }
