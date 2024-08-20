@@ -35,7 +35,9 @@ public class DoubleLoop {
 //        return newLegacyCartItemRequests;
         return items.stream()
                 .flatMap(item -> {
-                    return Stream.concat(Stream.of(createMainRequest(item)), createAdditionalRequests(item).stream());
+                    return Stream.concat(
+                            Stream.of(createMainRequest(item)),
+                            createAdditionalRequests(item).stream());
                 })
                 .collect(Collectors.toList());
     }
