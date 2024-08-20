@@ -34,12 +34,14 @@ public class DoubleLoop {
 //        }
 //        return newLegacyCartItemRequests;
         return items.stream()
-                .flatMap(item -> {
-                    return Stream.concat(
-                            Stream.of(createMainRequest(item)),
-                            createAdditionalRequests(item));
-                })
+                .flatMap(this::concat)
                 .collect(Collectors.toList());
+    }
+
+    private Stream<NewLegacyCartItemRequest> concat(final CartItemResponse item) {
+        return Stream.concat(
+                Stream.of(createMainRequest(item)),
+                createAdditionalRequests(item));
     }
 
     private Stream<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
