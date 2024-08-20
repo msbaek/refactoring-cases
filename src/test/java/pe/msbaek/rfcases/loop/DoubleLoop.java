@@ -37,7 +37,7 @@ public class DoubleLoop {
     private List<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
         // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
         return item.additionalItems().stream()
-                .map(additionalItem -> createAdditionalRequests(item, additionalItem))
+                .map(additionalItem -> createAdditionalRequests(item, additionalItem.additionalProductId()))
                 .collect(Collectors.toList());
     }
 
@@ -54,8 +54,7 @@ public class DoubleLoop {
         return mainRequest;
     }
 
-    private NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, final CartAdditionalItemResponse additionalItem) {
-        final AdditionalProductId additionalProductId = additionalItem.additionalProductId();
+    private NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, AdditionalProductId additionalProductId) {
         final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
                 additionalProductId.productNo(),
                 item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
