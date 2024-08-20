@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 record NewLegacyCartItemRequest(Long aLong, Object o, Long aLong1, Object o1, Long aLong2, Long aLong3) {
 }
@@ -23,15 +24,22 @@ record AdditionalProductId(Long productNo,Long fanClubProductNo) {
 public class DoubleLoop {
     private Collection<CartItemResponse> items;
     public List<NewLegacyCartItemRequest> extractNewCartItemRequests() {
-        final List<NewLegacyCartItemRequest> newLegacyCartItemRequests = new ArrayList<>();
-        for (CartItemResponse item : items) {
-            NewLegacyCartItemRequest mainRequest = createMainRequest(item);
-            newLegacyCartItemRequests.add(mainRequest);
-
-            final List<NewLegacyCartItemRequest> additionalRequests = createAdditionalRequests(item);
-            newLegacyCartItemRequests.addAll(additionalRequests);
-        }
-        return newLegacyCartItemRequests;
+//        final List<NewLegacyCartItemRequest> newLegacyCartItemRequests = new ArrayList<>();
+//        for (CartItemResponse item : items) {
+//            NewLegacyCartItemRequest mainRequest = createMainRequest(item);
+//            newLegacyCartItemRequests.add(mainRequest);
+//
+//            final List<NewLegacyCartItemRequest> additionalRequests = createAdditionalRequests(item);
+//            newLegacyCartItemRequests.addAll(additionalRequests);
+//        }
+//        return newLegacyCartItemRequests;
+        return items.stream()
+                .flatMap(item -> {
+                    NewLegacyCartItemRequest mainRequest = createMainRequest(item);
+                    List<NewLegacyCartItemRequest> additionalRequests = createAdditionalRequests(item);
+                    return Stream.concat(Stream.of(mainRequest), additionalRequests.stream());
+                })
+                .collect(Collectors.toList());
     }
 
     private List<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
