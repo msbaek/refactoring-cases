@@ -47,15 +47,6 @@ record AdditionalProductId(Long productNo,Long fanClubProductNo) {
 public class DoubleLoop {
     private Collection<CartItemResponse> items;
     public List<NewLegacyCartItemRequest> extractNewCartItemRequests() {
-//        final List<NewLegacyCartItemRequest> newLegacyCartItemRequests = new ArrayList<>();
-//        for (CartItemResponse item : items) {
-//            NewLegacyCartItemRequest mainRequest = createMainRequest(item);
-//            newLegacyCartItemRequests.add(mainRequest);
-//
-//            final List<NewLegacyCartItemRequest> additionalRequests = createAdditionalRequests(item);
-//            newLegacyCartItemRequests.addAll(additionalRequests);
-//        }
-//        return newLegacyCartItemRequests;
         return items.stream()
                 .flatMap(this::concat)
                 .collect(Collectors.toList());
