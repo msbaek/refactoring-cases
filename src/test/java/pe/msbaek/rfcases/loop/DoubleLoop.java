@@ -3,6 +3,7 @@ package pe.msbaek.rfcases.loop;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 record NewLegacyCartItemRequest(Long aLong, Object o, Long aLong1, Object o1, Long aLong2, Long aLong3) {
 }
@@ -35,12 +36,9 @@ public class DoubleLoop {
 
     private List<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
         // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
-        final List<NewLegacyCartItemRequest> additionalRequests = new ArrayList<>();
-        for (CartAdditionalItemResponse additionalItem : item.additionalItems()) {
-            final NewLegacyCartItemRequest additionalRequest = createAdditionalRequests(item, additionalItem);
-            additionalRequests.add(additionalRequest);
-        }
-        return additionalRequests;
+        return item.additionalItems().stream()
+                .map(additionalItem -> createAdditionalRequests(item, additionalItem))
+                .collect(Collectors.toList());
     }
 
     private NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
