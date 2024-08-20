@@ -25,14 +25,13 @@ public class DoubleLoop {
         final List<NewLegacyCartItemRequest> newLegacyCartItemRequests = new ArrayList<>();
         for (CartItemResponse item : items) {
             // 1. productId를 사용한 NewLegacyCartItemRequest 생성
-            ProductIdResponse productId = item.productId();
             NewLegacyCartItemRequest mainRequest = new NewLegacyCartItemRequest(
-                    productId.productNo(),
+                    item.productId().productNo(),
                     null, // parentProductNo는 항상 null
-                    productId.fanClubProductNo(),
+                    item.productId().fanClubProductNo(),
                     null, // parentFanClubProductNo는 항상 null
-                    productId.bundleNo(),
-                    productId.eventNo()
+                    item.productId().bundleNo(),
+                    item.productId().eventNo()
             );
             newLegacyCartItemRequests.add(mainRequest);
 
@@ -41,11 +40,11 @@ public class DoubleLoop {
                 final AdditionalProductId additionalProductId = additionalItem.additionalProductId();
                 final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
                         additionalProductId.productNo(),
-                        productId.productNo(), // parentProductNo에 상위 productId의 productNo 할당
+                        item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
                         additionalProductId.fanClubProductNo(),
-                        productId.fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
+                        item.productId().fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
                         null, // AdditionalProductId에는 bundleNo가 없음
-                        productId.eventNo()  // additionalProductId에는 eventNo가 없음
+                        item.productId().eventNo()  // additionalProductId에는 eventNo가 없음
                 );
                 newLegacyCartItemRequests.add(additionalRequest);
             }
