@@ -37,16 +37,15 @@ public class DoubleLoop {
                 .flatMap(item -> {
                     return Stream.concat(
                             Stream.of(createMainRequest(item)),
-                            createAdditionalRequests(item).stream());
+                            createAdditionalRequests(item));
                 })
                 .collect(Collectors.toList());
     }
 
-    private List<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
+    private Stream<NewLegacyCartItemRequest> createAdditionalRequests(final CartItemResponse item) {
         // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
         return item.additionalItems().stream()
-                .map(additionalItem -> createAdditionalRequests(item, additionalItem.additionalProductId()))
-                .collect(Collectors.toList());
+                .map(additionalItem -> createAdditionalRequests(item, additionalItem.additionalProductId()));
     }
 
     private NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
