@@ -37,18 +37,23 @@ public class DoubleLoop {
 
             // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
             for (CartAdditionalItemResponse additionalItem : item.additionalItems()) {
-                final AdditionalProductId additionalProductId = additionalItem.additionalProductId();
-                final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
-                        additionalProductId.productNo(),
-                        item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
-                        additionalProductId.fanClubProductNo(),
-                        item.productId().fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
-                        null, // AdditionalProductId에는 bundleNo가 없음
-                        item.productId().eventNo()  // additionalProductId에는 eventNo가 없음
-                );
+                final NewLegacyCartItemRequest additionalRequest = createAdditionalRequests(item, additionalItem);
                 newLegacyCartItemRequests.add(additionalRequest);
             }
         }
         return newLegacyCartItemRequests;
+    }
+
+    private NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, final CartAdditionalItemResponse additionalItem) {
+        final AdditionalProductId additionalProductId = additionalItem.additionalProductId();
+        final NewLegacyCartItemRequest additionalRequest = new NewLegacyCartItemRequest(
+                additionalProductId.productNo(),
+                item.productId().productNo(), // parentProductNo에 상위 productId의 productNo 할당
+                additionalProductId.fanClubProductNo(),
+                item.productId().fanClubProductNo(), // parentFanClubProductNo에 상위 productId의 fanClubProductNo 할당
+                null, // AdditionalProductId에는 bundleNo가 없음
+                item.productId().eventNo()  // additionalProductId에는 eventNo가 없음
+        );
+        return additionalRequest;
     }
 }
