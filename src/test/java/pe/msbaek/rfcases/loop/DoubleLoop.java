@@ -24,15 +24,7 @@ public class DoubleLoop {
     public List<NewLegacyCartItemRequest> extractNewCartItemRequests() {
         final List<NewLegacyCartItemRequest> newLegacyCartItemRequests = new ArrayList<>();
         for (CartItemResponse item : items) {
-            // 1. productId를 사용한 NewLegacyCartItemRequest 생성
-            NewLegacyCartItemRequest mainRequest = new NewLegacyCartItemRequest(
-                    item.productId().productNo(),
-                    null, // parentProductNo는 항상 null
-                    item.productId().fanClubProductNo(),
-                    null, // parentFanClubProductNo는 항상 null
-                    item.productId().bundleNo(),
-                    item.productId().eventNo()
-            );
+            NewLegacyCartItemRequest mainRequest = createMainRequest(item);
             newLegacyCartItemRequests.add(mainRequest);
 
             // 2. additionalItems에 대한 NewLegacyCartItemRequest 생성
@@ -42,6 +34,19 @@ public class DoubleLoop {
             }
         }
         return newLegacyCartItemRequests;
+    }
+
+    private NewLegacyCartItemRequest createMainRequest(final CartItemResponse item) {
+        // 1. productId를 사용한 NewLegacyCartItemRequest 생성
+        NewLegacyCartItemRequest mainRequest = new NewLegacyCartItemRequest(
+                item.productId().productNo(),
+                null, // parentProductNo는 항상 null
+                item.productId().fanClubProductNo(),
+                null, // parentFanClubProductNo는 항상 null
+                item.productId().bundleNo(),
+                item.productId().eventNo()
+        );
+        return mainRequest;
     }
 
     private NewLegacyCartItemRequest createAdditionalRequests(final CartItemResponse item, final CartAdditionalItemResponse additionalItem) {
