@@ -29,18 +29,26 @@ public class FromMostInner {
 
         for (final ReassignQtyByPicking reassignQtyByPicking : qtyForReassign) {
             if (shouldReassing(reassignableInventoryLpns, reassignQtyByPicking)) {
-                // reassing location
-                final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
-                final OrderedItem orderedItem = new OrderedItem(itemId, reassignQtyByPicking.getQuantity());
-                final List<PickingLocation> createdPickingLocations = new PickingLocationFactory().createPickingLocations(inventories, List.of(orderedItem));
-                reassignQtyByPicking.getPicking().addPickingLocations(createdPickingLocations);
+                reassign(itemId, reassignableInventoryLpns, reassignQtyByPicking);
             } else {
-                // reset shipping
-                reassignQtyByPicking.getPicking().clear();
-                removePickingGroupIfPickingEmpty();
-                updateStatusToComplete();
+                resetShipping(reassignQtyByPicking);
             }
         }
+    }
+
+    private void resetShipping(final ReassignQtyByPicking reassignQtyByPicking) {
+        // reset shipping
+        reassignQtyByPicking.getPicking().clear();
+        removePickingGroupIfPickingEmpty();
+        updateStatusToComplete();
+    }
+
+    private void reassign(final Long itemId, final List<InventoryLpn> reassignableInventoryLpns, final ReassignQtyByPicking reassignQtyByPicking) {
+        // reassing location
+        final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
+        final OrderedItem orderedItem = new OrderedItem(itemId, reassignQtyByPicking.getQuantity());
+        final List<PickingLocation> createdPickingLocations = new PickingLocationFactory().createPickingLocations(inventories, List.of(orderedItem));
+        reassignQtyByPicking.getPicking().addPickingLocations(createdPickingLocations);
     }
 
     private boolean shouldReassing(final List<InventoryLpn> reassignableInventoryLpns, final ReassignQtyByPicking reassignQtyByPicking) {
