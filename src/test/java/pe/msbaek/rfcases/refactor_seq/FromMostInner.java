@@ -35,7 +35,8 @@ public class FromMostInner {
                     .mapToLong(InventoryLpn::getQty)
                     .sum();
 
-            if (reassignableQty >= remainingQty) {
+            final boolean shouldReassing = reassignableQty >= remainingQty;
+            if (shouldReassing) {
                 // reassing location
                 final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
                 final OrderedItem orderedItem = new OrderedItem(itemId, reassignQtyByPicking.getQuantity());
