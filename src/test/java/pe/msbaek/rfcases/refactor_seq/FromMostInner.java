@@ -28,14 +28,7 @@ public class FromMostInner {
         errorPickings.forEach(errorPicking -> errorPicking.removeErrorLocation(errorLocation, itemId));
 
         for (final ReassignQtyByPicking reassignQtyByPicking : qtyForReassign) {
-            final Long remainingQty = reassignQtyByPicking.getQuantity();
-
-            final long reassignableQty = reassignableInventoryLpns.stream()
-                    .filter(inventoryByLocation -> 0L < inventoryByLocation.getQty())
-                    .mapToLong(InventoryLpn::getQty)
-                    .sum();
-
-            final boolean shouldReassing = reassignableQty >= remainingQty;
+            final boolean shouldReassing = shouldReassing(reassignableInventoryLpns, reassignQtyByPicking);
             if (shouldReassing) {
                 // reassing location
                 final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
@@ -49,6 +42,17 @@ public class FromMostInner {
                 updateStatusToComplete();
             }
         }
+    }
+
+    private boolean shouldReassing(final List<InventoryLpn> reassignableInventoryLpns, final ReassignQtyByPicking reassignQtyByPicking) {
+        final Long remainingQty = reassignQtyByPicking.getQuantity();
+
+        final long reassignableQty = reassignableInventoryLpns.stream()
+                .filter(inventoryByLocation -> 0L < inventoryByLocation.getQty())
+                .mapToLong(InventoryLpn::getQty)
+                .sum();
+
+        return reassignableQty >= remainingQty;
     }
 
     private List<Picking> filterPickingBy(Bin location, Long itemId) {
