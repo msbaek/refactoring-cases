@@ -35,17 +35,17 @@ public class FromMostInner {
                     .mapToLong(InventoryLpn::getQty)
                     .sum();
 
-            if (reassignableQty < remainingQty) {
-                // reset shipping
-                reassignQtyByPicking.getPicking().clear();
-                removePickingGroupIfPickingEmpty();
-                updateStatusToComplete();
-            } else {
+            if (reassignableQty >= remainingQty) {
                 // reassing location
                 final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
                 final OrderedItem orderedItem = new OrderedItem(itemId, reassignQtyByPicking.getQuantity());
                 final List<PickingLocation> createdPickingLocations = new PickingLocationFactory().createPickingLocations(inventories, List.of(orderedItem));
                 reassignQtyByPicking.getPicking().addPickingLocations(createdPickingLocations);
+            } else {
+                // reset shipping
+                reassignQtyByPicking.getPicking().clear();
+                removePickingGroupIfPickingEmpty();
+                updateStatusToComplete();
             }
         }
     }
