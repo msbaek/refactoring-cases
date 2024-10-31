@@ -28,8 +28,7 @@ public class FromMostInner {
         errorPickings.forEach(errorPicking -> errorPicking.removeErrorLocation(errorLocation, itemId));
 
         for (final ReassignQtyByPicking reassignQtyByPicking : qtyForReassign) {
-            final boolean shouldReassing = shouldReassing(reassignableInventoryLpns, reassignQtyByPicking);
-            if (shouldReassing) {
+            if (shouldReassing(reassignableInventoryLpns, reassignQtyByPicking)) {
                 // reassing location
                 final Inventories inventories = new InventoriesOfOnlyPickingArea(reassignableInventoryLpns);
                 final OrderedItem orderedItem = new OrderedItem(itemId, reassignQtyByPicking.getQuantity());
