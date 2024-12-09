@@ -121,7 +121,7 @@ public class AssignOfferHandler {
     }
 
     private LocalDateTime expirationDate(final OfferType offerType) {
-        LocalDateTime dateExpiring = switch (offerType.getExpirationType()) {
+        return switch (offerType.getExpirationType()) {
             case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
             case FIXED -> {
                 if (offerType.getBeginDate() == null) {
@@ -130,15 +130,13 @@ public class AssignOfferHandler {
                 yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
             }
         };
-        return dateExpiring;
     }
 
     private ResponseEntity<Integer> offerValue(final Member member, final OfferType offerType) {
-        ResponseEntity<Integer> value = restTemplate.getForEntity(
+        return restTemplate.getForEntity(
                 String.format("/calculate-offer-value?email=%s&offerType=%s",
                         member.getEmail(),
                         offerType.getName()),
                 Integer.class);
-        return value;
     }
 }
