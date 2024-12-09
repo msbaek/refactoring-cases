@@ -95,24 +95,19 @@ public class AssignOfferHandler {
                 .orElseThrow(() -> new RuntimeException("OfferType not found"));
 
         // Calculate offer value
-        ResponseEntity<Integer> value = restTemplate.getForEntity(
-                String.format("/calculate-offer-value?email=%s&offerType=%s",
-                        member.getEmail(),
-                        offerType.getName()),
-                Integer.class);
+        ResponseEntity<Integer> value = offerValue(member, offerType);
 
         // Calculate expiration date
-        LocalDateTime dateExpiring = switch (offerType.getExpirationType()) {
-            case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
-            case FIXED -> {
-                if (offerType.getBeginDate() == null) {
-                    throw new IllegalStateException("Begin date is required for fixed expiration type");
-                }
-                yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
-            }
-        };
+        LocalDateTime dateExpiring = expirationDate(offerType);
 
         // Assign offer
+        Offer offer = assignOffer(member, offerType, value, dateExpiring);
+
+        offerRepository.save(offer);
+        memberRepository.save(member);
+    }
+
+    private Offer assignOffer(final Member member, final OfferType offerType, final ResponseEntity<Integer> value, final LocalDateTime dateExpiring) {
         Offer offer = Offer.builder()
                 .memberAssigned(member)
                 .type(offerType)
@@ -122,8 +117,28 @@ public class AssignOfferHandler {
 
         member.getAssignedOffers().add(offer);
         member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
+        return offer;
+    }
 
-        offerRepository.save(offer);
-        memberRepository.save(member);
+    private LocalDateTime expirationDate(final OfferType offerType) {
+        LocalDateTime dateExpiring = switch (offerType.getExpirationType()) {
+            case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
+            case FIXED -> {
+                if (offerType.getBeginDate() == null) {
+                    throw new IllegalStateException("Begin date is required for fixed expiration type");
+                }
+                yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
+            }
+        };
+        return dateExpiring;
+    }
+
+    private ResponseEntity<Integer> offerValue(final Member member, final OfferType offerType) {
+        ResponseEntity<Integer> value = restTemplate.getForEntity(
+                String.format("/calculate-offer-value?email=%s&offerType=%s",
+                        member.getEmail(),
+                        offerType.getName()),
+                Integer.class);
+        return value;
     }
 }
