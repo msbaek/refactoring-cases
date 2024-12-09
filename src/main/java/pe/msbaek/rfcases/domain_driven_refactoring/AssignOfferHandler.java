@@ -108,25 +108,19 @@ public class AssignOfferHandler {
         ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
         // Calculate expiration date
-        LocalDateTime dateExpiring = OfferType.expirationDate(offerType);
-
         // Assign offer
-        Offer offer = assignOffer(member, offerType, value, dateExpiring);
+        Offer offer = Offer.builder()
+                .memberAssigned(member)
+                .type(offerType)
+                .value(value.getBody())
+                .dateExpiring(OfferType.expirationDate(offerType))
+                .build();
+
+        member.getAssignedOffers().add(offer);
+        member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
 
         offerRepository.save(offer);
         memberRepository.save(member);
     }
 
-    private Offer assignOffer(final Member member, final OfferType offerType, final ResponseEntity<Integer> value, final LocalDateTime dateExpiring) {
-        Offer offer = Offer.builder()
-                .memberAssigned(member)
-                .type(offerType)
-                .value(value.getBody())
-                .dateExpiring(dateExpiring)
-                .build();
-
-        member.getAssignedOffers().add(offer);
-        member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
-        return offer;
-    }
 }
