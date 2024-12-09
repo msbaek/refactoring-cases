@@ -66,6 +66,18 @@ class OfferType {
     public static Optional<OfferType> from(final Long typeId) {
         throw new UnsupportedOperationException("OfferType::from not implemented yet");
     }
+
+    static LocalDateTime expirationDate(final OfferType offerType) {
+        return switch (offerType.getExpirationType()) {
+            case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
+            case FIXED -> {
+                if (offerType.getBeginDate() == null) {
+                    throw new IllegalStateException("Begin date is required for fixed expiration type");
+                }
+                yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
+            }
+        };
+    }
 }
 
 @RestController
@@ -96,7 +108,7 @@ public class AssignOfferHandler {
         ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
         // Calculate expiration date
-        LocalDateTime dateExpiring = expirationDate(offerType);
+        LocalDateTime dateExpiring = OfferType.expirationDate(offerType);
 
         // Assign offer
         Offer offer = assignOffer(member, offerType, value, dateExpiring);
@@ -116,17 +128,5 @@ public class AssignOfferHandler {
         member.getAssignedOffers().add(offer);
         member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
         return offer;
-    }
-
-    private static LocalDateTime expirationDate(final OfferType offerType) {
-        return switch (offerType.getExpirationType()) {
-            case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
-            case FIXED -> {
-                if (offerType.getBeginDate() == null) {
-                    throw new IllegalStateException("Begin date is required for fixed expiration type");
-                }
-                yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
-            }
-        };
     }
 }
