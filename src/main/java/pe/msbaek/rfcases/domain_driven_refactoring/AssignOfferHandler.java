@@ -1,6 +1,5 @@
 package pe.msbaek.rfcases.domain_driven_refactoring;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
@@ -75,15 +74,14 @@ class OfferType {
 public class AssignOfferHandler {
     private final MemberRepository memberRepository;
     private final OfferRepository offerRepository;
-    private final RestTemplate restTemplate;
+    private final OfferValueCalculator offerValueCalculator;
 
     public AssignOfferHandler(
             MemberRepository memberRepository, final OfferRepository offerRepository,
-            RestTemplate restTemplate,
-            ObjectMapper objectMapper) {
+            final OfferValueCalculator offerValueCalculator) {
         this.memberRepository = memberRepository;
         this.offerRepository = offerRepository;
-        this.restTemplate = restTemplate;
+        this.offerValueCalculator = offerValueCalculator;
     }
 
     @PostMapping("/assign-offer")
@@ -95,7 +93,7 @@ public class AssignOfferHandler {
                 .orElseThrow(() -> new RuntimeException("OfferType not found"));
 
         // Calculate offer value
-        ResponseEntity<Integer> value = offerValue(member, offerType);
+        ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
         // Calculate expiration date
         LocalDateTime dateExpiring = expirationDate(offerType);
@@ -130,13 +128,5 @@ public class AssignOfferHandler {
                 yield offerType.getBeginDate().plusDays(offerType.getDaysValid());
             }
         };
-    }
-
-    private ResponseEntity<Integer> offerValue(final Member member, final OfferType offerType) {
-        return restTemplate.getForEntity(
-                String.format("/calculate-offer-value?email=%s&offerType=%s",
-                        member.getEmail(),
-                        offerType.getName()),
-                Integer.class);
     }
 }
