@@ -118,7 +118,7 @@ public class AssignOfferHandler {
         return offer;
     }
 
-    private LocalDateTime expirationDate(final OfferType offerType) {
+    private static LocalDateTime expirationDate(final OfferType offerType) {
         return switch (offerType.getExpirationType()) {
             case ASSIGNMENT -> LocalDate.now().plusDays(offerType.getDaysValid()).atStartOfDay();
             case FIXED -> {
