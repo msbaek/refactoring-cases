@@ -55,13 +55,13 @@ class Member {
     private List<Offer> assignedOffers = new ArrayList<>();
     private int numberOfActiveOffers;
 
-    Offer assignOffer(final OfferType offerType, final ResponseEntity<Integer> value) {
+    Offer assignOffer(final OfferType offerType, Integer value) {
         // Calculate expiration date
         // Assign offer
         Offer offer = Offer.builder()
                 .memberAssigned(this)
                 .type(offerType)
-                .value(value.getBody())
+                .value(value)
                 .dateExpiring(OfferType.expirationDate(offerType))
                 .build();
 
@@ -123,7 +123,7 @@ public class AssignOfferHandler {
         // Calculate offer value
         ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
-        Offer offer = member.assignOffer(offerType, value);
+        Offer offer = member.assignOffer(offerType, value.getBody());
 
         offerRepository.save(offer);
         memberRepository.save(member);
