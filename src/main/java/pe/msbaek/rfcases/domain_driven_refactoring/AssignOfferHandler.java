@@ -2,6 +2,7 @@ package pe.msbaek.rfcases.domain_driven_refactoring;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -47,12 +48,27 @@ enum ExpirationType {ASSIGNMENT, FIXED}
 
 record AssignOfferRequest(Long memberId, Long offerTypeId) {}
 
-@Data
+@Getter
 class Member {
     private Long id;
     private String email;
     private List<Offer> assignedOffers = new ArrayList<>();
     private int numberOfActiveOffers;
+
+    Offer assignOffer(final OfferType offerType, final ResponseEntity<Integer> value) {
+        // Calculate expiration date
+        // Assign offer
+        Offer offer = Offer.builder()
+                .memberAssigned(this)
+                .type(offerType)
+                .value(value.getBody())
+                .dateExpiring(OfferType.expirationDate(offerType))
+                .build();
+
+        assignedOffers.add(offer);
+        this.numberOfActiveOffers  = numberOfActiveOffers + 1;
+        return offer;
+    }
 }
 
 @Data
@@ -107,25 +123,9 @@ public class AssignOfferHandler {
         // Calculate offer value
         ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
-        Offer offer = assignOffer(member, offerType, value);
+        Offer offer = member.assignOffer(offerType, value);
 
         offerRepository.save(offer);
         memberRepository.save(member);
     }
-
-    private Offer assignOffer(final Member member, final OfferType offerType, final ResponseEntity<Integer> value) {
-        // Calculate expiration date
-        // Assign offer
-        Offer offer = Offer.builder()
-                .memberAssigned(member)
-                .type(offerType)
-                .value(value.getBody())
-                .dateExpiring(OfferType.expirationDate(offerType))
-                .build();
-
-        member.getAssignedOffers().add(offer);
-        member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
-        return offer;
-    }
-
 }
