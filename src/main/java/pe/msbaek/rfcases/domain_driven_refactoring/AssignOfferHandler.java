@@ -107,6 +107,13 @@ public class AssignOfferHandler {
         // Calculate offer value
         ResponseEntity<Integer> value = offerValueCalculator.offerValue(member, offerType);
 
+        Offer offer = assignOffer(member, offerType, value);
+
+        offerRepository.save(offer);
+        memberRepository.save(member);
+    }
+
+    private Offer assignOffer(final Member member, final OfferType offerType, final ResponseEntity<Integer> value) {
         // Calculate expiration date
         // Assign offer
         Offer offer = Offer.builder()
@@ -118,9 +125,7 @@ public class AssignOfferHandler {
 
         member.getAssignedOffers().add(offer);
         member.setNumberOfActiveOffers(member.getNumberOfActiveOffers() + 1);
-
-        offerRepository.save(offer);
-        memberRepository.save(member);
+        return offer;
     }
 
 }
