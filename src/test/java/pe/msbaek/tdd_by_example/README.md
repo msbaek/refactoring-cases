@@ -83,3 +83,13 @@ void testMultiplication() {
 - Value Object가 암시하는 2가지
     - 모든 연산은 새 객체를 반환해야 함
     - equals()를 구현해야 함
+
+### 3.2 add failing test - testEquality
+
+```Java
+
+@Test
+void testEquality() {
+    assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
+}
+```

@@ -22,4 +22,9 @@ public class MoneyTest {
         product = five.times(3);
         assertThat(product.amount).isEqualTo(15);
     }
+
+    @Test
+    void testEquality() {
+        assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
+    }
 }
