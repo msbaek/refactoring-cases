@@ -71,3 +71,5 @@ void testMultiplication() {
     assertThat(product.amount).isEqualTo(15);
 }
 ```
+
+### 2.3 make it work

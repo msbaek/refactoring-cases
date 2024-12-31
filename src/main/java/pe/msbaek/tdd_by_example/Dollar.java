@@ -4,8 +4,10 @@ public class Dollar {
     int amount = 10;
 
     public Dollar(final int amount) {
+        this.amount = amount;
     }
 
-    public void times(final int multiply) {
+    public Dollar times(final int multiply) {
+        return new Dollar(amount * multiply);
     }
 }
