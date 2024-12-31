@@ -75,3 +75,11 @@ void testMultiplication() {
 ### 2.3 make it work
 
 ### 2.4 mark done in test list
+
+## 3장. 모두를 위한 평등
+
+### 3.1 add todo list
+
+- Value Object가 암시하는 2가지
+    - 모든 연산은 새 객체를 반환해야 함
+    - equals()를 구현해야 함
