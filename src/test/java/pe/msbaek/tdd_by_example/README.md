@@ -55,3 +55,19 @@ void testMultiplication() {
 
 - 이 테스트를 통과할 명쾌한 방법이 떠오르지 않음
 - times를 처음 호출한 이후에 five는 더 이상 5가 아님
+
+### 2.2 make test meaningful
+
+- 이 테스트를 통과할 명쾌한 방법이 떠오르지 않는다.
+- times()를 처음 호출한 이후에 five는 더 이상 5가 아니다.
+- 그렇다면 times()에서 새 로운 객체를 반환하게 만들면 어떨까?
+
+```Java
+void testMultiplication() {
+    Dollar five = new Dollar(5);
+    Dollar product = five.times(2);
+    assertThat(product.amount).isEqualTo(10);
+    product = five.times(3);
+    assertThat(product.amount).isEqualTo(15);
+}
+```
