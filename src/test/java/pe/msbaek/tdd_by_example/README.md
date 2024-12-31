@@ -36,3 +36,22 @@ void testMultiplication() {
 
 ### 1.6 mark done in test list
 
+## 2장. 타락한 객체
+
+### 2.1 add failing case for immutable
+
+- Dollar애 대한 연산을 호출하면 Dollar가 변경되는 것이 이상함
+- 다음과 같이 사용할 수 있기를 바람
+
+```Java
+void testMultiplication() {
+    Dollar five = new Dollar(5);
+    five.times(2);
+    assertThat(product.amount).isEqualTo(10);
+    five.times(3);
+    assertThat(product.amount).isEqualTo(15);
+}
+```
+
+- 이 테스트를 통과할 명쾌한 방법이 떠오르지 않음
+- times를 처음 호출한 이후에 five는 더 이상 5가 아님
