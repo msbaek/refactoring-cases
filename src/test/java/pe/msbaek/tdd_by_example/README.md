@@ -29,3 +29,4 @@ void testMultiplication() {
 /// - [] Dollar 부작용(side effect)?
 /// - [] Money 반올림?
 ```
+### 1.4 make it compile

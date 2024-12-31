@@ -3,6 +3,8 @@ package pe.msbaek.tdd_by_example;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /// - [ ] $5 + 10CHF = $10(환율이 2:1일 경우)
 /// - [O] $5 × 2 = $10
 /// - [ ] amount를 private으로 만들기
