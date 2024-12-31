@@ -93,3 +93,16 @@ void testEquality() {
     assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
 }
 ```
+
+### 3.3 fake it - return true
+
+```Java
+public class Dollar {
+    ...
+
+    @Override
+    public boolean equals(final Object obj) {
+        return true;
+    }
+}
+```
