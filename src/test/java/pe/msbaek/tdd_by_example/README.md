@@ -29,7 +29,10 @@ void testMultiplication() {
 /// - [] Dollar 부작용(side effect)?
 /// - [] Money 반올림?
 ```
+
 ### 1.4 make it compile
 
 ### 1.5 make it work - faking
+
+### 1.6 mark done in test list
 
