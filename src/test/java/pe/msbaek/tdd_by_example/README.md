@@ -30,3 +30,6 @@ void testMultiplication() {
 /// - [] Money 반올림?
 ```
 ### 1.4 make it compile
+
+### 1.5 make it work - faking
+
