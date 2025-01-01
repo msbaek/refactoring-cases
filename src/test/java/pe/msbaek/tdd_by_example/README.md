@@ -245,3 +245,9 @@ void testCurrency() {
 
 - add abstract method currency() in Money
 - implement currency() in Dollar and Franc
+
+### 9.3 introduce currency field
+
+- 두 클래스의 구현이 최대한 유사해지도록 하기 위해 currency 필드를 추가
+
+![img_5.png](img_5.png)

@@ -1,8 +1,12 @@
 package pe.msbaek.tdd_by_example;
 
 public class Dollar extends Money {
+
+    private final String currency;
+
     protected Dollar(final int amount) {
         super(amount);
+        currency = "USD";
     }
 
     public Money times(final int multiply) {
@@ -11,6 +15,6 @@ public class Dollar extends Money {
 
     @Override
     public String currency() {
-        return "USD";
+        return currency;
     }
 }
