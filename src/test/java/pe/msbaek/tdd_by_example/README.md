@@ -171,3 +171,5 @@ void testFrancMultiplication() {
 ### 6.1 add super class
 
 - Dollar, Franc의 수퍼클래스로 Money를 추가
+
+### 6.2 pull member up - amount
