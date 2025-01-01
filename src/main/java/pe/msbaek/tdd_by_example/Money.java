@@ -5,6 +5,14 @@ public class Money {
 
     public Money(final int amount) {this.amount = amount;}
 
+    public static Dollar dollar(final int amount) {
+        return new Dollar(amount);
+    }
+
+    public static Franc franc(final int amount) {
+        return new Franc(amount);
+    }
+
     @Override
     public boolean equals(final Object obj) {
        Money dollar = (Money) obj;

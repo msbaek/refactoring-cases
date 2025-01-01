@@ -209,3 +209,11 @@ void testFrancMultiplication() {
 ### 8.1 return Money in times
 
 - Dollar, Franc의 times 메소드에서 공용 타입인 Money를 반환하도록 변경하여 두 메소드를 보다 비슷하게 만든다.
+
+### 8.2 introduce factory method
+
+- 불필요해 보이는 하위 클래스를 제거하기 하고 싶다.
+- 하위 클래스에 대한 직접적인 참조를 없애기 위해 생성자를 팩토리 메소드로 대체한다.
+- 절차
+  - Replace constructor with factory method
+  - pull members up
