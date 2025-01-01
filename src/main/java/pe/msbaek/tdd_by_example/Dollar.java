@@ -4,4 +4,8 @@ public class Dollar extends Money {
     protected Dollar(final int amount, String currency) {
         super(amount, currency);
     }
+
+    public Money times(final int multiply) {
+        return Money.dollar(amount * multiply);
+    }
 }
