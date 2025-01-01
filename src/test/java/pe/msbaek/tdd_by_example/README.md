@@ -416,9 +416,24 @@ void testReduceSum() {
 ### 13.4 make it work
 
 ### 13.5 Bank#reduce의 문제
+
 - 캐스팅(형변환). 이 코드는 모든 Expression에 대해 작동해야 한다.
 - 공용(public) 필드와 그 필드들에 대한 두 단계에 걸친 레퍼런스.
 
 - feature envy는 해당 기능을 이동시켜서 해결 가능
     - feature envy logic을 별도의 메소드로 추출
     - 추출된 메소드를 해당 클래스로 이동
+
+### 13.6 add failing test - testReduceMoney
+
+- Bank#reduce가 Money도 처리할 수 있도록 테스트 추가
+
+```Java
+
+@Test
+void testReduceMoney() {
+    Bank bank = new Bank();
+    Money result = bank.reduce(Money.dollar(1), "USD");
+    assertThat(result).isEqualTo(Money.dollar(1));
+}
+```
