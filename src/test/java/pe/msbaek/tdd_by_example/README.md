@@ -328,3 +328,11 @@ void testDifferentClassEquality() {
 - 생성자만 남은 서브 클래스는 존재의 이유가 없다.
 - factory method에서 Money를 반환하도록 수정
 - Dollar, Franc를 제거
+
+## 11장. 모든 악의 근원
+
+- 불필요한 코드들을 제거한다.
+
+### 11.1 remove unnecessary test cases
+
+![img_8.png](img_8.png)
