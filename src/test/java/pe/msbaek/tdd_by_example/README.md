@@ -309,3 +309,11 @@ Actual   :10USD
 - 보수적인 방법을 따르자면 변경된 코드를 되돌려서 다시 초록 막대 상태로 돌아가야 한다.
 - 그러고 나서 equals()를 위해 테스트를 고치고 구현 코드를 고칠 수 있게 되고, 그 후에야 원래 하던 일을 다 시 할 수 있다.
 
+### 10.6 add failing test - testDifferentClassEquality
+
+```Java
+@Test
+void testDifferentClassEquality() {
+  assertThat(new Franc(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
+}
+```
