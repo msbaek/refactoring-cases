@@ -21,7 +21,7 @@ public class Money {
     public boolean equals(final Object obj) {
         Money dollar = (Money) obj;
         return dollar.amount == this.amount
-               && this.getClass().equals(dollar.getClass());
+               && dollar.currency.equals(this.currency);
     }
 
     @Override

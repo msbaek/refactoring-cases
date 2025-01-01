@@ -317,3 +317,7 @@ void testDifferentClassEquality() {
   assertThat(new Franc(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
 }
 ```
+
+### 10.7 make it pass 
+
+- class 대신 currency를 비교하도록 equals()를 수정 
