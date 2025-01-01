@@ -439,3 +439,8 @@ void testReduceMoney() {
 ```
 
 ### 13.7 make it work
+
+### 13.7 remove instance of
+
+- 클래스를 명시적으로 검사하는 코드가 있을 때에는 항상 다형성(polymorphism)을 사용하도록 바꾸는 것이 좋다.
+- Sum은 reduce(String)를 구현하므로, Money도 그것을 구현하도록 만든다면 reduce()를 Expression 인터페이스에도 추가할 수 있게 된다.

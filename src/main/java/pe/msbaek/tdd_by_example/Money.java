@@ -40,4 +40,8 @@ public class Money implements Expression {
     public Expression plus(final Money addend) {
         return new Sum(this, addend);
     }
+
+    public Money reduce(final String to) {
+        return this;
+    }
 }
