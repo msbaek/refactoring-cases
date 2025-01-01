@@ -321,3 +321,10 @@ void testDifferentClassEquality() {
 ### 10.7 make it pass 
 
 - class 대신 currency를 비교하도록 equals()를 수정 
+
+### 10.8 remove subclasses
+
+- Dollar, Franc의 times()를 제거  
+- 생성자만 남은 서브 클래스는 존재의 이유가 없다.
+- factory method에서 Money를 반환하도록 수정
+- Dollar, Franc를 제거

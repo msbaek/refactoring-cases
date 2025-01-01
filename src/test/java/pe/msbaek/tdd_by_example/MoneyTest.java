@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// - [] Dollar / Franc 중복
 /// - [X] 공용 Equals
 /// - [] 공용 times
-/// - [X] Franc과 Dollar 비교하기
+/// - [X] Franc과  비교하기
 /// - [X] 통화?
 /// - [] testFrancMultiplication을 지워야 할까?
 public class MoneyTest {
@@ -54,6 +54,6 @@ public class MoneyTest {
 
     @Test
     void testDifferentClassEquality() {
-        assertThat(new Franc(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
+        assertThat(new Money(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
     }
 }
