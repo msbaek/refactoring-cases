@@ -127,3 +127,12 @@ void testEquality() {
 ### 3.6 mark done in test list
 
 ### 3.7 add todo list
+
+## 4장. 프라이버시
+
+### 4.1 테스트가 의도(모델 코드)를 반영하도록 수정
+
+- 개념적으로 Dollar.times() 연산은 호출 받은 객체의 값에 인자로 받은 곱수만큼 곱한 값을 갖는 Dollar를 반환해야 함
+- 하지만 테스트가 정확히 그것을 말하지는 않음(Dollar가 아니라 int를 반환하는것으로 보임)
+
+![img_1.png](img_1.png)
