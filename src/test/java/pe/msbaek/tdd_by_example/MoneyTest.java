@@ -74,4 +74,12 @@ public class MoneyTest {
         assertThat(sum.augend).isEqualTo(five);
         assertThat(sum.addend).isEqualTo(five);
     }
+
+    @Test
+    void testReduceSum() {
+        final Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+        final Bank bank = new Bank();
+        final Money result = bank.reduce(sum, "USD");
+        assertThat(result).isEqualTo(Money.dollar(7));
+    }
 }

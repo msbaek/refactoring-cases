@@ -399,3 +399,16 @@ void testPlusReturnsSum() {
 ```
 
 ### 13.2 make it work
+
+### 13.3 add failing test testReduceSum
+
+```Java
+
+@Test
+void testReduceSum() {
+    final Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
+    final Bank bank = new Bank();
+    final Money result = bank.reduce(sum, "USD");
+    assertThat(result).isEqualTo(Money.dollar(7));
+}
+```
