@@ -119,3 +119,7 @@ void testEquality() {
     assertThat(new Dollar(5)).isNotEqualTo(new Dollar(6)); // triangulate를 위한 두번째 예제
 }
 ```
+
+### 3.5 make it work - generalize equality
+
+![img.png](img.png)
