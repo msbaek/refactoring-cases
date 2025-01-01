@@ -24,6 +24,11 @@ public class Money {
                && this.getClass().equals(dollar.getClass());
     }
 
+    @Override
+    public String toString() {
+        return amount + " " + currency;
+    }
+
     public Money times(final int multiply) {
         return new Money(amount * multiply, currency);
     }

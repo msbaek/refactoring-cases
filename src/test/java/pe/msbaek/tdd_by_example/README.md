@@ -279,7 +279,25 @@ void testCurrency() {
 ### 10.3 return Money in times
 
 - Money의 2개의 abstract method를 구현 or 삭제(times, currency)
-- Money 클래스 선언에서 abstract 제거 
+- Money 클래스 선언에서 abstract 제거
 - Dollar, Franc에서 Money를 반환하도록 수정
 - pull members up - times
 
+### 10.4 add Money#toString for debugging
+
+- toString()을 실패하는 테스트의 디버깅을 위해 추가
+- 헉! 테스트도 없이 코드를 작성하네? 그래도 되는 건가?
+- toString()을 작성하기 전에 테스트를 작성하는 게 맞다.
+- 하지만 우린 지금 화면에 나타나는 결과를 보려던 참이다.
+- toString()은 디버그 출력에만 쓰이기 때문에 이게 잘못 구현됨으로 인해 얻게 될 리스크가 적다.
+- 이미 빨간 막대 상태인데 이 상태에서는 새로운 테스트를 작성하지 않는 게 좋을 것 같다.
+
+```Java
+org.opentest4j.AssertionFailedError:
+expected:"10 USD (Dollar@5f8edcc5)"
+but was:"10 USD (Money@6db9f5a4)"
+Expected :10USD
+Actual   :10USD
+```
+
+- 답은 맞았는데 클래스가 다르다. Franc 대신 Money가 왔다. 문제는 equals() 구현에 있다.
