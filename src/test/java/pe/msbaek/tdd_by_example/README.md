@@ -437,3 +437,5 @@ void testReduceMoney() {
     assertThat(result).isEqualTo(Money.dollar(1));
 }
 ```
+
+### 13.7 make it work
