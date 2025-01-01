@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// - [] Money 반올림?
 /// - [X] equals()
 /// - [] hashCode()
+/// - [] equal null
+/// - [] equal object
 public class MoneyTest {
     @DisplayName("어떤 금액(주가)을 어떤 수(주식의 수)로 곱한 금액을 결과로 얻을 수 있어야 한다")
     @Test
