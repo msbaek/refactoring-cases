@@ -185,7 +185,12 @@ void testFrancMultiplication() {
 ### 7.1 add equality test for franc
 
 - Dollar 케이스를 복붙해서 Franc 케이스를 추가
- 
+
 ![img_2.png](img_2.png)
 
-### 7.2 mark done in test list 
+### 7.2 mark done in test list
+
+### 7.3 add failing case for dollar(5) != franc(5)
+
+![img_3.png](img_3.png)
+
