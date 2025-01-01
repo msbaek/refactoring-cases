@@ -265,3 +265,10 @@ void testCurrency() {
 
 ### 9.6 mark done in test list
 
+## 10장. 흥미로운 시간 
+
+- times를 Money로 옮겨서 두 서브 클래스를 없애고 싶다.
+- times에서 서로 다른 factory method를 호출하고 있는데, 이를 생성자로 변경하면 동일한 구조를 갖게 할 수 있다.
+- 때로는 전진하기 위해 물러서야 할 때도 있는 법
+
+### 10.1 inline factory method to make times look similar
