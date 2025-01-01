@@ -106,3 +106,16 @@ public class Dollar {
     }
 }
 ```
+
+### 3.4 triangulate - add one more test
+
+- 삼각측량을 하려면 예제가 두 개 이상 있어야만 코드를 일반화할 수 있음
+
+```Java
+
+@Test
+void testEquality() {
+    assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
+    assertThat(new Dollar(5)).isNotEqualTo(new Dollar(6)); // triangulate를 위한 두번째 예제
+}
+```
