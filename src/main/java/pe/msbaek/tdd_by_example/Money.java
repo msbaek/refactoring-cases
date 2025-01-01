@@ -8,6 +8,7 @@ public class Money {
     @Override
     public boolean equals(final Object obj) {
        Money dollar = (Money) obj;
-       return dollar.amount == this.amount;
+       return dollar.amount == this.amount
+               && this.getClass().equals(dollar.getClass());
     }
 }

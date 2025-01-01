@@ -194,3 +194,6 @@ void testFrancMultiplication() {
 
 ![img_3.png](img_3.png)
 
+### 7.4 make it pass by comparing type
+
+![img_4.png](img_4.png)
