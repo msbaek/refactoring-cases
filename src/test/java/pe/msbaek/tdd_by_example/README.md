@@ -262,3 +262,6 @@ void testCurrency() {
 ### 9.5 introduce parameter in c'tor
 
 ![img_7.png](img_7.png)
+
+### 9.6 mark done in test list
+
