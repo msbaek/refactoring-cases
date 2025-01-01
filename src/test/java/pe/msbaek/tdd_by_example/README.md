@@ -350,3 +350,7 @@ void testSimpleAddtion() {
     assertThat(sum).isEqualTo(Money.dollar(10));
 }
 ```
+
+### 12.2 make it pass
+
+- fake it을 할수도 있지만 어떻게 구현할지 명확하므로 바로 구현함
