@@ -16,8 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// - [] equal object
 /// - [X] 5CHF x 2 = 10CHF
 /// - [] Dollar / Franc 중복
-/// - [] 공용 Equals
+/// - [X] 공용 Equals
 /// - [] 공용 times
+/// - [] Franc과 Dollar 비교하기
 public class MoneyTest {
     @DisplayName("어떤 금액(주가)을 어떤 수(주식의 수)로 곱한 금액을 결과로 얻을 수 있어야 한다")
     @Test

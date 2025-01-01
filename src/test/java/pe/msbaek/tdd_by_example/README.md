@@ -177,3 +177,5 @@ void testFrancMultiplication() {
 ### 6.3 pull member up - equaLs
 
 ### 6.4 remove equals in Franc
+
+### 6.5 mark done and add test in test list
