@@ -153,6 +153,7 @@ void testEquality() {
 - Dollar 테스트를 복사한 후 수정해보자.
 
 ```Java
+
 @Test
 void testFrancMultiplication() {
     Franc five = new Franc(5);
@@ -164,3 +165,9 @@ void testFrancMultiplication() {
 ### 5.2 add Franc by copying Dollar
 
 ### 5.3 mark done and add test in test list
+
+## 6장. 돌아온 '모두를 위한 평등'
+
+### 6.1 add super class
+
+- Dollar, Franc의 수퍼클래스로 Money를 추가

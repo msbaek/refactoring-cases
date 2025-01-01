@@ -1,6 +1,6 @@
 package pe.msbaek.tdd_by_example;
 
-public class Franc {
+public class Franc extends Money {
     private final int amount;
 
     public Franc(final int amount) {
