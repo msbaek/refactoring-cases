@@ -217,3 +217,5 @@ void testFrancMultiplication() {
 - 절차
   - Replace constructor with factory method
   - pull members up
+  
+### 8.3 use base type

@@ -24,14 +24,14 @@ public class MoneyTest {
     @DisplayName("어떤 금액(주가)을 어떤 수(주식의 수)로 곱한 금액을 결과로 얻을 수 있어야 한다")
     @Test
     void testMultiplication() {
-        Dollar five = Money.dollar(5);
+        Money five = Money.dollar(5);
         assertThat(five.times(2)).isEqualTo(Money.dollar(10));
         assertThat(five.times(3)).isEqualTo(Money.dollar(15));
     }
 
     @Test
     void testFrancMultiplication() {
-        Franc five = Money.franc(5);
+        Money five = Money.franc(5);
         assertThat(five.times(2)).isEqualTo(Money.franc(10));
         assertThat(five.times(3)).isEqualTo(Money.franc(15));
     }
