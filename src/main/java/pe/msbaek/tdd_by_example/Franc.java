@@ -2,11 +2,8 @@ package pe.msbaek.tdd_by_example;
 
 public class Franc extends Money {
 
-    private final String currency;
-
     protected Franc(final int amount) {
-        super(amount);
-        currency = "CHF";
+        super(amount, "CHF");
     }
 
     public Money times(final int multiply) {

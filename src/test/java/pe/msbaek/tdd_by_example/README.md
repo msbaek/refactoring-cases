@@ -251,3 +251,10 @@ void testCurrency() {
 - 두 클래스의 구현이 최대한 유사해지도록 하기 위해 currency 필드를 추가
 
 ![img_5.png](img_5.png)
+
+### 9.4 pull members up - currency field
+
+- currency 필드를 Money로 옮긴다.
+- 베이스 틀래스의 생성자의 인자로 currency를 추가한다.
+
+![img_6.png](img_6.png)
