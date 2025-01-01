@@ -376,3 +376,24 @@ void testSimpleAddtion() {
 ### 12.4 make it compile
 
 ### 12.5 make it work by fake it
+
+## 13장. 진짜로 만들기
+
+- 모든 중복을 제거하기 전까지는 $5 + $5 테스트에 완료 표시를 할 수 없다.
+- 코드 중복은 없지만 **데이터 중복**이 있다.
+    - 가짜 구현에 있는 $10는 사실 테스트 코드에 있는 S5 + $5와 같다(`five.plus(five)`)
+
+### 13.1 add failing test testPlusReturnsSum
+
+```Java
+/// 이 테스트는 오래 가지 못함
+/// 외부 행위가 아니라 내부 구현에 대해 너무 깊게 관여하고 있음
+@Test
+void testPlusReturnsSum() {
+    final Money five = Money.dollar(5);
+    final Expression result = five.plus(five);
+    final Sum sum = (Sum) result;
+    assertThat(sum.augend).isEqualTo(five);
+    assertThat(sum.addend).isEqualTo(five);
+}
+```

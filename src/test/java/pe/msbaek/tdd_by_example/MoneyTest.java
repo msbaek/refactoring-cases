@@ -63,4 +63,15 @@ public class MoneyTest {
         final Money reduced = bank.reduce(sum, "USD");
         assertThat(reduced).isEqualTo(Money.dollar(10));
     }
+
+    /// 이 테스트는 오래 가지 못함
+    /// 외부 행위가 아니라 내부 구현에 대해 너무 깊게 관여하고 있음
+    @Test
+    void testPlusReturnsSum() {
+        final Money five = Money.dollar(5);
+        final Expression result = five.plus(five);
+        final Sum sum = (Sum) result;
+        assertThat(sum.augend).isEqualTo(five);
+        assertThat(sum.addend).isEqualTo(five);
+    }
 }
