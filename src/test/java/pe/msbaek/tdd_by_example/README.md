@@ -174,4 +174,6 @@ void testFrancMultiplication() {
 
 ### 6.2 pull member up - amount
 
-### 6.3 pull member up - equals
+### 6.3 pull member up - equaLs
+
+### 6.4 remove equals in Franc
