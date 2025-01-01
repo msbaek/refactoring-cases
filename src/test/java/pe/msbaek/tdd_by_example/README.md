@@ -145,3 +145,18 @@ void testEquality() {
 ### 4.3 make amount to private final
 
 ### 4.4 mark done in test list
+
+## 5장. 솔직히 말하자면
+
+### 5.1 add franc multiplication test
+
+- Dollar 테스트를 복사한 후 수정해보자.
+
+```Java
+@Test
+void testFrancMultiplication() {
+    Franc five = new Franc(5);
+    assertThat(five.times(2)).isEqualTo(new Franc(10));
+    assertThat(five.times(3)).isEqualTo(new Franc(15));
+}
+```

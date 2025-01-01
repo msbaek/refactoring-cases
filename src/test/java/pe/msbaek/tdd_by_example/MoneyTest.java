@@ -24,6 +24,13 @@ public class MoneyTest {
     }
 
     @Test
+    void testFrancMultiplication() {
+        Franc five = new Franc(5);
+        assertThat(five.times(2)).isEqualTo(new Franc(10));
+        assertThat(five.times(3)).isEqualTo(new Franc(15));
+    }
+
+    @Test
     void testEquality() {
         assertThat(new Dollar(5)).isEqualTo(new Dollar(5));
         assertThat(new Dollar(5)).isNotEqualTo(new Dollar(6)); // triangulate를 위한 두번째 예제
