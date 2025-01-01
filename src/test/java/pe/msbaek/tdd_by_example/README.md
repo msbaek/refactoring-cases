@@ -258,3 +258,7 @@ void testCurrency() {
 - 베이스 틀래스의 생성자의 인자로 currency를 추가한다.
 
 ![img_6.png](img_6.png)
+
+### 9.5 introduce parameter in c'tor
+
+![img_7.png](img_7.png)

@@ -10,11 +10,11 @@ public abstract class Money {
     }
 
     public static Dollar dollar(final int amount) {
-        return new Dollar(amount);
+        return new Dollar(amount, "USD");
     }
 
     public static Franc franc(final int amount) {
-        return new Franc(amount);
+        return new Franc(amount, "CHF");
     }
 
     @Override
