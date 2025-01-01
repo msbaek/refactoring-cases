@@ -197,3 +197,9 @@ void testFrancMultiplication() {
 ### 7.4 make it pass by comparing type
 
 ![img_4.png](img_4.png)
+
+### 7.5 mark done and add test in test list
+
+- 모델 코드에서 클래스를 이런 식으로 사용하는 것은 좀 지저분해 보인다.
+- 자바 객체의 용어를 사용하는 것보다 재정 분야에 맞는 용어를 사용하고 싶다.
+- 하지만 현재는 통화(curency) 개념 같은 게 없고, 통화 개념을 도입할 충분한 이유가 없어 보이므로 잠시 동안은 이대로 두자.
