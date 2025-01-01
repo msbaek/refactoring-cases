@@ -8,4 +8,9 @@ public class Dollar extends Money {
     public Money times(final int multiply) {
         return dollar(amount * multiply);
     }
+
+    @Override
+    public String currency() {
+        return "USD";
+    }
 }

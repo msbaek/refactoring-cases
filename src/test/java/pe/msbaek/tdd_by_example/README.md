@@ -240,3 +240,8 @@ void testCurrency() {
     assertThat(Money.franc(1).currency()).isEqualTo("CHF");
 }
 ```
+
+### 9.2 make it work
+
+- add abstract method currency() in Money
+- implement currency() in Dollar and Franc
