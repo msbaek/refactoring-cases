@@ -312,19 +312,20 @@ Actual   :10USD
 ### 10.6 add failing test - testDifferentClassEquality
 
 ```Java
+
 @Test
 void testDifferentClassEquality() {
-  assertThat(new Franc(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
+    assertThat(new Franc(10, "CHF").equals(new Money(10, "CHF"))).isTrue();
 }
 ```
 
-### 10.7 make it pass 
+### 10.7 make it pass
 
-- class 대신 currency를 비교하도록 equals()를 수정 
+- class 대신 currency를 비교하도록 equals()를 수정
 
 ### 10.8 remove subclasses
 
-- Dollar, Franc의 times()를 제거  
+- Dollar, Franc의 times()를 제거
 - 생성자만 남은 서브 클래스는 존재의 이유가 없다.
 - factory method에서 Money를 반환하도록 수정
 - Dollar, Franc를 제거
@@ -336,3 +337,16 @@ void testDifferentClassEquality() {
 ### 11.1 remove unnecessary test cases
 
 ![img_8.png](img_8.png)
+
+## 12장. 드디어, 더하기
+
+### 12.1 add failing test - testSimpleAddtion
+
+```Java
+
+@Test
+void testSimpleAddtion() {
+    Money sum = Money.dollar(5).plus(Money.dollar(5));
+    assertThat(sum).isEqualTo(Money.dollar(10));
+}
+```
