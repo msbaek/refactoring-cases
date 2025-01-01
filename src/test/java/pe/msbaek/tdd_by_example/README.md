@@ -187,3 +187,5 @@ void testFrancMultiplication() {
 - Dollar 케이스를 복붙해서 Franc 케이스를 추가
  
 ![img_2.png](img_2.png)
+
+### 7.2 mark done in test list 
