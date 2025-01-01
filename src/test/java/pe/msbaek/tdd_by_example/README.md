@@ -275,3 +275,11 @@ void testCurrency() {
 ### 10.1 inline factory method to make times look similar
 
 ### 10.2 use currency in times instead of constant
+
+### 10.3 return Money in times
+
+- Money의 2개의 abstract method를 구현 or 삭제(times, currency)
+- Money 클래스 선언에서 abstract 제거 
+- Dollar, Franc에서 Money를 반환하도록 수정
+- pull members up - times
+

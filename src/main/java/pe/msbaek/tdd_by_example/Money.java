@@ -1,6 +1,6 @@
 package pe.msbaek.tdd_by_example;
 
-public abstract class Money {
+public class Money {
     protected final int amount;
     protected final String currency;
 
@@ -24,7 +24,11 @@ public abstract class Money {
                && this.getClass().equals(dollar.getClass());
     }
 
-    public abstract Money times(final int multiply);
+    public Money times(final int multiply) {
+        return new Money(amount * multiply, currency);
+    }
 
-    public abstract String currency();
+    public String currency() {
+        return currency;
+    }
 }
