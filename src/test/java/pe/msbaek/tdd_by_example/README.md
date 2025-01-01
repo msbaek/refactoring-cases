@@ -215,16 +215,16 @@ void testFrancMultiplication() {
 - 불필요해 보이는 하위 클래스를 제거하기 하고 싶다.
 - 하위 클래스에 대한 직접적인 참조를 없애기 위해 생성자를 팩토리 메소드로 대체한다.
 - 절차
-  - Replace constructor with factory method
-  - pull members up
-  
+    - Replace constructor with factory method
+    - pull members up
+
 ### 8.3 use base type
 
 ### 8.4 add todo in test list
 
 ## 9장. 우리가 사는 시간
 
-- time은 시간을 의미하기도 하고, 곱셈을 의미하기도 함 
+- time은 시간을 의미하기도 하고, 곱셈을 의미하기도 함
 
 - 할일 목록에서 어떤 것을 하면 귀찮고 불필요한 하위 클래스를 제거하는데 도움이 될까 ?
 - 통화 개념을 도입하면 도움이 될 것이다.
@@ -234,6 +234,7 @@ void testFrancMultiplication() {
 - 통화 개념을 도입하면 도움이 될 것이다.
 
 ```Java
+
 @Test
 void testCurrency() {
     assertThat(Money.dollar(1).currency()).isEqualTo("USD");
@@ -265,10 +266,12 @@ void testCurrency() {
 
 ### 9.6 mark done in test list
 
-## 10장. 흥미로운 시간 
+## 10장. 흥미로운 시간
 
 - times를 Money로 옮겨서 두 서브 클래스를 없애고 싶다.
 - times에서 서로 다른 factory method를 호출하고 있는데, 이를 생성자로 변경하면 동일한 구조를 갖게 할 수 있다.
 - 때로는 전진하기 위해 물러서야 할 때도 있는 법
 
 ### 10.1 inline factory method to make times look similar
+
+### 10.2 use currency in times instead of constant

@@ -6,7 +6,7 @@ public class Dollar extends Money {
     }
 
     public Money times(final int multiply) {
-        return new Dollar(amount * multiply, "USD");
+        return new Dollar(amount * multiply, currency);
     }
 
     @Override
