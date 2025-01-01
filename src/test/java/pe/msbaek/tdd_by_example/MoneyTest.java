@@ -21,7 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// - [X] Franc과  비교하기
 /// - [X] 통화?
 /// - [] testFrancMultiplication을 지워야 할까?
-/// - [] Bank.reduce (Money)
+/// - [X] Bank.reduce (Money)
+/// - [] Money에 대한 통화 변환을 수행하는 Reduce
+/// - [] Reduce(Bank, String)
 public class MoneyTest {
     @DisplayName("어떤 금액(주가)을 어떤 수(주식의 수)로 곱한 금액을 결과로 얻을 수 있어야 한다")
     @Test
