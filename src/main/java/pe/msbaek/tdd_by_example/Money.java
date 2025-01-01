@@ -1,6 +1,6 @@
 package pe.msbaek.tdd_by_example;
 
-public class Money {
+public class Money implements Expression {
     protected final int amount;
     protected final String currency;
 
@@ -37,7 +37,7 @@ public class Money {
         return currency;
     }
 
-    public Money plus(final Money addend) {
+    public Expression plus(final Money addend) {
         return new Money(amount + addend.amount, currency);
     }
 }

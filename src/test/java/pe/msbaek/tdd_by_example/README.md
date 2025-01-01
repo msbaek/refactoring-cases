@@ -370,3 +370,5 @@ void testSimpleAddtion() {
     - 우리 경우엔 `($2 + 3 CHF) x 5`가 되겠지만. 
     - 이렇게 하면 Money를 수식의 가장 작은 단위로 볼 수 있다.
     - 연산의 결과로 Expression들이 생기는데, 그 중 하나는 Sum(합)이 될 것이다. 연산(포트폴리오의 값을 합산하는 것 등)이 완료되면, 환율을 이용해서 결과 Expression을 단일 통화로 축약할 수 있다.
+
+### 12.4 make it compile
