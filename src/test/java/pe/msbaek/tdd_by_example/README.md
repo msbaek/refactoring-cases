@@ -179,3 +179,11 @@ void testFrancMultiplication() {
 ### 6.4 remove equals in Franc
 
 ### 6.5 mark done and add test in test list
+
+## 7장. 사과와 오렌지
+
+### 7.1 add equality test for franc
+
+- Dollar 케이스를 복붙해서 Franc 케이스를 추가
+ 
+![img_2.png](img_2.png)
