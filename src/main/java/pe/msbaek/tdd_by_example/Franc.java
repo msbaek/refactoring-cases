@@ -5,7 +5,7 @@ public class Franc extends Money {
         super(amount);
     }
 
-    public Franc times(final int multiply) {
+    public Money times(final int multiply) {
         return new Franc(amount * multiply);
     }
 }
