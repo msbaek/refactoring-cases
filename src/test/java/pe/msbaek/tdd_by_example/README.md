@@ -160,3 +160,5 @@ void testFrancMultiplication() {
     assertThat(five.times(3)).isEqualTo(new Franc(15));
 }
 ```
+
+### 5.2 add Franc by copying Dollar
