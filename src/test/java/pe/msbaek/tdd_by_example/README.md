@@ -221,3 +221,22 @@ void testFrancMultiplication() {
 ### 8.3 use base type
 
 ### 8.4 add todo in test list
+
+## 9장. 우리가 사는 시간
+
+- time은 시간을 의미하기도 하고, 곱셈을 의미하기도 함 
+
+- 할일 목록에서 어떤 것을 하면 귀찮고 불필요한 하위 클래스를 제거하는데 도움이 될까 ?
+- 통화 개념을 도입하면 도움이 될 것이다.
+
+### 9.1 add new failing test - testCurrency
+
+- 통화 개념을 도입하면 도움이 될 것이다.
+
+```Java
+@Test
+void testCurrency() {
+    assertThat(Money.dollar(1).currency()).isEqualTo("USD");
+    assertThat(Money.franc(1).currency()).isEqualTo("CHF");
+}
+```
