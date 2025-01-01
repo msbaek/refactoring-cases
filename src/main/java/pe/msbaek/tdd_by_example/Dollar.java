@@ -1,7 +1,7 @@
 package pe.msbaek.tdd_by_example;
 
 public class Dollar {
-    int amount = 10;
+    private final int amount;
 
     public Dollar(final int amount) {
         this.amount = amount;
