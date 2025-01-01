@@ -136,3 +136,8 @@ void testEquality() {
 - 하지만 테스트가 정확히 그것을 말하지는 않음(Dollar가 아니라 int를 반환하는것으로 보임)
 
 ![img_1.png](img_1.png)
+
+### 4.2 inline product
+
+- 임시변수인 product는 더 이상 쓸모가 없어 보임 
+- 인라인시켜서 가독성을 높이자
