@@ -139,7 +139,9 @@ void testEquality() {
 
 ### 4.2 inline product
 
-- 임시변수인 product는 더 이상 쓸모가 없어 보임 
+- 임시변수인 product는 더 이상 쓸모가 없어 보임
 - 인라인시켜서 가독성을 높이자
 
 ### 4.3 make amount to private final
+
+### 4.4 mark done in test list
