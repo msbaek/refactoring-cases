@@ -123,3 +123,5 @@ void testEquality() {
 ### 3.5 make it work - generalize equality
 
 ![img.png](img.png)
+
+### 3.6 mark done in test list
