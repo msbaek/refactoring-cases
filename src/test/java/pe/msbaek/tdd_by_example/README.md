@@ -473,3 +473,7 @@ void testReduceMoneyDifferentCurrency() {
 
 - 이 코드로 인해서 갑자기 Money가 환율에 대해 알게 돼 버렸다.
 - 환율에 대한 일은 모두 Bank가 처리해야 한다.
+
+### 14.3 add Bank as a parameter to Expression#reduce 
+
+- Bank로 환율을 기능을 옮기기 위해 
