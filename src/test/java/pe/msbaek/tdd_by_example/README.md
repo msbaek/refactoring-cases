@@ -462,3 +462,14 @@ void testReduceMoneyDifferentCurrency() {
     assertThat(result).isEqualTo(Money.dollar(1));
 }
 ```
+
+### 14.2 make it work by hard coding
+
+ - Bank
+![img_9.png](img_9.png)
+
+- Money
+![img_10.png](img_10.png)
+
+- 이 코드로 인해서 갑자기 Money가 환율에 대해 알게 돼 버렸다.
+- 환율에 대한 일은 모두 Bank가 처리해야 한다.
