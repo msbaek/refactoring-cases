@@ -446,3 +446,19 @@ void testReduceMoney() {
 - Sum은 reduce(String)를 구현하므로, Money도 그것을 구현하도록 만든다면 reduce()를 Expression 인터페이스에도 추가할 수 있게 된다.
 
 ### 13.9 mark done and add test in test list
+
+## 14장. 바꾸기
+
+- 2 프랑을 달러로 환전하는 기능을 구현하고 싶다
+
+### 14.1 add failint test testReduceMoneyDifferentCurrency
+
+```Java
+@Test
+void testReduceMoneyDifferentCurrency() {
+    final Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    final Money result = bank.reduce(Money.franc(2), "USD");
+    assertThat(result).isEqualTo(Money.dollar(1));
+}
+```
