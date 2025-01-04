@@ -560,3 +560,8 @@ void testMixedAddition() {
 
 - Money의 plus의 인자도 Expression으로 취급될 수 있음 
     - times의 반환값도 Expression으로 취급될 수 있음 
+
+### 15.6 use Expression in MoneyTest
+
+- 본래 의도대로 Money 대신 Expression을 사용하도록 변경
+- 그럼 Expression에 plus를 추가해야 함
