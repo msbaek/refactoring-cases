@@ -515,3 +515,8 @@ void testIdentityRate() {
     assertThat(new Bank().rate("USD", "USD")).isEqualTo(1);
 }
 ```
+
+### 14.10 make it work
+
+![img_13.png](img_13.png)
+
