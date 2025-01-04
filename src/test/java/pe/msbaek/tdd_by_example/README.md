@@ -588,3 +588,4 @@ void testSumPlusMoney() {
 }
 ```
 
+### 16.2 make it compile
