@@ -493,3 +493,5 @@ void testReduceMoneyDifferentCurrency() {
 ![img_12.png](img_12.png)
 
 - 이동할 대상을 인자로 전달하면 move method가 원활하게 수행됨
+
+### 14.7 move method rate from Money to Bank
