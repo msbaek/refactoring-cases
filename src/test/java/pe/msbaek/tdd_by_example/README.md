@@ -543,8 +543,20 @@ void testMixedAddition() {
 ### 15.2 make it compile
 
 - Expression을 Money로 변경해서 컴파일되도록 변경
+- 바로 Expression을 이용해서 구현하려면 쉽지 않음
+- 그래서 Expression이어야 하는 Money들을 조금씩 쪼아서 구현
 
 ### 15.3 make it work
 - Sum 클래스를 다음과 같이 변경하여 동작하도록 수정
 
 ![img_14.png](img_14.png)
+
+### 15.4 change Money to Expression
+
+- Sum이 자꾸 컴포지트(Composite) 패턴을 상기시키는데, 일반화시킬 만큼 강하지는 않다.
+- 하지만 만약 Sum이 둘 이상의 인자를 갖는 순간이 온다면 그땐 바꾸게 될 것이다.
+
+![img_15.png](img_15.png)
+
+- Money의 plus의 인자도 Expression으로 취급될 수 있음 
+    - times의 반환값도 Expression으로 취급될 수 있음 

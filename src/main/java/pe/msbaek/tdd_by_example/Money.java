@@ -29,7 +29,7 @@ public class Money implements Expression {
         return amount + " " + currency;
     }
 
-    public Money times(final int multiply) {
+    public Expression times(final int multiply) {
         return new Money(amount * multiply, currency);
     }
 
@@ -37,7 +37,7 @@ public class Money implements Expression {
         return currency;
     }
 
-    public Expression plus(final Money addend) {
+    public Expression plus(final Expression addend) {
         return new Sum(this, addend);
     }
 
