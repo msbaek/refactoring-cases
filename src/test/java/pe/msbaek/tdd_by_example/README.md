@@ -454,6 +454,7 @@ void testReduceMoney() {
 ### 14.1 add failint test testReduceMoneyDifferentCurrency
 
 ```Java
+
 @Test
 void testReduceMoneyDifferentCurrency() {
     final Bank bank = new Bank();
@@ -465,23 +466,30 @@ void testReduceMoneyDifferentCurrency() {
 
 ### 14.2 make it work by hard coding
 
- - Bank
-![img_9.png](img_9.png)
+- Bank
+  ![img_9.png](img_9.png)
 
 - Money
-![img_10.png](img_10.png)
+  ![img_10.png](img_10.png)
 
 - 이 코드로 인해서 갑자기 Money가 환율에 대해 알게 돼 버렸다.
 - 환율에 대한 일은 모두 Bank가 처리해야 한다.
 
-### 14.3 add Bank as a parameter to Expression#reduce 
+### 14.3 add Bank as a parameter to Expression#reduce
 
-- Bank로 환율을 기능을 옮기기 위해 
+- Bank로 환율을 기능을 옮기기 위해
 
 ### 14.4 make it work
+
 - Expression을 구현하는 Sum, Money의 reduce 메소드에 Bank를 추가
-- Bank#reduce에서 Expression#reduce 호출 시 자기 자신을 전달 
+- Bank#reduce에서 Expression#reduce 호출 시 자기 자신을 전달
 
 ### 14.5 extract method to move
 
 ![img_11.png](img_11.png)
+
+### 14.6 add Bank as a parameter to Money#reduce
+
+![img_12.png](img_12.png)
+
+- 이동할 대상을 인자로 전달하면 move method가 원활하게 수행됨

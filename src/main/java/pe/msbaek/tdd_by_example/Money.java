@@ -42,11 +42,11 @@ public class Money implements Expression {
     }
 
     public Money reduce(Bank bank, final String to) {
-        int rate = rate(to);
+        int rate = rate(bank, to);
         return new Money(amount / rate, to);
     }
 
-    private int rate(final String to) {
+    private int rate(final Bank bank, final String to) {
         return "CHF".equals(currency) && "USD".equals(to) ? 2 : 1;
     }
 }
