@@ -102,4 +102,15 @@ public class MoneyTest {
         final Money result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
         assertThat(result).isEqualTo(Money.dollar(10));
     }
+
+    @Test
+    void testSumPlusMoney() {
+        final Expression fiveBucks = Money.dollar(5);
+        final Expression tenFrancs = Money.franc(10);
+        final Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        final Expression sum = new Sum(fiveBucks, tenFrancs).plus(fiveBucks);
+        final Money result = bank.reduce(sum, "USD");
+        assertThat(result).isEqualTo(Money.dollar(15));
+    }
 }

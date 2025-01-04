@@ -565,3 +565,26 @@ void testMixedAddition() {
 
 - 본래 의도대로 Money 대신 Expression을 사용하도록 변경
 - 그럼 Expression에 plus를 추가해야 함
+
+## 16장. 드디어, 추상화
+
+- Expression.plus를 끝마치려면 Sum.plus()를 구현해야 한다.
+- 그리고 나서 Expression.times()를 구현하면 전체 예제가 끝난다.
+
+### 16.1 add failing test testSumPlusMoney
+
+- 이제 Sum.plus()를 구현해야 한다.
+
+```Java
+@Test
+void testSumPlusMoney() {
+    final Expression fiveBucks = Money.dollar(5);
+    final Expression tenFrancs = Money.franc(10);
+    final Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    final Expression sum = new Sum(fiveBucks, tenFrancs).plus(fiveBucks);
+    final Money result = bank.reduce(sum, "USD");
+    assertThat(result).isEqualTo(Money.dollar(15));
+}
+```
+
