@@ -500,7 +500,7 @@ void testReduceMoneyDifferentCurrency() {
 
 - rate에 Money를 전달하는데 currency만 사용함
 - Money 대신 currency를 전달하여 의존성을 줄임
-- rate의 인자 중에 더 중요한 currency를 첫번째 인자로 변경 
+- rate의 인자 중에 더 중요한 currency를 첫번째 인자로 변경
 
 ### 14.8 reduce dependecy and change signature
 
@@ -510,6 +510,7 @@ void testReduceMoneyDifferentCurrency() {
 - Bank에 환율표가 있어야 함
 
 ```Java
+
 @Test
 void testIdentityRate() {
     assertThat(new Bank().rate("USD", "USD")).isEqualTo(1);
@@ -519,4 +520,23 @@ void testIdentityRate() {
 ### 14.10 make it work
 
 ![img_13.png](img_13.png)
+
+## 15장. 서로 다른 통화 더하기
+
+### 15.1 add failing test testMixedAddition
+
+- 드디어 이 모든 작업의 시초인 `$5 + 10CHF`에 대한 테스트를 추가할 준비가 됐다.
+
+```Java
+
+@Test
+void testMixedAddition() {
+    final Expression fiveBucks = Money.dollar(5);
+    final Expression tenFrancs = Money.franc(10);
+    final Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    final Money result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+    assertThat(result).isEqualTo(Money.dollar(10));
+}
+```
 

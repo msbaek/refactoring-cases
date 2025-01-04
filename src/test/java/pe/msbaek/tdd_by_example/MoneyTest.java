@@ -83,7 +83,7 @@ public class MoneyTest {
 
     @Test
     void testReduceMoneyDifferentCurrency() {
-        final Bank bank = nejjw Bank();
+        final Bank bank = new Bank();
         bank.addRate("CHF", "USD", 2);
         final Money result = bank.reduce(Money.franc(2), "USD"); assertThat(result).isEqualTo(Money.dollar(1));
     }
@@ -91,5 +91,15 @@ public class MoneyTest {
     @Test
     void testIdentityRate() {
         assertThat(new Bank().rate("USD", "USD")).isEqualTo(1); assertThat(new Bank().rate("CHF", "CHF")).isEqualTo(1);
+    }
+
+    @Test
+    void testMixedAddition() {
+        final Expression fiveBucks = Money.dollar(5);
+        final Expression tenFrancs = Money.franc(10);
+        final Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        final Money result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+        assertThat(result).isEqualTo(Money.dollar(10));
     }
 }
