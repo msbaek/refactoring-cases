@@ -8,7 +8,7 @@ public class Bank {
     public void addRate(final String from, final String to, final int amount) {
     }
 
-    int rate(final String to, final Money money) {
-        return "CHF".equals(money.currency) && "USD".equals(to) ? 2 : 1;
+    int rate(String currency, final String to) {
+        return "CHF".equals(currency) && "USD".equals(to) ? 2 : 1;
     }
 }

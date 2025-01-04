@@ -495,3 +495,9 @@ void testReduceMoneyDifferentCurrency() {
 - 이동할 대상을 인자로 전달하면 move method가 원활하게 수행됨
 
 ### 14.7 move method rate from Money to Bank
+
+### 14.8 reduce dependecy and change signature
+
+- rate에 Money를 전달하는데 currency만 사용함
+- Money 대신 currency를 전달하여 의존성을 줄임
+- rate의 인자 중에 더 중요한 currency를 첫번째 인자로 변경 
