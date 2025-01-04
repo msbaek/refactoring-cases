@@ -540,3 +540,6 @@ void testMixedAddition() {
 }
 ```
 
+### 15.2 make it compile
+
+- Expression을 Money로 변경해서 컴파일되도록 변경
