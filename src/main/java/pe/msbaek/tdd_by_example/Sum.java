@@ -19,4 +19,9 @@ public class Sum implements Expression {
     public Expression plus(final Expression added) {
         return new Sum(this, added);
     }
+
+    @Override
+    public Expression times(final int multiply) {
+        return new Sum(augend.times(multiply), addend.times(multiply));
+    }
 }

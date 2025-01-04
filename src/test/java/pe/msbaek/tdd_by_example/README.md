@@ -606,3 +606,5 @@ void testSumTimes() {
     assertThat(result).isEqualTo(Money.dollar(20));
 }
 ```
+
+### 16.4 make it work
