@@ -477,3 +477,7 @@ void testReduceMoneyDifferentCurrency() {
 ### 14.3 add Bank as a parameter to Expression#reduce 
 
 - Bank로 환율을 기능을 옮기기 위해 
+
+### 14.4 make it work
+- Expression을 구현하는 Sum, Money의 reduce 메소드에 Bank를 추가
+- Bank#reduce에서 Expression#reduce 호출 시 자기 자신을 전달 

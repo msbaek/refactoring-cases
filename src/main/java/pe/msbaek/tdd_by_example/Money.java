@@ -41,7 +41,7 @@ public class Money implements Expression {
         return new Sum(this, addend);
     }
 
-    public Money reduce(final String to) {
+    public Money reduce(Bank bank, final String to) {
         int rate = "CHF".equals(currency) && "USD".equals(to) ? 2 : 1;
         return new Money(amount / rate, to);
     }
