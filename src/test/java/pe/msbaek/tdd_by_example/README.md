@@ -501,3 +501,17 @@ void testReduceMoneyDifferentCurrency() {
 - rate에 Money를 전달하는데 currency만 사용함
 - Money 대신 currency를 전달하여 의존성을 줄임
 - rate의 인자 중에 더 중요한 currency를 첫번째 인자로 변경 
+
+### 14.8 reduce dependecy and change signature
+
+### 14.9 add failing test testIdentityRate
+
+- 환율 비율[2]이 테스트와 모델 코드에 중복되고 있음
+- Bank에 환율표가 있어야 함
+
+```Java
+@Test
+void testIdentityRate() {
+    assertThat(new Bank().rate("USD", "USD")).isEqualTo(1);
+}
+```

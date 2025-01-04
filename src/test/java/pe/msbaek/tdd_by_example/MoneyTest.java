@@ -28,15 +28,13 @@ public class MoneyTest {
     @DisplayName("어떤 금액(주가)을 어떤 수(주식의 수)로 곱한 금액을 결과로 얻을 수 있어야 한다")
     @Test
     void testMultiplication() {
-        Money five = Money.dollar(5);
-        assertThat(five.times(2)).isEqualTo(Money.dollar(10));
+        Money five = Money.dollar(5); assertThat(five.times(2)).isEqualTo(Money.dollar(10));
         assertThat(five.times(3)).isEqualTo(Money.dollar(15));
     }
 
     @Test
     void testFrancMultiplication() {
-        Money five = Money.franc(5);
-        assertThat(five.times(2)).isEqualTo(Money.franc(10));
+        Money five = Money.franc(5); assertThat(five.times(2)).isEqualTo(Money.franc(10));
         assertThat(five.times(3)).isEqualTo(Money.franc(15));
     }
 
@@ -49,8 +47,7 @@ public class MoneyTest {
 
     @Test
     void testCurrency() {
-        assertThat(Money.dollar(1).currency()).isEqualTo("USD");
-        assertThat(Money.franc(1).currency()).isEqualTo("CHF");
+        assertThat(Money.dollar(1).currency()).isEqualTo("USD"); assertThat(Money.franc(1).currency()).isEqualTo("CHF");
     }
 
     @Test
@@ -60,44 +57,38 @@ public class MoneyTest {
 
     @Test
     void testSimpleAddtion() {
-        final Money five = Money.dollar(5);
-        Expression sum = five.plus(five);
-        Bank bank = new Bank();
-        final Money reduced = bank.reduce(sum, "USD");
-        assertThat(reduced).isEqualTo(Money.dollar(10));
+        final Money five = Money.dollar(5); Expression sum = five.plus(five); Bank bank = new Bank();
+        final Money reduced = bank.reduce(sum, "USD"); assertThat(reduced).isEqualTo(Money.dollar(10));
     }
 
     /// 이 테스트는 오래 가지 못함
     /// 외부 행위가 아니라 내부 구현에 대해 너무 깊게 관여하고 있음
     @Test
     void testPlusReturnsSum() {
-        final Money five = Money.dollar(5);
-        final Expression result = five.plus(five);
-        final Sum sum = (Sum) result;
-        assertThat(sum.augend).isEqualTo(five);
-        assertThat(sum.addend).isEqualTo(five);
+        final Money five = Money.dollar(5); final Expression result = five.plus(five); final Sum sum = (Sum) result;
+        assertThat(sum.augend).isEqualTo(five); assertThat(sum.addend).isEqualTo(five);
     }
 
     @Test
     void testReduceSum() {
-        final Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
-        final Bank bank = new Bank();
-        final Money result = bank.reduce(sum, "USD");
-        assertThat(result).isEqualTo(Money.dollar(7));
+        final Expression sum = new Sum(Money.dollar(3), Money.dollar(4)); final Bank bank = new Bank();
+        final Money result = bank.reduce(sum, "USD"); assertThat(result).isEqualTo(Money.dollar(7));
     }
 
     @Test
     void testReduceMoney() {
-        Bank bank = new Bank();
-        Money result = bank.reduce(Money.dollar(1), "USD");
+        Bank bank = new Bank(); Money result = bank.reduce(Money.dollar(1), "USD");
         assertThat(result).isEqualTo(Money.dollar(1));
     }
 
     @Test
     void testReduceMoneyDifferentCurrency() {
-        final Bank bank = new Bank();
-        bank.addRate("CHF", "USD", 2);
-        final Money result = bank.reduce(Money.franc(2), "USD");
-        assertThat(result).isEqualTo(Money.dollar(1));
+        final Bank bank = new Bank(); bank.addRate("CHF", "USD", 2);
+        final Money result = bank.reduce(Money.franc(2), "USD"); assertThat(result).isEqualTo(Money.dollar(1));
+    }
+
+    @Test
+    void testIdentityRate() {
+        assertThat(new Bank().rate("USD", "USD")).isEqualTo(1); assertThat(new Bank().rate("CHF", "CHF")).isEqualTo(1);
     }
 }
