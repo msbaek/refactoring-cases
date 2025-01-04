@@ -543,3 +543,8 @@ void testMixedAddition() {
 ### 15.2 make it compile
 
 - Expression을 Money로 변경해서 컴파일되도록 변경
+
+### 15.3 make it work
+- Sum 클래스를 다음과 같이 변경하여 동작하도록 수정
+
+![img_14.png](img_14.png)
