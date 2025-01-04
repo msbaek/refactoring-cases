@@ -481,3 +481,7 @@ void testReduceMoneyDifferentCurrency() {
 ### 14.4 make it work
 - Expression을 구현하는 Sum, Money의 reduce 메소드에 Bank를 추가
 - Bank#reduce에서 Expression#reduce 호출 시 자기 자신을 전달 
+
+### 14.5 extract method to move
+
+![img_11.png](img_11.png)
