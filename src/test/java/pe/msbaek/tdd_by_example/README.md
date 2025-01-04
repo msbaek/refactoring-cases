@@ -589,3 +589,20 @@ void testSumPlusMoney() {
 ```
 
 ### 16.2 make it compile
+
+### 16.3 add failing test testSumTimes
+
+- Sum.times()가 작동하게 하면 Expression.times()를 쉽게 선언할 수 있다.
+
+```Java
+@Test
+void testSumTimes() {
+    final Expression fiveBucks = Money.dollar(5);
+    final Expression tenFrancs = Money.franc(10);
+    final Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    final Expression sum = new Sum(fiveBucks, tenFrancs).times(2);
+    final Money result = bank.reduce(sum, "USD");
+    assertThat(result).isEqualTo(Money.dollar(20));
+}
+```
