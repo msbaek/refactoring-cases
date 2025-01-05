@@ -4,6 +4,16 @@
 
 ### 1.1 todo list 추가하기
 
+- 요구사항
+
+```java
+/// - [] $5 + 10CHF = $10(환율이 2:1일 경우)
+/// - [X] $5 × 2 = $10
+```
+
+- 첫번째 기능이 원하는 기능(high level test, target design)이지만 한번에 구현하기 어렵다.
+- 쉬운 것으로 시작한다(degenerate -> most interesting)
+
 ### 1.2 add failing test - testMultiplication
 
 ```Java
@@ -25,6 +35,8 @@ void testMultiplication() {
     - 금액을 계산하는데 정수형 사용
 
 ```Java
+/// - [] $5 + 10CHF = $10(환율이 2:1일 경우)
+/// - [X] $5 × 2 = $10
 /// - [] amount를 private으로 만들기
 /// - [] Dollar 부작용(side effect)?
 /// - [] Money 반올림?
@@ -34,7 +46,19 @@ void testMultiplication() {
 
 ### 1.5 make it work - faking
 
+```Java
+int amount = 10;
+```
+
 ### 1.6 mark done in test list
+
+```Java
+/// - [] $5 + 10CHF = $10(환율이 2:1일 경우)
+/// - [X] $5 × 2 = $10
+/// - [] amount를 private으로 만들기
+/// - [] Dollar 부작용(side effect)?
+/// - [] Money 반올림?
+```
 
 ## 2장. 타락한 객체
 
@@ -43,15 +67,7 @@ void testMultiplication() {
 - Dollar애 대한 연산을 호출하면 Dollar가 변경되는 것이 이상함
 - 다음과 같이 사용할 수 있기를 바람
 
-```Java
-void testMultiplication() {
-    Dollar five = new Dollar(5);
-    five.times(2);
-    assertThat(product.amount).isEqualTo(10);
-    five.times(3);
-    assertThat(product.amount).isEqualTo(15);
-}
-```
+![img_16.png](img_16.png)
 
 - 이 테스트를 통과할 명쾌한 방법이 떠오르지 않음
 - times를 처음 호출한 이후에 five는 더 이상 5가 아님
@@ -62,23 +78,21 @@ void testMultiplication() {
 - times()를 처음 호출한 이후에 five는 더 이상 5가 아니다.
 - 그렇다면 times()에서 새 로운 객체를 반환하게 만들면 어떨까?
 
-```Java
-void testMultiplication() {
-    Dollar five = new Dollar(5);
-    Dollar product = five.times(2);
-    assertThat(product.amount).isEqualTo(10);
-    product = five.times(3);
-    assertThat(product.amount).isEqualTo(15);
-}
-```
+![img_17.png](img_17.png)
 
 ### 2.3 make it work
 
+![img_18.png](img_18.png)
+
 ### 2.4 mark done in test list
+
+![img_19.png](img_19.png)
 
 ## 3장. 모두를 위한 평등
 
 ### 3.1 add todo list
+
+![img_20.png](img_20.png)
 
 - Value Object가 암시하는 2가지
     - 모든 연산은 새 객체를 반환해야 함
@@ -126,14 +140,20 @@ void testEquality() {
 
 ### 3.6 mark done in test list
 
+![img_21.png](img_21.png)
+
 ### 3.7 add todo list
+
+![img_22.png](img_22.png)
 
 ## 4장. 프라이버시
 
 ### 4.1 테스트가 의도(모델 코드)를 반영하도록 수정
 
-- 개념적으로 Dollar.times() 연산은 호출 받은 객체의 값에 인자로 받은 곱수만큼 곱한 값을 갖는 Dollar를 반환해야 함
-- 하지만 테스트가 정확히 그것을 말하지는 않음(Dollar가 아니라 int를 반환하는것으로 보임)
+- 개념적으로 Dollar.times() 연산은 호출 받은 객체의 값에 인자로 받은 곱수만큼
+  곱한 값을 갖는 Dollar를 반환해야 함
+- 하지만 테스트가 정확히 그것을 말하지는 않음(Dollar가 아니라 int를
+  반환하는것으로 보임)
 
 ![img_1.png](img_1.png)
 
@@ -144,9 +164,19 @@ void testEquality() {
 
 ### 4.3 make amount to private final
 
+![img_23.png](img_23.png)
+
 ### 4.4 mark done in test list
 
+![img_24.png](img_24.png)
+
 ## 5장. 솔직히 말하자면
+
+- 이 목록에 있는 테스트 중에서 가장 흥미로워 보이는 첫 번째 테스트에 어떤 식으로 접근하는게 좋을까?
+- 너무 큰 발걸음인 것 같다. 작은 단계 하나로 구현하는 테스트를 작성해낼 수 있을지 확실치 않다.
+- 우선은 Dollar 객체와 비슷하지만 달러 대신 프랑(Franc)을 표현할 수 있는 객체가 필요 할 것 같다.
+- 만약 Dollar 객체와 비슷하게 작동하는 Franc이라는 객체를 만든다면 단위가 섞인 덧셈 테스트를 작성하고 돌려보는 데 더 가까워질 것 이다.
+- Dollar 테스트를 복사한 후 수정해보자.
 
 ### 5.1 add franc multiplication test
 
@@ -162,11 +192,35 @@ void testFrancMultiplication() {
 }
 ```
 
+1. 테스트 작성.
+2. 컴파일되게 하기.
+3. 실패하는지 확인하기 위해 실행.
+4. 실행하게 만듦.
+5. 중복 제거.
+
+- 각 단계에는 서로 다른 목적이 있다.
+    - 다른 스타일의 해법, 다른 미적 시각 을 필요로 한다.
+    - 처음 네 단계는 빨리 진행해야 한다.
+    - 그러면 새 기능이 포함되더라도 잘 알고 있는 상태에 이를 수 있다.
+    - 거기에 도달하기 위해서라면 어떤 죄든 저지를 수 있다.
+    - 그동안 만큼은 속도가 설계보다 더 높은 패 이기 때문이다.
+
 ### 5.2 add Franc by copying Dollar
 
 ### 5.3 mark done and add test in test list
 
+![img_25.png](img_25.png)
+
 ## 6장. 돌아온 '모두를 위한 평등'
+
+- Clean code that works에서 작동하는 것을 먼저 얻었다.
+    - 이 접근 방식은 '깔끔한 코드' 부분을 먼저 해결한 후에, '작동하는' 부분을 해결해 가면서 배운 것들을 설계에 반영하느라 허둥거리는 **아키텍처 주도 개발(architecture driven
+      development)**과 정반대다(from CH02)
+- 우리는 5장에서 이 함정을 피했다. 실제로 새로운 테스트 케이스를 하나 작동하게 만들었다. 하지만 테스트를 빨리 통과하기 위해 몇 톤이나 되는 코드를 복사해서 붙이는 엄청난 죄를 저질렀다. 이제 청소할 시간이다.
+- 가능한 방법 한 가지는 우리가 만든 클래스 중 하나가 다른 클래스를 상속받게 하는 것이다.
+    - 내가 그렇게 해봤는데, 거의 어떤 코드도 구원하지 못했다.
+    - 대신, 그림 6.1과 같이 두 클래스의 공통 상위 클래스를 찾아낼 생각이다. (이것도 해봤는데 시간이 조금 걸리긴 하지만 아주 잘 작동했다.)
+      ![img_26.png](img_26.png)
 
 ### 6.1 add super class
 
@@ -180,15 +234,22 @@ void testFrancMultiplication() {
 
 ### 6.5 mark done and add test in test list
 
+![img_27.png](img_27.png)
+
 ## 7장. 사과와 오렌지
+
+- 서로 다른 것은 비교할 수 없다는 말
 
 ### 7.1 add equality test for franc
 
 - Dollar 케이스를 복붙해서 Franc 케이스를 추가
+- Dollar와 Franc을 비교하면 테스트가 실패함
 
 ![img_2.png](img_2.png)
 
 ### 7.2 mark done in test list
+
+![img_28.png](img_28.png)
 
 ### 7.3 add failing case for dollar(5) != franc(5)
 
@@ -200,11 +261,19 @@ void testFrancMultiplication() {
 
 ### 7.5 mark done and add test in test list
 
+![img_29.png](img_29.png)
+
 - 모델 코드에서 클래스를 이런 식으로 사용하는 것은 좀 지저분해 보인다.
 - 자바 객체의 용어를 사용하는 것보다 재정 분야에 맞는 용어를 사용하고 싶다.
-- 하지만 현재는 통화(curency) 개념 같은 게 없고, 통화 개념을 도입할 충분한 이유가 없어 보이므로 잠시 동안은 이대로 두자.
+- 하지만 현재는 통화(curency) 개념 같은 게 없고, 통화 개념을 도입할 충분한
+  이유가 없어 보이므로 잠시 동안은 이대로 두자.
 
 ## 8장. 객체 만들기
+
+- 두 times() 구현 코드가 거의 똑같다.
+- 다음 단계로 뭘 해야 할지 명확하지 않다.
+    - Money의 두 하위 클래스는 그다지 많은 일을 하는 것 같지 않으므로 아예 제거해버리고 싶다.
+    - 그런데 한번에 그렇게 큰 단계를 밟는 것은 TDD를 효과적으로 보여주기에 적절 하지 않을 것 같다.
 
 ### 8.1 return Money in times
 
@@ -212,21 +281,26 @@ void testFrancMultiplication() {
 
 ### 8.2 introduce factory method
 
-- 불필요해 보이는 하위 클래스를 제거하기 하고 싶다.
-- 하위 클래스에 대한 직접적인 참조를 없애기 위해 생성자를 팩토리 메소드로 대체한다.
+- 하위 클래스에 대한 직접적인 참조가 적어진다면 하위 클래스를 제거하기 위해 한 발짝 더 다가섰다고 할 수 있겠다.
+    - Money에 Dollar를 반환하는 팩토리 메서드(factory method)를 도입할 수 있다.
 - 절차
     - Replace constructor with factory method
     - pull members up
 
 ### 8.3 use base type
 
+![img_30.png](img_30.png)
+
 ### 8.4 add todo in test list
+
+![img_31.png](img_31.png)
 
 ## 9장. 우리가 사는 시간
 
 - time은 시간을 의미하기도 하고, 곱셈을 의미하기도 함
 
-- 할일 목록에서 어떤 것을 하면 귀찮고 불필요한 하위 클래스를 제거하는데 도움이 될까 ?
+- 할일 목록에서 어떤 것을 하면 귀찮고 불필요한 하위 클래스를 제거하는데 도움이
+  될까 ?
 - 통화 개념을 도입하면 도움이 될 것이다.
 
 ### 9.1 add new failing test - testCurrency
@@ -246,6 +320,7 @@ void testCurrency() {
 
 - add abstract method currency() in Money
 - implement currency() in Dollar and Franc
+    - return "USD" and "CHF" respectively
 
 ### 9.3 introduce currency field
 
@@ -260,14 +335,17 @@ void testCurrency() {
 
 ![img_6.png](img_6.png)
 
-### 9.5 introduce parameter in c'tor
+### 9.5 introduce parameter currency in c'tor
 
 ![img_7.png](img_7.png)
 
 ### 9.6 mark done in test list
 
+![img_32.png](img_32.png)
+
 ## 10장. 흥미로운 시간
 
+- 두 times의 구현이 거의 비슷하지만 완전히 동일하지는 않다.
 - times를 Money로 옮겨서 두 서브 클래스를 없애고 싶다.
 - times에서 서로 다른 factory method를 호출하고 있는데, 이를 생성자로 변경하면 동일한 구조를 갖게 할 수 있다.
 - 때로는 전진하기 위해 물러서야 할 때도 있는 법
@@ -276,21 +354,23 @@ void testCurrency() {
 
 ### 10.2 use currency in times instead of constant
 
+![img_33.png](img_33.png)
+
 ### 10.3 return Money in times
 
-- Money의 2개의 abstract method를 구현 or 삭제(times, currency)
-- Money 클래스 선언에서 abstract 제거
-- Dollar, Franc에서 Money를 반환하도록 수정
+- Dollar, Franc의 times 메소드에서 Dollar/Franc 대신 Money를 반환하도록 수정
 - pull members up - times
+- pull members up - currency
+- Money에서 pull up된 메소드들을 사용하도록 abstract를 제거(Money 클래스 선언에서도 abstract 제거)
 
 ### 10.4 add Money#toString for debugging
 
 - toString()을 실패하는 테스트의 디버깅을 위해 추가
-- 헉! 테스트도 없이 코드를 작성하네? 그래도 되는 건가?
-- toString()을 작성하기 전에 테스트를 작성하는 게 맞다.
-- 하지만 우린 지금 화면에 나타나는 결과를 보려던 참이다.
-- toString()은 디버그 출력에만 쓰이기 때문에 이게 잘못 구현됨으로 인해 얻게 될 리스크가 적다.
-- 이미 빨간 막대 상태인데 이 상태에서는 새로운 테스트를 작성하지 않는 게 좋을 것 같다.
+    - 헉! 테스트도 없이 코드를 작성하네? 그래도 되는 건가?
+    - toString()을 작성하기 전에 테스트를 작성하는게 맞다.
+    - 하지만 우린 지금 화면에 나타나는 결과를 보려던 참이다.
+    - toString()은 디버그 출력에만 쓰이기 때문에 이게 잘못 구현됨으로 인해 얻게 될 리스크가 적다.
+    - 이미 빨간 막대 상태인데 이 상태에서는 새로운 테스트를 작성하지 않는 게 좋을 것 같다.
 
 ```Java
 org.opentest4j.AssertionFailedError:
@@ -307,7 +387,7 @@ Actual   :10USD
 - 빨간 막대인 상황에서는 테스트를 추가로 작성하고 싶지 않다.
 - 하지만 지금은 실제 모델 코드를 수정하려고 하는 중이고 테스트 없이는 모델 코드를 수정할 수 없다.
 - 보수적인 방법을 따르자면 변경된 코드를 되돌려서 다시 초록 막대 상태로 돌아가야 한다.
-- 그러고 나서 equals()를 위해 테스트를 고치고 구현 코드를 고칠 수 있게 되고, 그 후에야 원래 하던 일을 다 시 할 수 있다.
+- 그러고 나서 equals()를 위해 테스트를 고치고 구현 코드를 고칠 수 있게 되고, 그 후에야 원래 하던 일을 다시 할 수 있다.
 
 ### 10.6 add failing test - testDifferentClassEquality
 
@@ -321,6 +401,8 @@ void testDifferentClassEquality() {
 
 ### 10.7 make it pass
 
+![img_34.png](img_34.png)
+
 - class 대신 currency를 비교하도록 equals()를 수정
 
 ### 10.8 remove subclasses
@@ -328,11 +410,15 @@ void testDifferentClassEquality() {
 - Dollar, Franc의 times()를 제거
 - 생성자만 남은 서브 클래스는 존재의 이유가 없다.
 - factory method에서 Money를 반환하도록 수정
+  ![img_35.png](img_35.png)
 - Dollar, Franc를 제거
 
 ## 11장. 모든 악의 근원
 
 - 불필요한 코드들을 제거한다.
+    - 코드를 추가하는 것은 쉽지만 제거하는 것은 쉽지 않다.
+    - 제거를 미루면 나중에서는 제거하기 어려워진다.
+    - 이 상태가 지나면 후에 코드를 수정할 때 사용되지 않는 코드들까지 고려해야 하는 어려움이 생긴다.
 
 ### 11.1 remove unnecessary test cases
 
@@ -341,6 +427,9 @@ void testDifferentClassEquality() {
 ## 12장. 드디어, 더하기
 
 ### 12.1 add failing test - testSimpleAddtion
+
+- 전체 더하기 기능에 대한 스토리를 어떻게 다 적어야 할지 잘 모르겠다.
+- 좀더 간단한 예, '$5 + $5 = $10° 에서 시작해보자.
 
 ```Java
 
@@ -353,35 +442,46 @@ void testSimpleAddtion() {
 
 ### 12.2 make it pass
 
+```Java
+public Money plus(final Money addend) {
+    return new Money(amount + addend.amount, currency);
+}
+```
+
 - fake it을 할수도 있지만 어떻게 구현할지 명확하므로 바로 구현함
 
 ### 12.3 introduce metaphor - Expression, Bank
 
-- 설계상 가장 어려운 제약은 다중 통화 사용에 대한 내용을 시스템의 나머지 코드에게 숨기고 싶다는 점이다.
-- 한 가지 가능한 전략은 모든 내부 값을 참조통화"로 전환하는 것이다.
+- 설계상 가장 어려운 제약은 다중 통화 사용에 대한 내용을 시스템의 나머지
+  코드에게 숨기고 싶다는 점이다.
+- 한 가지 가능한 전략은 모든 내부 값을 참조통화로 전환하는 것이다.
 - 하지만 이 방식으로는 여러 환율을 쓰기가 쉽지 않다.
 - 대신, 편하게 여러 환율을 표현할 수 있으면서도 산술 연산 비슷한 표현들을 여전히 산술 연산처럼 다룰 수 있는 해법이 있으면 좋을 것 같다.
-- 객체가 우리를 구해줄 것이다. 가지고 있는 객체가 우리가 원하는 방식으로 동작하지 않을 경우엔 그 객체와 외부 프로토콜이 같으면서 내부 구현은 다른 새로운 객체(imposter, 타인을 사칭하는 사기꾼)를 만들
-  수 있다.
-- 해법은 Money와 비슷하게 동작하지만 사실은 두 Money의 합을 나타내는 객체를 만드는 것이다.
+- 객체가 우리를 구해줄 것이다.
+- 가지고 있는 객체가 우리가 원하는 방식으로 동작하지 않을 경우엔 그 객체와 외부 프로토콜이 같으면서 내부 구현은 다른 새로운 객체(imposter, 타인을 사칭하는 사기꾼)를 만들 수 있다.
+- 해법은 Money와 비슷하게 동작하지만 사실은 두 Money의 합을 나타내는 객체를
+  만드는 것이다.
 - 나는 이 아이디어를 설명하기 위한 몇 가지 다른 메타포를 생각해봤다.
-- 한 가지는 Money의 합을 마치 지갑처럼 취급하는 것이다.
-    - 한 지갑에는 금액과 통화가 다른 여러 화폐들이 들어갈 수 있다.
-    - 또 다른 메타포는 `(2 + 3) x 5`와 같은 수식이다.
+    - 메타포는 `(2 + 3) x 5`와 같은 수식이다.
         - 우리 경우엔 `($2 + 3 CHF) x 5`가 되겠지만.
         - 이렇게 하면 Money를 수식의 가장 작은 단위로 볼 수 있다.
-        - 연산의 결과로 Expression들이 생기는데, 그 중 하나는 Sum(합)이 될 것이다. 연산(포트폴리오의 값을 합산하는 것 등)이 완료되면, 환율을 이용해서 결과 Expression을 단일 통화로
-          축약할 수 있다.
+        - 연산의 결과로 Expression들이 생기는데, 그 중 하나는 Sum(합)이 될 것이다.
+        - 연산(포트폴리오의 값을 합산하는 것 등)이 완료되면, 환율을 이용해서 결과 Expression을 단일 통화로 축약할 수 있다.
 
 ### 12.4 make it compile
 
-### 12.5 make it work by fake it
+- add Bank class and reduce method
+
+### 12.5 make it work by fake it !
+
+[img_36.png](img_36.png)
 
 ## 13장. 진짜로 만들기
 
 - 모든 중복을 제거하기 전까지는 $5 + $5 테스트에 완료 표시를 할 수 없다.
 - 코드 중복은 없지만 **데이터 중복**이 있다.
-    - 가짜 구현에 있는 $10는 사실 테스트 코드에 있는 S5 + $5와 같다(`five.plus(five)`)
+    - 가짜 구현에 있는 $10는 사실 테스트 코드에 있는 S5 + $5와
+      같다(`five.plus(five)`)
 
 ### 13.1 add failing test testPlusReturnsSum
 
@@ -400,6 +500,10 @@ void testPlusReturnsSum() {
 
 ### 13.2 make it work
 
+![img_37.png](img_37.png)
+
+![img_38.png](img_38.png)
+
 ### 13.3 add failing test testReduceSum
 
 ```Java
@@ -415,14 +519,25 @@ void testReduceSum() {
 
 ### 13.4 make it work
 
+![img_39.png](img_39.png)
+
+- (데이터)중복은 제거되었다.
+
 ### 13.5 Bank#reduce의 문제
 
 - 캐스팅(형변환). 이 코드는 모든 Expression에 대해 작동해야 한다.
+    - 지금은 Sum만 처리하고 있음
 - 공용(public) 필드와 그 필드들에 대한 두 단계에 걸친 레퍼런스.
 
-- feature envy는 해당 기능을 이동시켜서 해결 가능
+- feature envy(Sum의 데이터를 Bank가 사용함)는 해당 기능을 이동시켜서 해결 가능
     - feature envy logic을 별도의 메소드로 추출
     - 추출된 메소드를 해당 클래스로 이동
+
+#### 13.5.1 extract method to move
+
+![img_40.png](img_40.png)
+
+#### 13.5.2 move method
 
 ### 13.6 add failing test - testReduceMoney
 
@@ -440,12 +555,22 @@ void testReduceMoney() {
 
 ### 13.7 make it work
 
+![img_41.png](img_41.png)
+
 ### 13.8 remove instance of
 
 - 클래스를 명시적으로 검사하는 코드가 있을 때에는 항상 다형성(polymorphism)을 사용하도록 바꾸는 것이 좋다.
 - Sum은 reduce(String)를 구현하므로, Money도 그것을 구현하도록 만든다면 reduce()를 Expression 인터페이스에도 추가할 수 있게 된다.
 
+![img_42.png](img_42.png)
+
+![img_43.png](img_43.png)
+
+![img_44.png](img_44.png)
+
 ### 13.9 mark done and add test in test list
+
+![img_45.png](img_45.png)
 
 ## 14장. 바꾸기
 
@@ -466,16 +591,16 @@ void testReduceMoneyDifferentCurrency() {
 
 ### 14.2 make it work by hard coding
 
-- Bank
-  ![img_9.png](img_9.png)
+- Bank ![img_9.png](img_9.png)
 
-- Money
-  ![img_10.png](img_10.png)
+- Money ![img_10.png](img_10.png)
 
 - 이 코드로 인해서 갑자기 Money가 환율에 대해 알게 돼 버렸다.
 - 환율에 대한 일은 모두 Bank가 처리해야 한다.
 
 ### 14.3 add Bank as a parameter to Expression#reduce
+
+![img_46.png](img_46.png)
 
 - Bank로 환율을 기능을 옮기기 위해
 
@@ -485,6 +610,8 @@ void testReduceMoneyDifferentCurrency() {
 - Bank#reduce에서 Expression#reduce 호출 시 자기 자신을 전달
 
 ### 14.5 extract method to move
+
+- rate는 Money가 아니라 Bank에 있어야 함
 
 ![img_11.png](img_11.png)
 
@@ -502,11 +629,9 @@ void testReduceMoneyDifferentCurrency() {
 - Money 대신 currency를 전달하여 의존성을 줄임
 - rate의 인자 중에 더 중요한 currency를 첫번째 인자로 변경
 
-### 14.8 reduce dependecy and change signature
-
 ### 14.9 add failing test testIdentityRate
 
-- 환율 비율[2]이 테스트와 모델 코드에 중복되고 있음
+- 환율 비율(2)이 테스트와 모델 코드에 중복되고 있음
 - Bank에 환율표가 있어야 함
 
 ```Java
@@ -543,10 +668,11 @@ void testMixedAddition() {
 ### 15.2 make it compile
 
 - Expression을 Money로 변경해서 컴파일되도록 변경
-- 바로 Expression을 이용해서 구현하려면 쉽지 않음
-- 그래서 Expression이어야 하는 Money들을 조금씩 쪼아서 구현
+    - 바로 Expression을 이용해서 구현하려면 쉽지 않음
+    - 그래서 Expression이어야 하는 Money들을 조금씩 쪼아서 구현
 
 ### 15.3 make it work
+
 - Sum 클래스를 다음과 같이 변경하여 동작하도록 수정
 
 ![img_14.png](img_14.png)
@@ -558,8 +684,10 @@ void testMixedAddition() {
 
 ![img_15.png](img_15.png)
 
-- Money의 plus의 인자도 Expression으로 취급될 수 있음 
-    - times의 반환값도 Expression으로 취급될 수 있음 
+- Money의 plus의 인자도 Expression으로 취급될 수 있음
+    - times의 반환값도 Expression으로 취급될 수 있음
+
+![img_47.png](img_47.png)
 
 ### 15.6 use Expression in MoneyTest
 
@@ -576,6 +704,7 @@ void testMixedAddition() {
 - 이제 Sum.plus()를 구현해야 한다.
 
 ```Java
+
 @Test
 void testSumPlusMoney() {
     final Expression fiveBucks = Money.dollar(5);
@@ -588,13 +717,16 @@ void testSumPlusMoney() {
 }
 ```
 
-### 16.2 make it compile
+### 16.2 make it work
+
+![img_48.png](img_48.png)
 
 ### 16.3 add failing test testSumTimes
 
 - Sum.times()가 작동하게 하면 Expression.times()를 쉽게 선언할 수 있다.
 
 ```Java
+
 @Test
 void testSumTimes() {
     final Expression fiveBucks = Money.dollar(5);
@@ -609,4 +741,9 @@ void testSumTimes() {
 
 ### 16.4 make it work
 
+![img_49.png](img_49.png)
+
+![img_50.png](img_50.png)
+
 - all done !!!
+
